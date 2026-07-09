@@ -1,0 +1,68 @@
+{
+  "name": "Abdul Rehman",
+  "role": "Computer Science Student at NUST · Full Stack Developer · Founder of Stayza",
+  "headline": "I build full stack products, end to end, and take them to production.",
+  "subtitles": [
+    "Computer Science student at SEECS, NUST, passionate about building full stack applications from idea to deployment.",
+    "Founder of Stayza, a platform that helps students discover and connect with hostels.",
+    "Focused on software engineering, scalable systems, and creating practical solutions with real world impact."
+  ],
+  "shortBio": "Computer Science student at NUST and founder of Stayza, a hostel discovery platform I built end to end. I care most about backend systems and shipping software that real people rely on.",
+  "about": [
+    "I got into software engineering because I wanted to build things, not just study how they work. I'm a Computer Science student at NUST, and the part of this field that keeps me interested is taking a vague idea and turning it into something real: a database, an interface, and actual users.",
+    "That's what drew me to Stayza. Students were finding hostels through scattered social media posts and word of mouth, so I built a platform to centralize it: authentication, listings, search, a verification workflow, an admin dashboard, and a production deployment. I own the whole stack, and I like it that way. Backend architecture and database design are where I spend most of my attention, because that's usually where reliability is won or lost.",
+    "I care about writing systems that are easy to reason about months later, not just ones that work today. That means simple structure over clever structure, and shipping something real instead of polishing something theoretical.",
+    "My goal is to grow into a software engineer who can design and ship scalable systems end to end, on a team, at a level beyond what one founder working alone can build."
+  ],
+  "mission": "To build scalable software, solve meaningful problems, and continuously grow as an engineer while creating technology that makes a lasting impact.",
+  "motto": "Build with purpose. Learn continuously. Ship consistently.",
+  "values": [
+    "Integrity",
+    "Continuous Learning",
+    "Discipline",
+    "Ownership",
+    "Problem Solving",
+    "Simplicity",
+    "Long Term Thinking"
+  ],
+  "currentFocus": [
+    "Iterating on Stayza with real users",
+    "Learning system design and scalable backend architecture",
+    "Exploring cloud deployment and infrastructure",
+    "Preparing for software engineering internships",
+    "Strengthening core software engineering fundamentals"
+  ],
+  "interests": [
+    "Software Engineering",
+    "Full Stack Development",
+    "Backend Development",
+    "Database Engineering",
+    "System Design",
+    "Cloud Computing",
+    "Artificial Intelligence",
+    "Product Development",
+    "Startups",
+    "Open Source"
+  ],
+  "spokenLanguages": [
+    { "name": "English" },
+    { "name": "Urdu" },
+    { "name": "Punjabi" }
+  ],
+  "location": "Islamabad, Pakistan",
+  "email": "relentlessrehman@gmail.com",
+  "availability": {
+    "status": "open",
+    "label": "Open to internships and collaborations",
+    "openTo": [
+      "Software Engineering Internships",
+      "Full Stack Development Internships",
+      "Backend Development Internships",
+      "Frontend Development Internships",
+      "Open Source Collaboration",
+      "Student Startup Collaborations",
+      "Hackathons"
+    ]
+  },
+  "codingSince": 2025
+}

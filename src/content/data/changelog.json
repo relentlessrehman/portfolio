@@ -1,0 +1,14 @@
+[
+  {
+    "date": "2026-07-05",
+    "title": "Evidence pages and mobile navigation",
+    "description": "About, experience, education, skills, achievements, timeline, uses, now, and changelog pages. New mobile bottom navigation and redesigned hero.",
+    "tag": "added"
+  },
+  {
+    "date": "2026-07-02",
+    "title": "Site development started",
+    "description": "Foundation, design system, home page, project case studies, and the writing section with MDX.",
+    "tag": "milestone"
+  }
+]

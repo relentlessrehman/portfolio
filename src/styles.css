@@ -1,0 +1,691 @@
+/*
+ * Design tokens — the single source of truth for every visual value.
+ * See docs/DESIGN-SYSTEM.md. Components must never hardcode colors,
+ * durations, radii, or type sizes; they consume these tokens via Tailwind.
+ *
+ * "Liquid Glass" system: dark navy environment + translucent, blurred
+ * surfaces (indigo/cyan glow) rather than the flat opaque cards a
+ * traditional site would use. See the glass/aurora layers further down.
+ */
+
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
+@import '@fontsource/instrument-serif';
+@import '@fontsource/instrument-serif/400-italic.css';
+
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Dark-first: :root carries the dark palette. A light theme, if ever
+ * shipped, overrides these variables under a `.light` class.
+ *
+ * Surfaces are translucent by design (glass panels over the animated
+ * aurora background) rather than opaque fills — `--surface` /
+ * `--surface-raised` carry alpha and rely on `backdrop-filter` (added in
+ * the glass layer below) for legibility. `@media (prefers-contrast: more)`
+ * raises those alphas and brightens borders/text for anyone with OS-level
+ * "increase contrast" on, without changing the hue identity.
+ */
+:root {
+  /* Surfaces */
+  --background: #06101a;
+  --surface: rgb(255 255 255 / 0.08);
+  --surface-raised: rgb(255 255 255 / 0.12);
+
+  /* Text */
+  --foreground: #ffffff;
+  --muted-foreground: #d7e5f6;
+  --subtle-foreground: #a9b8cc;
+
+  /* Lines */
+  --hairline: rgb(255 255 255 / 0.12); /* decorative only — not a UI boundary */
+  --border: rgb(255 255 255 / 0.22);
+  --border-strong: rgb(255 255 255 / 0.34);
+
+  /* Primary + secondary accent — indigo/cyan */
+  --accent: #6b7cff;
+  --accent-foreground: #ffffff;
+  --accent-muted: rgb(107 124 255 / 0.16);
+  --accent-2: #55d6ff;
+
+  /* Status */
+  --success: oklch(0.76 0.13 155);
+  --warning: oklch(0.78 0.14 65);
+  --danger: oklch(0.715 0.18 25);
+
+  --ring: rgb(107 124 255 / 0.85);
+  --radius: 0.875rem;
+
+  /* Glass material recipe */
+  --glass-blur: 30px;
+  --glass-saturate: 180%;
+  --glass-brightness: 120%;
+  --glass-highlight-top: rgb(255 255 255 / 0.35);
+  --glass-highlight-bottom: rgb(255 255 255 / 0.05);
+  --glass-shadow: 0 10px 40px rgb(0 0 0 / 0.25), 0 0 60px rgb(120 180 255 / 0.06);
+  --glass-shadow-hover: 0 20px 60px rgb(0 0 0 / 0.32), 0 0 80px rgb(120 180 255 / 0.12);
+
+  /* shadcn/ui compatibility aliases — generated ui/ components read these */
+  --card: var(--surface);
+  --card-foreground: var(--foreground);
+  --popover: var(--surface-raised);
+  --popover-foreground: var(--foreground);
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-foreground);
+  --secondary: var(--surface-raised);
+  --secondary-foreground: var(--foreground);
+  --muted: var(--surface);
+  --destructive: var(--danger);
+  --destructive-foreground: var(--foreground);
+  --input: var(--border);
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --background: #030a10;
+    --surface: rgb(255 255 255 / 0.14);
+    --surface-raised: rgb(255 255 255 / 0.18);
+
+    --foreground: #ffffff;
+    --muted-foreground: #eef4fc;
+    --subtle-foreground: #c7d5e6;
+
+    --hairline: rgb(255 255 255 / 0.22);
+    --border: rgb(255 255 255 / 0.42);
+    --border-strong: rgb(255 255 255 / 0.55);
+
+    --accent: #8b98ff;
+    --accent-foreground: #06101a;
+    --accent-muted: rgb(139 152 255 / 0.24);
+
+    --success: oklch(0.78 0.13 155);
+    --warning: oklch(0.8 0.14 65);
+    --danger: oklch(0.78 0.18 25);
+
+    --ring: rgb(139 152 255 / 1);
+  }
+}
+
+@theme inline {
+  /* Typography — Inter carries the whole hierarchy now (poster-scale
+     display type); Instrument Serif survives as an opt-in `font-serif`
+     accent for the rare italic/editorial touch. */
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'Cascadia Code', monospace;
+
+  /* Fluid type scale (375px → 1440px). Line heights keep a 4px rhythm. */
+  --text-display: clamp(2.25rem, 1.6rem + 3.2vw, 4.5rem);
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 800;
+  --text-title-1: clamp(1.5rem, 1.3rem + 1.1vw, 2.25rem);
+  --text-title-1--line-height: 1.2;
+  --text-title-1--letter-spacing: -0.01em;
+  --text-title-2: clamp(1.25rem, 1.13rem + 0.55vw, 1.625rem);
+  --text-title-2--line-height: 1.3;
+  --text-title-3: clamp(1.0625rem, 1.01rem + 0.28vw, 1.25rem);
+  --text-title-3--line-height: 1.4;
+  --text-body-lg: clamp(1rem, 0.96rem + 0.18vw, 1.0625rem);
+  --text-body-lg--line-height: 1.65;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.7;
+  --text-small: 0.8125rem;
+  --text-small--line-height: 1.55;
+  --text-mono-sm: 0.75rem;
+  --text-mono-sm--line-height: 1.6;
+
+  /* Colors — semantic names used throughout the app */
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
+  --color-hairline: var(--hairline);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-muted: var(--accent-muted);
+  --color-accent-2: var(--accent-2);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-ring: var(--ring);
+
+  /* shadcn/ui aliases */
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-input: var(--input);
+
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+
+  /* Vertical rhythm between page sections */
+  --spacing-section: clamp(4rem, 2.85rem + 5vw, 7rem);
+  --spacing-section-sm: clamp(3rem, 2.5rem + 2.2vw, 4.5rem);
+
+  /* Motion — mirrored in src/components/motion/config.ts for motion/react */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-fluid: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --duration-aurora: 32s;
+
+  /* Elevation — borders carry hierarchy; shadows only for overlays */
+  --shadow-raised: 0 1px 2px oklch(0 0 0 / 0.3);
+  --shadow-overlay: 0 8px 30px oklch(0 0 0 / 0.45);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-accent-foreground);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-contrast: more) {
+    :focus-visible {
+      outline-width: 4px;
+    }
+  }
+
+  code,
+  kbd,
+  samp {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-sm);
+  }
+}
+
+/* Hero ambience + scroll cue — restrained, token-driven (no flashy gradients) */
+@layer components {
+  .hero-glow {
+    background: radial-gradient(48rem 26rem at 50% -6rem, var(--color-accent-muted), transparent 70%);
+  }
+
+  .scroll-cue-line {
+    height: 3.5rem;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--color-accent), transparent);
+    animation: scroll-cue 2.2s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-cue-line {
+      animation: none;
+    }
+  }
+
+  /* Boot loader — brand mark fade-in + a sweeping gradient bar */
+  .loader-mark {
+    animation: loader-rise 0.5s var(--ease-fluid) forwards;
+  }
+
+  .loader-bar {
+    width: 2.5rem;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, var(--color-accent), var(--color-accent-2), transparent);
+    background-size: 200% 100%;
+    animation: loader-sweep 1.1s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loader-mark {
+      animation: none;
+    }
+
+    .loader-bar {
+      animation: none;
+      background: var(--color-accent);
+    }
+  }
+
+  /*
+   * Optional texture for large flat near-background fills (hero sections,
+   * full-bleed panels). Masks banding at the darker end of the ramp and
+   * gives the surface some material weight. Opt-in via class — not
+   * applied to body by default, so it never affects existing layouts.
+   */
+  .grain-overlay {
+    position: relative;
+  }
+
+  .grain-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.045;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /*
+   * Glass material — the core visual primitive. `.glass` is for
+   * hand-built floating chrome (nav pill, dock, hero buttons); ordinary
+   * cards get the same recipe "for free" via the .bg-surface retrofit
+   * below since they already consume that token.
+   */
+  .glass {
+    position: relative;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow:
+      var(--glass-shadow),
+      inset 0 1px 0 var(--glass-highlight-top),
+      inset 0 -1px 0 var(--glass-highlight-bottom);
+  }
+
+  .glass-strong {
+    background: var(--color-surface-raised);
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    /* Full-strength recipe — reserved for the handful of prominent floating
+       chrome elements (nav, dock, hero buttons). Expensive; keep the count low. */
+    .glass {
+      backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate))
+        brightness(var(--glass-brightness));
+    }
+
+    /* Cheaper recipe for the retrofit — this can apply to dozens of small
+       cards/badges per page, so a 30px+saturate+brightness stack per element
+       is real GPU cost. A light blur reads as "glassy" without it. */
+    .bg-surface,
+    .bg-surface-raised,
+    .bg-card,
+    .bg-popover {
+      backdrop-filter: blur(10px) saturate(140%);
+      -webkit-backdrop-filter: blur(10px) saturate(140%);
+    }
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    /* No backdrop-filter support: fall back to a more opaque solid fill so text stays legible. */
+    .glass,
+    .bg-surface,
+    .bg-surface-raised,
+    .bg-card,
+    .bg-popover {
+      background-color: #0d1b29;
+    }
+  }
+
+  /* Diagonal reflection sweep + lift, used on floating glass chrome and cards */
+  .glass-hover {
+    transition:
+      transform var(--duration-slow) var(--ease-fluid),
+      box-shadow var(--duration-slow) var(--ease-fluid),
+      filter var(--duration-slow) var(--ease-fluid);
+    will-change: transform;
+  }
+
+  .glass-hover:hover {
+    transform: translate3d(0, -8px, 0) scale(1.02);
+    box-shadow:
+      var(--glass-shadow-hover),
+      inset 0 1px 0 var(--glass-highlight-top),
+      inset 0 -1px 0 var(--glass-highlight-bottom);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glass-hover,
+    .glass-hover:hover {
+      transform: none;
+      transition: box-shadow var(--duration-base) linear;
+    }
+  }
+
+  /* Aurora background — layered animated blobs behind everything */
+  .aurora-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    overflow: hidden;
+    pointer-events: none;
+    background: var(--color-background);
+  }
+
+  .aurora-blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(60px);
+    opacity: 0.8;
+    will-change: transform;
+    contain: strict;
+  }
+
+  .aurora-blob-1 {
+    top: -10%;
+    left: -10%;
+    width: 60rem;
+    height: 60rem;
+    background: radial-gradient(circle, rgb(107 124 255 / 0.16), transparent 70%);
+    animation: aurora-drift-1 var(--duration-aurora) var(--ease-fluid) infinite alternate;
+  }
+
+  .aurora-blob-2 {
+    top: 10%;
+    right: -15%;
+    width: 55rem;
+    height: 55rem;
+    background: radial-gradient(circle, rgb(85 214 255 / 0.13), transparent 70%);
+    animation: aurora-drift-2 calc(var(--duration-aurora) * 1.2) var(--ease-fluid) infinite alternate;
+  }
+
+  .aurora-blob-3 {
+    bottom: -15%;
+    left: 10%;
+    width: 50rem;
+    height: 50rem;
+    background: radial-gradient(circle, rgb(168 120 255 / 0.12), transparent 70%);
+    animation: aurora-drift-3 calc(var(--duration-aurora) * 0.85) var(--ease-fluid) infinite alternate;
+  }
+
+  .aurora-blob-4 {
+    bottom: -5%;
+    right: 5%;
+    width: 40rem;
+    height: 40rem;
+    background: radial-gradient(circle, rgb(255 255 255 / 0.05), transparent 70%);
+    animation: aurora-drift-4 calc(var(--duration-aurora) * 1.1) var(--ease-fluid) infinite alternate;
+  }
+
+  .aurora-pointer-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      36rem circle at var(--pointer-x, 50%) var(--pointer-y, 40%),
+      rgb(107 124 255 / 0.08),
+      transparent 60%
+    );
+    transition: background var(--duration-slow) linear;
+  }
+
+  .aurora-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 100% at 50% 20%, transparent 55%, rgb(3 8 13 / 0.55) 100%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora-blob-1,
+    .aurora-blob-2,
+    .aurora-blob-3,
+    .aurora-blob-4 {
+      animation: none;
+    }
+  }
+}
+
+@keyframes aurora-drift-1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(6%, 8%, 0) scale(1.12);
+  }
+}
+
+@keyframes aurora-drift-2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(-8%, 6%, 0) scale(0.95);
+  }
+}
+
+@keyframes aurora-drift-3 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(5%, -7%, 0) scale(1.1);
+  }
+}
+
+@keyframes aurora-drift-4 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(-6%, -5%, 0) scale(1.08);
+  }
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  50.1% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+@keyframes loader-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes loader-sweep {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Pulsing dot for availability badge — 3 cycles then stops */
+@keyframes pulse-3 {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .animate-pulse-3 {
+    animation: pulse-3 1.5s ease-in-out 3;
+  }
+}
+
+/* Button reflection sweep — a diagonal highlight that slides across on hover */
+@layer components {
+  .btn-glass-sweep {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .btn-glass-sweep::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(115deg, transparent 20%, rgb(255 255 255 / 0.22) 40%, transparent 60%);
+    transform: translateX(-120%);
+    transition: transform var(--duration-slow) var(--ease-fluid);
+    pointer-events: none;
+  }
+
+  .btn-glass-sweep:hover::before {
+    transform: translateX(120%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-glass-sweep::before {
+      display: none;
+    }
+  }
+}
+
+/* Long-form prose (MDX articles) — tuned to the token system */
+@layer components {
+  .prose {
+    --tw-prose-invert-body: var(--color-muted-foreground);
+    --tw-prose-invert-headings: var(--color-foreground);
+    --tw-prose-invert-links: var(--color-accent);
+    --tw-prose-invert-bold: var(--color-foreground);
+    --tw-prose-invert-quotes: var(--color-foreground);
+    --tw-prose-invert-quote-borders: var(--color-accent);
+    --tw-prose-invert-code: var(--color-foreground);
+    --tw-prose-invert-hr: var(--color-border);
+    --tw-prose-invert-th-borders: var(--color-border-strong);
+    --tw-prose-invert-td-borders: var(--color-border);
+    --tw-prose-invert-bullets: var(--color-subtle-foreground);
+    --tw-prose-invert-counters: var(--color-subtle-foreground);
+  }
+
+  /* Shiki emits inline colors; the frame comes from our tokens */
+  .prose pre {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    font-size: var(--text-mono-sm);
+    line-height: 1.7;
+  }
+
+  .prose :not(pre) > code {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 0.125rem 0.375rem;
+  }
+
+  .prose :not(pre) > code::before,
+  .prose :not(pre) > code::after {
+    content: none;
+  }
+}
+
+/*
+ * Print: black-on-white, no chrome, no animation. Case studies should
+ * read like a clean document.
+ */
+@media print {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11pt;
+    line-height: 1.55;
+  }
+
+  header[class*='sticky'],
+  footer,
+  [data-devtools],
+  .print\:hidden {
+    display: none !important;
+  }
+
+  * {
+    animation: none !important;
+    transition: none !important;
+    box-shadow: none !important;
+    color: black !important;
+    border-color: #ccc !important;
+    background: transparent !important;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  section,
+  li,
+  blockquote {
+    break-inside: avoid;
+  }
+}

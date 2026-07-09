@@ -1,0 +1,67 @@
+{
+  "skills": [
+    { "name": "Python", "category": "language" },
+    { "name": "Java", "category": "language" },
+    { "name": "C++", "category": "language" },
+    { "name": "JavaScript", "category": "language" },
+    { "name": "TypeScript", "category": "language" },
+    { "name": "HTML", "category": "language" },
+    { "name": "CSS", "category": "language" },
+    { "name": "SQL", "category": "language" },
+
+    { "name": "React", "category": "frontend" },
+    { "name": "Tailwind CSS", "category": "frontend" },
+    { "name": "shadcn/ui", "category": "frontend" },
+    { "name": "Framer Motion", "category": "frontend" },
+    { "name": "Flutter", "category": "frontend" },
+    { "name": "Tauri", "category": "frontend" },
+    { "name": "JavaFX", "category": "frontend" },
+    { "name": "Java Swing", "category": "frontend" },
+
+    { "name": "Node.js", "category": "backend" },
+    { "name": "FastAPI", "category": "backend" },
+    { "name": "REST APIs", "category": "backend" },
+    { "name": "Supabase", "category": "backend" },
+    { "name": "Supabase Auth", "category": "backend" },
+    { "name": "Hibernate", "category": "backend" },
+
+    { "name": "PostgreSQL", "category": "database" },
+    { "name": "MySQL", "category": "database" },
+    { "name": "MariaDB", "category": "database" },
+    { "name": "SQLite", "category": "database" },
+    { "name": "Firebase", "category": "database" },
+
+    { "name": "Git", "category": "tools" },
+    { "name": "GitHub", "category": "tools" },
+    { "name": "Vercel", "category": "tools" },
+    { "name": "VS Code", "category": "tools" },
+    { "name": "Figma", "category": "tools" },
+    { "name": "Vite", "category": "tools" },
+    { "name": "npm", "category": "tools" },
+    { "name": "Resend", "category": "tools" },
+    { "name": "Linux", "category": "tools" },
+    { "name": "Maven", "category": "tools" },
+    { "name": "XAMPP", "category": "tools" },
+
+    { "name": "Object Oriented Programming", "category": "concepts" },
+    { "name": "Database Design", "category": "concepts" },
+    { "name": "Database Normalization", "category": "concepts" },
+    { "name": "Authentication & Authorization", "category": "concepts" },
+    { "name": "RESTful API Design", "category": "concepts" },
+    { "name": "MVC Architecture", "category": "concepts" },
+    { "name": "Service Oriented Architecture", "category": "concepts" },
+    { "name": "ORM", "category": "concepts" },
+    { "name": "Client Server Applications", "category": "concepts" }
+  ],
+  "learningTopics": [
+    "System Design",
+    "Distributed Systems",
+    "Cloud Computing",
+    "Cloud Deployment",
+    "Software Architecture",
+    "Design Patterns",
+    "Advanced React",
+    "Backend Engineering",
+    "Artificial Intelligence"
+  ]
+}

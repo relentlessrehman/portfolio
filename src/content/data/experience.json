@@ -1,0 +1,54 @@
+[
+  {
+    "id": "stayza-founder",
+    "role": "Founder & CEO",
+    "organization": "Stayza",
+    "organizationUrl": "https://www.stayza.pk",
+    "type": "founder",
+    "start": "2026",
+    "summary": "Founded Stayza, a student hostel discovery platform, and led product development, engineering, hiring, quality assurance, and business operations from concept to launch.",
+    "highlights": [
+      "Built and launched the platform from the ground up, including frontend development, backend integration, and production deployment.",
+      "Implemented core features such as hostel listings, user authentication, role-based access, verification workflows, and an admin dashboard.",
+      "Managed recruitment by reviewing applications, interviewing candidates, onboarding interns, and coordinating team activities.",
+      "Led quality assurance through functional testing, bug tracking, and continuous product improvements.",
+      "Conducted market research, competitor analysis, and business development to support product growth."
+    ],
+    "techStack": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Supabase",
+      "PostgreSQL",
+      "Resend",
+      "Vercel"
+    ],
+    "published": true
+  },
+  {
+    "id": "web-dev-internship",
+    "role": "Web Development Intern",
+    "organization": "MarketBrainsCo",
+    "type": "internship",
+    "start": "2026",
+    "summary": "Built and shipped frontend features for production web applications, integrated an AI-powered chatbot, and worked directly with the team to resolve bugs and improve performance.",
+    "highlights": [
+      "Built and refined production frontend components in React and TypeScript.",
+      "Integrated an AI-powered chatbot into the product's web application.",
+      "Implemented authentication and backend data flows using Supabase and PostgreSQL.",
+      "Shipped new features, resolved bugs, and improved application performance alongside the team."
+    ],
+    "techStack": [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Tailwind CSS",
+      "Supabase",
+      "PostgreSQL",
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
+    "published": true
+}
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "platform": "github",
+    "label": "GitHub",
+    "url": "https://github.com/rehmanoncloud9",
+    "handle": "@rehmanoncloud9",
+    "featured": true
+  },
+  {
+    "platform": "linkedin",
+    "label": "LinkedIn",
+    "url": "https://www.linkedin.com/in/arehman-builds",
+    "handle": "arehman-builds",
+    "featured": true
+  },
+  {
+    "platform": "email",
+    "label": "Email",
+    "url": "mailto:relentlessrehman@gmail.com",
+    "featured": true
+  }
+]

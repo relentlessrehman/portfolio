@@ -1,0 +1,65 @@
+---
+title: How this portfolio is engineered
+description: The architecture behind this site — typed content modules, derived data, and a build that fails on invalid content.
+publishedAt: '2026-07-02'
+tags:
+  - architecture
+  - typescript
+  - tanstack
+---
+
+{/* TODO(content): this post documents the real architecture of this site.
+    Edit the voice to make it yours, then remove this comment. */}
+
+This site is not a template. It's a small product with a deliberate architecture,
+built on TanStack Start, React 19, TypeScript, and Tailwind CSS v4. This post
+documents the three decisions that shape everything else.
+
+## Content is data, validated at build time
+
+Every fact on this site — projects, skills, experience, even the navigation —
+lives in typed TypeScript modules under `src/content/`. Nothing is hardcoded in
+components. Each module is validated with Zod when the registry loads, which
+happens during the build:
+
+```ts
+function validate<Schema extends z.ZodType>(
+  moduleName: string,
+  schema: Schema,
+  data: unknown,
+): z.infer<Schema> {
+  const result = schema.safeParse(data)
+  if (!result.success) {
+    throw new Error(`Invalid content in src/content/${moduleName}: …`)
+  }
+  return result.data
+}
+```
+
+If I typo a date or forget a required field, the site refuses to build. A broken
+deploy is impossible to ship silently.
+
+## Derived data never drifts
+
+The classic portfolio failure mode is hand-maintained duplication: a skills page
+claiming "used in 4 projects" long after the fifth shipped. Here, anything that
+can be computed **is** computed:
+
+- "Projects using React" joins project `techStack` arrays against skill names
+- Related projects rank by tech-stack overlap
+- Reading time and word counts are injected by a remark plugin at compile time
+- The home-page statistics count real content objects
+
+One source of truth per fact. Adding a project updates the grid, filters,
+search, and stats without touching a single component.
+
+## Boring in the right places
+
+The stack has no state-management library, no CMS, and no runtime syntax
+highlighter. Server code exists only where the platform genuinely needs it.
+Code blocks like the one above are highlighted by Shiki **during the build**,
+so the page ships zero highlighting JavaScript.
+
+That restraint is the point: strong typing, clear data models, and small
+reversible decisions in the foundations — so the interesting parts, like the
+case-study system, can afford to be ambitious.

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "nust-bscs",
+    "institution": "National University of Sciences and Technology (NUST)",
+    "school": "School of Electrical Engineering and Computer Science (SEECS)",
+    "degree": "BS Computer Science",
+    "location": "Islamabad, Pakistan",
+    "period": {
+      "start": 2026,
+      "end": 2029,
+      "expected": true
+    },
+    "summary": "Pursuing a Bachelor's degree in Computer Science with interests in software engineering, artificial intelligence, cloud computing, and building scalable products.",
+    "highlights": []
+  },
+  {
+    "id": "fsc-pre-engineering",
+    "institution": "Government Higher Secondary School",
+    "degree": "Intermediate (FSc Pre-Engineering)",
+    "period": {
+      "start": 2023,
+      "end": 2025,
+      "expected": false
+    },
+    "highlights": []
+  },
+  {
+    "id": "matriculation",
+    "institution": "Government High School No. 2",
+    "degree": "Matriculation",
+    "period": {
+      "end": 2023,
+      "expected": false
+    },
+    "highlights": []
+  }
+]

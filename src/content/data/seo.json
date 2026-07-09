@@ -1,0 +1,9 @@
+{
+  "url": "https://abdulrehman.dev",
+  "siteName": "Abdul Rehman",
+  "titleTemplate": "%s | Abdul Rehman",
+  "defaultTitle": "Abdul Rehman | Full Stack Developer, Founder of Stayza & Computer Science Student at NUST",
+  "defaultDescription": "Portfolio of Abdul Rehman, a Computer Science student at NUST, full stack developer, and founder of Stayza. Explore software projects, case studies, and technical writing.",
+  "defaultOgImage": "/og/default.png",
+  "locale": "en_US"
+}

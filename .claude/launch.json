@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "dev-preview",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite", "dev", "--port", "3050"],
+      "port": 3050
+    },
+    {
+      "name": "dev-auto",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite", "dev", "--port", "3077"],
+      "port": 3077
+    }
+  ]
+}

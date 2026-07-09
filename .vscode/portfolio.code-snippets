@@ -1,0 +1,76 @@
+{
+  "Portfolio: experience entry": {
+    "scope": "typescript",
+    "prefix": "pf-experience",
+    "description": "New entry for src/content/experience.ts",
+    "body": [
+      "{",
+      "  id: '${1:company-role}',",
+      "  role: '${2:Role Title}',",
+      "  organization: '${3:Company}',",
+      "  organizationUrl: 'https://${4:example.com}',",
+      "  type: '${5|internship,job,founder,leadership|}',",
+      "  start: '${6:2026-01}',",
+      "  summary: '${7:One sentence on what you did.}',",
+      "  highlights: [",
+      "    '${8:Concrete, measurable thing you did.}',",
+      "  ],",
+      "  techStack: [${9:'React', 'TypeScript'}],",
+      "  published: true,",
+      "},"
+    ]
+  },
+  "Portfolio: achievement entry": {
+    "scope": "typescript",
+    "prefix": "pf-achievement",
+    "description": "New entry for src/content/achievements.ts",
+    "body": [
+      "{",
+      "  id: '${1:kebab-id}',",
+      "  title: '${2:Achievement title}',",
+      "  description: '${3:Optional context.}',",
+      "  year: ${4:2026},",
+      "},"
+    ]
+  },
+  "Portfolio: changelog entry": {
+    "scope": "typescript",
+    "prefix": "pf-changelog",
+    "description": "New entry for src/content/changelog.ts",
+    "body": [
+      "{",
+      "  date: '${1:2026-07-05}',",
+      "  title: '${2:What changed}',",
+      "  description: '${3:Optional detail.}',",
+      "  tag: '${4|added,changed,fixed,milestone|}',",
+      "},"
+    ]
+  },
+  "Portfolio: certification entry": {
+    "scope": "typescript",
+    "prefix": "pf-certification",
+    "description": "New entry for src/content/certifications.ts",
+    "body": [
+      "{",
+      "  id: '${1:kebab-id}',",
+      "  name: '${2:Certification name}',",
+      "  issuer: '${3:Issuer}',",
+      "  year: ${4:2026},",
+      "  url: 'https://${5:verify-link}',",
+      "},"
+    ]
+  },
+  "Portfolio: milestone entry": {
+    "scope": "typescript",
+    "prefix": "pf-milestone",
+    "description": "New entry for src/content/milestones.ts (timeline-only)",
+    "body": [
+      "{",
+      "  id: '${1:kebab-id}',",
+      "  date: '${2:2026-07}',",
+      "  title: '${3:What happened}',",
+      "  description: '${4:Optional detail.}',",
+      "},"
+    ]
+  }
+}

@@ -1,0 +1,268 @@
+[
+  {
+    "slug": "stayza",
+    "name": "Stayza",
+    "tagline": "Student hostel discovery platform",
+    "summary": "A full stack platform that helps students discover, compare, and connect with hostels through a modern and user friendly web experience.",
+    "status": "production",
+    "featured": true,
+    "featuredOrder": 1,
+    "categories": ["web-app", "startup"],
+    "role": "Founder & Full Stack Developer",
+    "teamSize": 1,
+    "timeline": {
+      "start": "2026"
+    },
+    "publishedAt": "2026-07",
+    "updatedAt": "2026-07",
+    "stages": [
+      {
+        "stage": "idea",
+        "date": "2026",
+        "state": "completed"
+      },
+      {
+        "stage": "planning",
+        "date": "2026",
+        "state": "completed"
+      },
+      {
+        "stage": "development",
+        "date": "2026",
+        "state": "completed"
+      },
+      {
+        "stage": "deployment",
+        "date": "2026",
+        "note": "Deployed on a custom domain with integrated email services.",
+        "state": "completed"
+      },
+      {
+        "stage": "maintenance",
+        "state": "current"
+      }
+    ],
+    "techStack": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Supabase",
+      "PostgreSQL",
+      "Resend",
+      "Vercel"
+    ],
+    "features": [
+      "Student and Hostel Owner Portals",
+      "Authentication",
+      "Role Based Access Control",
+      "Hostel Listings",
+      "Advanced Search and Filtering",
+      "Favorites",
+      "CNIC Verification Workflow",
+      "Admin Dashboard",
+      "Responsive Design"
+    ],
+    "links": {
+      "live": "https://www.stayza.pk"
+    },
+    "caseStudy": {
+      "overview": [
+        "Stayza is a full stack web platform designed to simplify hostel discovery for students. As the founder and developer, I built the application from the ground up, including authentication, hostel listings, verification workflows, dashboards, deployment, and ongoing product improvements."
+      ],
+      "problem": [
+        "Students searching for accommodation often rely on scattered information from social media, messaging groups, and personal recommendations. Stayza centralizes hostel information into a single platform, making it easier to discover, compare, and connect with hostel owners."
+      ],
+      "implementation": [
+        "Developed the frontend with React and TypeScript, integrated Supabase for authentication and backend services, designed the PostgreSQL database, implemented role based access control, and deployed the application to production using Vercel."
+      ]
+    },
+    "gallery": []
+  },
+  {
+    "slug": "raabta-ai",
+    "name": "Raabta AI",
+    "tagline": "Multilingual service marketplace",
+    "summary": "A multilingual marketplace that connects users with service providers, developed during the Google Antigravity National Hackathon.",
+    "status": "archived",
+    "featured": true,
+    "featuredOrder": 2,
+    "categories": ["mobile-app", "marketplace"],
+    "role": "Backend Developer",
+    "teamSize": 2,
+    "timeline": {
+      "start": "2026-07"
+    },
+    "techStack": [
+      "Flutter",
+      "FastAPI",
+      "Firebase"
+    ],
+    "features": [
+      "User Authentication",
+      "Service Listings",
+      "Booking Workflow",
+      "Multilingual Support",
+      "Provider Profiles"
+    ],
+    "links": {
+      "github": "https://github.com/rehmanoncloud9/raabta-ai"
+    },
+    "caseStudy": {
+      "overview": [
+        "Raabta AI is a multilingual service marketplace developed during the Google Antigravity National Hackathon to improve communication between users and service providers."
+      ],
+      "implementation": [
+        "Contributed to backend development by implementing APIs, designing the database structure, developing authentication, and supporting the booking workflow as part of a collaborative team."
+      ]
+    },
+    "gallery": []
+  },
+  {
+    "slug": "crime-management-system",
+    "name": "Crime Management System",
+    "tagline": "Desktop application for crime record management",
+    "summary": "A Java desktop application for managing crime records, user roles, and case information through a secure role based system.",
+    "status": "archived",
+    "featured": false,
+    "categories": ["desktop-app"],
+    "role": "Developer",
+    "teamSize": 1,
+    "timeline": {
+      "start": "2026"
+    },
+    "techStack": [
+      "Java",
+      "JavaFX",
+      "Hibernate",
+      "MariaDB"
+    ],
+    "features": [
+      "Authentication",
+      "Role Based Access Control",
+      "Crime Record Management",
+      "Database Integration",
+      "Report Management"
+    ],
+    "links": {
+      "github": "https://github.com/rehmanoncloud9/crime-management-system"
+    },
+    "caseStudy": {
+      "overview": [
+        "A desktop application designed to streamline crime record management through secure authentication and structured data management."
+      ],
+      "implementation": [
+        "Implemented authentication, role based authorization, database integration, and modules for managing crime records and reports."
+      ]
+    },
+    "gallery": []
+  },
+  {
+    "slug": "smartgo",
+    "name": "SmartGo",
+    "tagline": "Travel booking desktop application",
+    "summary": "A Java desktop application for booking travel services with user authentication and a structured reservation system.",
+    "status": "archived",
+    "featured": false,
+    "categories": ["desktop-app"],
+    "role": "Developer",
+    "teamSize": 1,
+    "timeline": {
+      "start": "2026"
+    },
+    "techStack": [
+      "Java",
+      "Java Swing",
+      "SQL"
+    ],
+    "features": [
+      "Authentication",
+      "Travel Booking",
+      "Reservation Management",
+      "Database Integration",
+      "Desktop Interface"
+    ],
+    "links": {
+      "github": "https://github.com/rehmanoncloud9/SmartGo"
+    },
+    "caseStudy": {
+      "overview": [
+        "A desktop application that simplifies travel reservations through a structured booking system."
+      ],
+      "implementation": [
+        "Developed authentication, booking management, database connectivity, and a modular desktop interface."
+      ]
+    },
+    "gallery": []
+  },
+  {
+    "slug": "jarvis-os",
+    "name": "JARVIS OS",
+    "tagline": "Desktop AI assistant",
+    "summary": "A desktop AI assistant built with Python, React, and Tauri that combines voice interaction with local processing through a modular architecture.",
+    "status": "archived",
+    "featured": true,
+    "featuredOrder": 3,
+    "categories": ["desktop-app", "ai"],
+    "role": "Developer",
+    "teamSize": 1,
+    "timeline": {
+      "start": "2025"
+    },
+    "techStack": [
+      "Python",
+      "React",
+      "Tauri",
+      "SQLite"
+    ],
+    "features": [
+      "Voice Commands",
+      "Desktop Interface",
+      "Local Storage",
+      "Modular Architecture",
+      "AI Assistant"
+    ],
+    "links": {},
+    "caseStudy": {
+      "overview": [
+        "A modular desktop AI assistant combining a Python backend with a React and Tauri desktop interface."
+      ],
+      "implementation": [
+        "Developed the backend logic, integrated the desktop application with a React interface, managed local data storage, and implemented modular assistant features."
+      ]
+    },
+    "gallery": []
+  },
+  {
+    "slug": "course-files-organizer",
+    "name": "Course Files Organizer",
+    "tagline": "Academic file organization tool",
+    "summary": "A Python automation tool that organizes academic course files into a structured folder hierarchy for easier management.",
+    "status": "archived",
+    "featured": false,
+    "categories": ["tool", "automation"],
+    "role": "Developer",
+    "teamSize": 1,
+    "timeline": {
+      "start": "2026"
+    },
+    "techStack": [
+      "Python"
+    ],
+    "features": [
+      "Automatic File Organization",
+      "Directory Management",
+      "Folder Classification",
+      "Python Automation"
+    ],
+    "links": {},
+    "caseStudy": {
+      "overview": [
+        "A lightweight Python utility that automatically organizes academic files into a structured directory hierarchy."
+      ],
+      "implementation": [
+        "Automated file discovery, folder creation, and document organization using Python to simplify academic file management."
+      ]
+    },
+    "gallery": []
+  }
+]

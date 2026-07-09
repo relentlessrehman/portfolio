@@ -1,0 +1,26 @@
+[
+  {
+    "id": "editor",
+    "title": "Editor & terminal",
+    "items": [
+      { "name": "VS Code", "note": "Primary editor" },
+      { "name": "Git + GitHub", "note": "Version control and code review" }
+    ]
+  },
+  {
+    "id": "stack",
+    "title": "Default stack",
+    "items": [
+      { "name": "React + TypeScript", "note": "UI with strict types" },
+      { "name": "Tailwind CSS", "note": "Design-token-driven styling" },
+      { "name": "Supabase", "note": "Postgres, auth, and storage" },
+      { "name": "Vercel", "note": "Deployment" },
+      { "name": "Resend", "note": "Transactional email" }
+    ]
+  },
+  {
+    "id": "design",
+    "title": "Design",
+    "items": [{ "name": "Figma", "note": "UI design and prototyping" }]
+  }
+]
