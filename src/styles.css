@@ -342,9 +342,9 @@
     /* Full-strength recipe — reserved for the handful of prominent floating
        chrome elements (nav, dock, hero buttons). Expensive; keep the count low. */
     .glass {
-      backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
       -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate))
         brightness(var(--glass-brightness));
+      backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
     }
 
     /* Cheaper recipe for the retrofit — this can apply to dozens of small
@@ -354,8 +354,8 @@
     .bg-surface-raised,
     .bg-card,
     .bg-popover {
-      backdrop-filter: blur(10px) saturate(140%);
       -webkit-backdrop-filter: blur(10px) saturate(140%);
+      backdrop-filter: blur(10px) saturate(140%);
     }
   }
 
