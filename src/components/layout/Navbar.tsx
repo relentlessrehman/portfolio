@@ -12,10 +12,10 @@ import { openMobileNav } from './nav-drawer-events'
  */
 export function Navbar() {
   return (
-    <header className="sticky top-4 z-40 mx-auto w-[calc(100%-2rem)] max-w-[1200px] print:hidden">
+    <header className="sticky top-4 z-40 mx-auto w-[calc(100%-2rem)] max-w-[1200px] [transform:translateZ(0)] print:hidden">
       <nav
         aria-label="Primary"
-        className="glass flex h-16 items-center justify-between rounded-full px-4 sm:px-6"
+        className="glass flex h-16 items-center justify-between rounded-full px-4 sm:px-6 will-change-transform"
       >
         <Link to="/" className="font-display text-title-3 font-semibold text-foreground">
           {content.profile.name}
