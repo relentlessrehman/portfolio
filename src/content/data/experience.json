@@ -5,7 +5,7 @@
     "organization": "Stayza",
     "organizationUrl": "https://www.stayza.pk",
     "type": "founder",
-    "start": "2026",
+    "start": "2026-04",
     "summary": "Founded Stayza, a student hostel discovery platform, and led product development, engineering, hiring, quality assurance, and business operations from concept to launch.",
     "highlights": [
       "Built and launched the platform from the ground up, including frontend development, backend integration, and production deployment.",
@@ -30,7 +30,7 @@
     "role": "Web Development Intern",
     "organization": "MarketBrainsCo",
     "type": "internship",
-    "start": "2026",
+    "start": "2026-07",
     "summary": "Built and shipped frontend features for production web applications, integrated an AI-powered chatbot, and worked directly with the team to resolve bugs and improve performance.",
     "highlights": [
       "Built and refined production frontend components in React and TypeScript.",

@@ -7,6 +7,7 @@ import { seoHead } from '#/lib/seo/meta'
 import { printConsoleGreeting } from '#/lib/easter-egg'
 import { Navbar } from '#/components/layout/Navbar'
 import { BottomNav } from '#/components/layout/BottomNav'
+import { MobileNavDrawer } from '#/components/layout/MobileNavDrawer'
 import { Footer } from '#/components/layout/Footer'
 import { BackToTop } from '#/components/shared/BackToTop'
 import { AuroraBackground } from '#/components/shared/AuroraBackground'
@@ -63,6 +64,7 @@ function RootLayout() {
       </main>
       <Footer />
       <BottomNav />
+      <MobileNavDrawer />
       <BackToTop />
       <CommandPalette />
       <PageViewTracker />

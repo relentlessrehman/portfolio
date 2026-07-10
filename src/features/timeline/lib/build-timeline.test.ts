@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { content } from '#/content'
-import { buildTimeline, timelineByYear } from './build-timeline'
+import { buildTimeline, timelineByPeriod } from './build-timeline'
 
 describe('buildTimeline', () => {
   const events = buildTimeline()
@@ -30,13 +30,30 @@ describe('buildTimeline', () => {
     expect(first?.date).toBe(String(content.profile.codingSince))
   })
 
-  it('includes both a start and a shipped event for a production project with a publish date', () => {
-    const shipped = content.projects.find(
+  it('includes a shipped event for every production project with a publish date', () => {
+    const shippedProjects = content.projects.filter(
       (project) => ['production', 'maintained'].includes(project.status) && project.publishedAt,
     )
-    if (!shipped) return
-    expect(events.some((event) => event.id === `proj-${shipped.slug}`)).toBe(true)
-    expect(events.some((event) => event.id === `proj-${shipped.slug}-shipped`)).toBe(true)
+    for (const project of shippedProjects) {
+      expect(events.some((event) => event.id === `proj-${project.slug}-shipped`)).toBe(true)
+    }
+  })
+
+  it('omits the "started" event for a featured project founded as its own experience', () => {
+    const founderProject = content.projects.find((project) =>
+      content.experience.some(
+        (entry) => entry.type === 'founder' && entry.organization === project.name,
+      ),
+    )
+    if (!founderProject) return
+    expect(events.some((event) => event.id === `proj-${founderProject.slug}`)).toBe(false)
+  })
+
+  it('excludes non-featured projects from the timeline', () => {
+    const minor = content.projects.filter((project) => !project.featured)
+    for (const project of minor) {
+      expect(events.some((event) => event.id === `proj-${project.slug}`)).toBe(false)
+    }
   })
 
   it('never includes an unpublished experience entry', () => {
@@ -45,18 +62,23 @@ describe('buildTimeline', () => {
       expect(events.some((event) => event.id === `exp-${entry.id}`)).toBe(false)
     }
   })
+
+  it('never has two events with the same title in the same year', () => {
+    const keys = events.map((event) => `${event.date.slice(0, 4)}::${event.title.toLowerCase()}`)
+    expect(new Set(keys).size).toBe(keys.length)
+  })
 })
 
-describe('timelineByYear', () => {
+describe('timelineByPeriod', () => {
   it('accounts for every event exactly once', () => {
-    const groups = timelineByYear()
+    const groups = timelineByPeriod()
     const total = groups.reduce((sum, group) => sum + group.events.length, 0)
     expect(total).toBe(buildTimeline().length)
   })
 
-  it('orders years newest first', () => {
-    const years = timelineByYear().map((group) => group.year)
-    const sorted = [...years].sort((a, b) => b.localeCompare(a))
-    expect(years).toEqual(sorted)
+  it('orders periods newest first', () => {
+    const keys = timelineByPeriod().map((group) => group.key)
+    const sorted = [...keys].sort((a, b) => b.localeCompare(a))
+    expect(keys).toEqual(sorted)
   })
 })

@@ -4,6 +4,7 @@ import { seoHead } from '#/lib/seo/meta'
 import { Container } from '#/components/shared/Container'
 import { SectionHeader } from '#/components/shared/SectionHeader'
 import { Reveal } from '#/components/motion/Reveal'
+import { formatDate } from '#/lib/dates'
 
 export const Route = createFileRoute('/education')({
   head: () =>
@@ -16,9 +17,9 @@ export const Route = createFileRoute('/education')({
   component: EducationPage,
 })
 
-function formatPeriod(period: { start?: number; end: number; expected: boolean }): string {
+function formatPeriod(period: { start?: string; end: number; expected: boolean }): string {
   const end = period.expected ? `${period.end} (expected)` : String(period.end)
-  return period.start ? `${period.start} — ${end}` : end
+  return period.start ? `${formatDate(period.start)} — ${end}` : end
 }
 
 function EducationPage() {
@@ -34,10 +35,12 @@ function EducationPage() {
                 {formatPeriod(entry.period)}
               </p>
               <h2 className="mt-2 font-display text-title-2 text-foreground">{entry.degree}</h2>
-              <p className="mt-1 text-body text-muted-foreground">
-                {entry.institution}
-                {entry.school ? ` · ${entry.school}` : ''}
-              </p>
+              {entry.institution ? (
+                <p className="mt-1 text-body text-muted-foreground">
+                  {entry.institution}
+                  {entry.school ? ` · ${entry.school}` : ''}
+                </p>
+              ) : null}
               {entry.location ? (
                 <p className="mt-1 text-small text-subtle-foreground">{entry.location}</p>
               ) : null}

@@ -1,65 +1,110 @@
 ---
 title: How this portfolio is engineered
-description: The architecture behind this site — typed content modules, derived data, and a build that fails on invalid content.
+description: Why this site treats content as data, validates it at build time, and derives everything else from a single source of truth.
 publishedAt: '2026-07-02'
 tags:
   - architecture
   - typescript
-  - tanstack
+  - systems-design
 ---
 
-{/* TODO(content): this post documents the real architecture of this site.
-    Edit the voice to make it yours, then remove this comment. */}
+Most portfolio sites slowly drift out of sync. The homepage claims one thing,
+the projects page claims another, and a statistic like "5 projects shipped"
+quietly becomes wrong the moment a sixth one launches. Nobody notices until a
+visitor does.
 
-This site is not a template. It's a small product with a deliberate architecture,
-built on TanStack Start, React 19, TypeScript, and Tailwind CSS v4. This post
-documents the three decisions that shape everything else.
+I wanted a site where that kind of drift is structurally impossible: every
+fact has exactly one place it can be edited, and every page that depends on
+that fact reads it from the same source.
 
-## Content is data, validated at build time
+## Content as data, not prose scattered across components
 
-Every fact on this site — projects, skills, experience, even the navigation —
-lives in typed TypeScript modules under `src/content/`. Nothing is hardcoded in
-components. Each module is validated with Zod when the registry loads, which
-happens during the build:
+The first decision was to stop treating content as markup. Projects, skills,
+experience, and even navigation live as typed data modules, not as JSX
+sprinkled through components. A component's job is to render data; it has no
+business also being the place where facts live.
 
-```ts
-function validate<Schema extends z.ZodType>(
-  moduleName: string,
-  schema: Schema,
-  data: unknown,
-): z.infer<Schema> {
-  const result = schema.safeParse(data)
-  if (!result.success) {
-    throw new Error(`Invalid content in src/content/${moduleName}: …`)
-  }
-  return result.data
-}
+The second decision follows from the first: if content is data, it can be
+validated like data. Every module is checked against a schema when the site
+builds, and a build with invalid content simply does not produce a deploy.
+That distinction matters more than it sounds. A missing field or a malformed
+date is not a runtime surprise a visitor stumbles into; it is a build failure
+an editor sees immediately, before anything ships.
+
 ```
-
-If I typo a date or forget a required field, the site refuses to build. A broken
-deploy is impossible to ship silently.
+content modules
+  (source of truth)
+        │
+        ▼
+schema validation
+  (build fails on bad data)
+        │
+        ▼
+derived data
+  (counts, links, related items)
+        │
+        ▼
+pages
+```
 
 ## Derived data never drifts
 
-The classic portfolio failure mode is hand-maintained duplication: a skills page
-claiming "used in 4 projects" long after the fifth shipped. Here, anything that
-can be computed **is** computed:
+This is the part I'm most proud of, because it is where the "single source
+of truth" idea actually pays off. Nothing that can be computed is hand
+maintained. If a fact can be derived from existing data, it is derived, not
+retyped.
 
-- "Projects using React" joins project `techStack` arrays against skill names
-- Related projects rank by tech-stack overlap
-- Reading time and word counts are injected by a remark plugin at compile time
-- The home-page statistics count real content objects
+In practice that means:
 
-One source of truth per fact. Adding a project updates the grid, filters,
-search, and stats without touching a single component.
+- Skill-to-project relationships come from joining each project's tech stack
+  against the skill list, so "used in N projects" is always accurate.
+- Related projects are ranked by tech-stack overlap, not curated by hand.
+- Reading time and word counts are computed from the actual article text at
+  build time, not estimated once and left to rot.
+- Homepage statistics count real content objects instead of being typed in
+  as a number someone has to remember to update.
+
+The practical result is that adding a project is a single edit. The grid,
+the filters, the search index, the related-content links, and the homepage
+counters all update themselves, because they were never independently
+maintained facts to begin with. I no longer have a class of bugs where two
+pages disagree about the same thing, because there is only one place that
+thing is written down.
+
+## Why not a CMS?
+
+A reasonable question, since "content as data" is exactly what a CMS sells.
+I chose plain, typed files instead because this portfolio has exactly one
+editor: me. A CMS earns its complexity when multiple non-technical people
+need to publish content, or when content changes more often than code does.
+Neither is true here. Version-controlled TypeScript gives me autocompletion,
+a diffable history, and compile-time validation for free, and it costs
+nothing to run. Bringing in a CMS would have added a service to operate
+without solving a problem I actually have.
+
+That trade-off is representative of how the rest of the site is built.
 
 ## Boring in the right places
 
-The stack has no state-management library, no CMS, and no runtime syntax
-highlighter. Server code exists only where the platform genuinely needs it.
-Code blocks like the one above are highlighted by Shiki **during the build**,
-so the page ships zero highlighting JavaScript.
+There is no state-management library, because the state is mostly server
+data with nowhere interesting to go. There is no runtime syntax highlighter,
+because code blocks can be highlighted once at build time and shipped as
+plain HTML. Server-only code exists only where the platform genuinely
+requires it, not by default.
 
-That restraint is the point: strong typing, clear data models, and small
-reversible decisions in the foundations — so the interesting parts, like the
-case-study system, can afford to be ambitious.
+None of these are framework decisions; they generalize past whatever this
+site happens to be built with today. The underlying rule is simple: every
+dependency has an ongoing cost, in bundle size, in upgrade churn, in the
+number of things that can break. Unless a library removes real complexity, a
+simpler solution wins. That discipline is what makes the more ambitious
+parts of the site, like the case-study system, safe to build without the
+foundation getting harder to reason about.
+
+## The point of all this
+
+The goal was never to build the most sophisticated portfolio possible. It
+was to build one where adding a project, fixing a date, or updating a
+statistic is a single, safe edit, and where that edit automatically shows up
+everywhere it should. The architecture is not the interesting part on its
+own. It exists so that everything built on top of it stays predictable as
+the site grows.

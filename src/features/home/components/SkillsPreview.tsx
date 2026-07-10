@@ -19,8 +19,6 @@ const categoryLabels: Record<SkillCategory, string> = {
 // Homepage stays to the tangible categories a recruiter scans fastest —
 // the more abstract "concepts" list gets its full due on /skills.
 const categoryOrder: Array<SkillCategory> = ['language', 'frontend', 'backend', 'database', 'tools']
-const MAX_PER_CATEGORY = 6
-const MAX_LEARNING = 6
 const GRID_CLASS = 'grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6'
 
 export function SkillsPreview() {
@@ -42,8 +40,6 @@ export function SkillsPreview() {
               (a, b) => projectsUsingSkill(b.name).length - projectsUsingSkill(a.name).length,
             )
           if (group.length === 0) return null
-          const visible = group.slice(0, MAX_PER_CATEGORY)
-          const overflow = group.length - visible.length
 
           return (
             <Reveal key={category} delay={index * 0.05}>
@@ -51,10 +47,9 @@ export function SkillsPreview() {
                 {categoryLabels[category]}
               </h3>
               <div className={GRID_CLASS}>
-                {visible.map((skill) => (
+                {group.map((skill) => (
                   <SkillIconCard key={skill.name} name={skill.name} />
                 ))}
-                {overflow > 0 ? <MoreCard count={overflow} /> : null}
               </div>
             </Reveal>
           )
@@ -66,12 +61,9 @@ export function SkillsPreview() {
               Learning now
             </h3>
             <div className={GRID_CLASS}>
-              {content.learningTopics.slice(0, MAX_LEARNING).map((topic) => (
+              {content.learningTopics.map((topic) => (
                 <SkillIconCard key={topic} name={topic} variant="learning" />
               ))}
-              {content.learningTopics.length > MAX_LEARNING ? (
-                <MoreCard count={content.learningTopics.length - MAX_LEARNING} />
-              ) : null}
             </div>
           </Reveal>
         ) : null}
@@ -85,19 +77,5 @@ export function SkillsPreview() {
         <ArrowRight className="size-4" aria-hidden />
       </Link>
     </Section>
-  )
-}
-
-function MoreCard({ count }: { count: number }) {
-  return (
-    <Link
-      to="/skills"
-      className="flex h-full flex-col items-center justify-center gap-2.5 rounded-xl border border-dashed border-border-strong bg-surface px-3 py-4 text-center text-subtle-foreground transition-colors duration-(--duration-base) hover:text-foreground"
-    >
-      <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-surface-raised font-mono text-body font-medium">
-        +{count}
-      </span>
-      <span className="text-small font-medium">More</span>
-    </Link>
   )
 }

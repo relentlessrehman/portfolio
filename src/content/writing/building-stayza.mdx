@@ -1,0 +1,99 @@
+---
+title: 'Building Stayza: Rethinking How Students Find Housing in Pakistan'
+description: How I approached student housing in Pakistan as a solo founder, from the core product problem to the engineering decisions behind Stayza.
+publishedAt: '2026-07-10'
+tags:
+  - startups
+  - product
+  - stayza
+---
+
+Every year, thousands of students across Pakistan relocate to new cities for
+university. Along with the excitement of a new campus and a new chapter comes
+one of the most stressful and unstructured parts of student life: finding a
+place to live. For most students, the process still relies on word of mouth,
+unreliable Facebook groups, and property listings that are outdated,
+unverified, or simply misleading. There is no dedicated platform built around
+the specific needs of Pakistani students. Stayza exists to change that.
+
+## The problem
+
+Student housing in Pakistan operates almost entirely outside formal systems.
+Landlords list properties informally, students negotiate blind, and there is
+little transparency around pricing, safety, or proximity to campus.
+International platforms do not account for local context, and general
+property listing sites are not designed with a student's priorities in mind:
+affordability, distance from university, roommate compatibility, and trust.
+
+This gap is not a small inconvenience. It shapes where students choose to
+study, how much stress they carry into their first semester, and how
+vulnerable they are to scams or unsafe living conditions. Solving it requires
+more than a listings website. It requires a platform built specifically
+around the student experience.
+
+## Building Stayza as a solo founder
+
+Stayza started as an idea I could not stop thinking about while studying
+Computer Science at SEECS, NUST. Rather than treating it as a side project, I
+approached it as a real product from day one: identifying the core user
+problem, designing a platform architecture that could scale, and building the
+technical foundation myself.
+
+Working solo meant owning every layer of the product. I designed and
+implemented the frontend using React and TypeScript, building out more than
+sixteen components to support search, filtering, and listing discovery in a
+way that feels intuitive rather than overwhelming. On the backend, I used
+Supabase to manage authentication and data, which meant solving real
+engineering challenges around Row Level Security policies, OAuth integration,
+and role based access control to keep user data secure while supporting
+multiple account types.
+
+One of the more demanding parts of the build was the analytics layer. A
+platform like Stayza needs to understand user behavior, listing performance,
+and search patterns to improve over time, but that data has to be handled
+carefully. I built a secure analytics engine with RLS policies designed from
+the ground up to protect user privacy while still surfacing the insights
+needed to guide product decisions.
+
+## Balancing building and learning
+
+Building Stayza alongside a full course load has meant learning to work in
+tight, focused sprints. Concepts from coursework in object oriented
+programming, database systems, and software design have directly shaped
+decisions in the product, from how the data model is structured to how
+components are organized for maintainability. At the same time, the demands
+of running a startup, debugging authentication flows late at night, refining
+UI based on user feedback, and planning feature roadmaps have taught lessons
+no classroom could replicate.
+
+## Growing beyond a solo effort
+
+As Stayza matured, it became clear that building a sustainable platform meant
+building a team, not just a product. I recently developed a full set of
+onboarding and operational documentation to support a growing intern program
+across business development and quality assurance. Structuring this program
+required thinking carefully about communication, accountability, and how to
+maintain quality while delegating responsibility, skills that are just as
+important as writing code.
+
+This phase also meant looking outward. I studied existing platforms in the
+space to understand where Stayza could differentiate itself, and began
+preparing applications for competitions like the Punjab Youth Innovation and
+Incubation Competition, seeking both validation and resources to accelerate
+growth.
+
+## What comes next
+
+Stayza is still early, but the direction is clear. The goal is not just to
+list properties, but to build trust into every part of the student housing
+search: verified listings, transparent pricing, and a platform that treats
+student housing as the significant life decision it actually is.
+
+Building a startup as a first year student comes with real constraints on
+time, resources, and experience. But it has also forced a kind of discipline
+and resourcefulness that I believe will shape how I approach every project
+going forward, in Stayza and beyond.
+
+Stayza is a reminder that meaningful problems do not wait for the right time
+to be solved. Sometimes the best way to understand a problem deeply enough to
+fix it is to have lived through it yourself.

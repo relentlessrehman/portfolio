@@ -11,7 +11,7 @@ export function Footer() {
       <Container className="grid gap-10 py-12 md:grid-cols-[1fr_auto]">
         <div className="max-w-sm">
           <p className="font-display text-title-3 text-foreground">{content.profile.name}</p>
-          <p className="mt-2 text-small text-muted-foreground">{content.profile.shortBio}</p>
+          <p className="mt-2 text-small text-muted-foreground">{content.profile.mission}</p>
           <ul className="mt-5 flex gap-4">
             {featuredSocials.map((link) => (
               <li key={link.platform}>

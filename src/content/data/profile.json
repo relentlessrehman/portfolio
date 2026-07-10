@@ -9,21 +9,19 @@
   ],
   "shortBio": "Computer Science student at NUST and founder of Stayza, a hostel discovery platform I built end to end. I care most about backend systems and shipping software that real people rely on.",
   "about": [
-    "I got into software engineering because I wanted to build things, not just study how they work. I'm a Computer Science student at NUST, and the part of this field that keeps me interested is taking a vague idea and turning it into something real: a database, an interface, and actual users.",
-    "That's what drew me to Stayza. Students were finding hostels through scattered social media posts and word of mouth, so I built a platform to centralize it: authentication, listings, search, a verification workflow, an admin dashboard, and a production deployment. I own the whole stack, and I like it that way. Backend architecture and database design are where I spend most of my attention, because that's usually where reliability is won or lost.",
-    "I care about writing systems that are easy to reason about months later, not just ones that work today. That means simple structure over clever structure, and shipping something real instead of polishing something theoretical.",
-    "My goal is to grow into a software engineer who can design and ship scalable systems end to end, on a team, at a level beyond what one founder working alone can build."
+    "I'm a Computer Science student at NUST, and the project that shaped how I think about engineering is Stayza, a hostel discovery platform I designed, built, and shipped to production on my own. The app itself matters less than what building it taught me: how systems actually fail, why simple structure beats clever structure, and what it takes to own something end to end.",
+    "I'm naturally curious about how things work under the hood. I'd rather understand why a system is designed a certain way, and how it could be made simpler or more reliable, than treat it as a black box. Most of what I know came from building real things rather than following tutorials, which means I've learned as much from debugging production issues at 2am as from any course.",
+    "Running Stayza meant more than writing code. I made product decisions, designed the user experience, tested releases, and shaped the platform around real feedback. That combination of backend architecture and product judgment is the kind of engineer I'm trying to become: someone who can take a vague problem and come back with something people actually use.",
+    "Right now I'm focused on growing Stayza, digging deeper into distributed systems and backend architecture, and becoming the kind of engineer who could build products used by millions, not just hundreds. Outside of code, I spend a lot of time reading about how well-built software is designed and picking apart products I like to figure out what makes them reliable at scale."
   ],
   "mission": "To build scalable software, solve meaningful problems, and continuously grow as an engineer while creating technology that makes a lasting impact.",
   "motto": "Build with purpose. Learn continuously. Ship consistently.",
   "values": [
-    "Integrity",
-    "Continuous Learning",
-    "Discipline",
-    "Ownership",
-    "Problem Solving",
-    "Simplicity",
-    "Long Term Thinking"
+    "Ship before perfect.",
+    "Design for maintainability.",
+    "Solve root causes, not symptoms.",
+    "Keep systems understandable.",
+    "Build for users, not portfolios."
   ],
   "currentFocus": [
     "Iterating on Stayza with real users",
@@ -33,16 +31,12 @@
     "Strengthening core software engineering fundamentals"
   ],
   "interests": [
-    "Software Engineering",
-    "Full Stack Development",
-    "Backend Development",
-    "Database Engineering",
-    "System Design",
-    "Cloud Computing",
-    "Artificial Intelligence",
-    "Product Development",
-    "Startups",
-    "Open Source"
+    "Backend Engineering",
+    "Distributed Systems",
+    "Databases",
+    "Cloud Infrastructure",
+    "Product Engineering",
+    "AI Applications"
   ],
   "spokenLanguages": [
     { "name": "English" },

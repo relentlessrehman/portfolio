@@ -6,7 +6,7 @@
     "degree": "BS Computer Science",
     "location": "Islamabad, Pakistan",
     "period": {
-      "start": 2026,
+      "start": "2025-09",
       "end": 2029,
       "expected": true
     },
@@ -15,10 +15,10 @@
   },
   {
     "id": "fsc-pre-engineering",
-    "institution": "Government Higher Secondary School",
+    "institution": "Punjab College",
     "degree": "Intermediate (FSc Pre-Engineering)",
     "period": {
-      "start": 2023,
+      "start": "2023",
       "end": 2025,
       "expected": false
     },
@@ -26,7 +26,6 @@
   },
   {
     "id": "matriculation",
-    "institution": "Government High School No. 2",
     "degree": "Matriculation",
     "period": {
       "end": 2023,

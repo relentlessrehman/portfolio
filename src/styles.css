@@ -395,6 +395,55 @@
     }
   }
 
+  /*
+   * Nav drawer — slide-in sheet on a native <dialog>. `allow-discrete` +
+   * `@starting-style` let the browser animate both the open AND the
+   * close (dialog removal is deferred until the transition finishes),
+   * so no JS coordination is needed for the exit animation.
+   */
+  .nav-drawer {
+    translate: 100% 0;
+    transition:
+      translate var(--duration-slow) var(--ease-fluid),
+      overlay var(--duration-slow) var(--ease-fluid) allow-discrete,
+      display var(--duration-slow) var(--ease-fluid) allow-discrete;
+  }
+
+  .nav-drawer[open] {
+    translate: 0 0;
+  }
+
+  @starting-style {
+    .nav-drawer[open] {
+      translate: 100% 0;
+    }
+  }
+
+  .nav-drawer::backdrop {
+    opacity: 0;
+    transition: opacity var(--duration-slow) var(--ease-fluid);
+  }
+
+  .nav-drawer[open]::backdrop {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .nav-drawer[open]::backdrop {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-drawer {
+      transition: none;
+    }
+
+    .nav-drawer::backdrop {
+      transition: none;
+    }
+  }
+
   /* Aurora background — layered animated blobs behind everything */
   .aurora-layer {
     position: fixed;

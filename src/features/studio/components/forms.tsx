@@ -336,10 +336,9 @@ export function EducationForm({
       </FieldRow>
       <FieldRow>
         <TextField
-          label="Institution"
-          value={value.institution}
-          onChange={(v) => onChange({ ...value, institution: v })}
-          required
+          label="Institution (optional)"
+          value={value.institution ?? ''}
+          onChange={(v) => onChange({ ...value, institution: v || undefined })}
         />
         <TextField
           label="School / faculty (optional)"
@@ -354,10 +353,13 @@ export function EducationForm({
       />
       <FieldGroup title="Period">
         <FieldRow>
-          <NumberField
-            label="Start year (optional)"
-            value={value.period.start}
-            onChange={(v) => onChange({ ...value, period: { ...value.period, start: v } })}
+          <TextField
+            label="Start (optional)"
+            value={value.period.start ?? ''}
+            onChange={(v) =>
+              onChange({ ...value, period: { ...value.period, start: v || undefined } })
+            }
+            hint="YYYY or YYYY-MM"
           />
           <NumberField
             label="End year"

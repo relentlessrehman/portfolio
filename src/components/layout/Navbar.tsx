@@ -1,12 +1,14 @@
 import { Link } from '@tanstack/react-router'
-import { ChevronDown, Search } from 'lucide-react'
+import { ChevronDown, Menu, Search } from 'lucide-react'
 import { content } from '#/content'
 import { exploreNav, primaryNav } from '#/config/nav'
 import { openCommandPalette } from '#/features/search/lib/palette-events'
+import { openMobileNav } from './nav-drawer-events'
 
 /**
- * Top bar: brand + desktop links. Mobile navigation lives in the
- * bottom bar (BottomNav) — no hamburger menu.
+ * Top bar: brand + desktop links. Mobile primary navigation lives in
+ * BottomNav; the menu button here (mobile-only) opens MobileNavDrawer
+ * for everything else on the site.
  */
 export function Navbar() {
   return (
@@ -28,6 +30,15 @@ export function Navbar() {
           >
             <Search className="size-4" aria-hidden />
             <kbd className="hidden font-mono text-mono-sm md:inline">Ctrl+K</kbd>
+          </button>
+
+          <button
+            type="button"
+            onClick={openMobileNav}
+            aria-label="Open site menu"
+            className="flex items-center gap-2 rounded-full p-2.5 text-muted-foreground transition-colors duration-(--duration-fast) hover:text-foreground md:hidden"
+          >
+            <Menu className="size-4" aria-hidden />
           </button>
 
           {primaryNav.length > 0 ? (

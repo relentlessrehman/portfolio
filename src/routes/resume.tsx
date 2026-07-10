@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Download, Printer } from 'lucide-react'
+import { Download, ExternalLink } from 'lucide-react'
 import { content } from '#/content'
 import { seoHead } from '#/lib/seo/meta'
 import { formatDate } from '#/lib/dates'
@@ -19,32 +19,35 @@ export const Route = createFileRoute('/resume')({
 })
 
 function ResumePage() {
-  const current = content.resume.versions[0]
+  const pdf = content.resume.versions.find((v) => v.id === 'pdf')
+  const styled = content.resume.versions.find((v) => v.id === 'html')
 
   return (
     <Container className="py-section-sm">
       <SectionHeader as="h1" eyebrow="Resume" title="Resume" />
 
-      {current ? (
-        <div className="mt-8 grid gap-6">
-          <div className="flex flex-wrap items-center gap-3 print:hidden">
-            <a href={current.url} download>
-              <Button type="button">
-                <Download className="size-4" aria-hidden /> Download PDF
-              </Button>
-            </a>
-            <Button type="button" variant="secondary" onClick={() => window.print()}>
-              <Printer className="size-4" aria-hidden /> Print
-            </Button>
-            {content.resume.updatedAt ? (
-              <span className="text-small text-muted-foreground">
-                Last updated {formatDate(content.resume.updatedAt)}
-              </span>
-            ) : null}
-          </div>
-          <div className="overflow-hidden rounded-md border border-border print:hidden">
-            <iframe title={current.label} src={current.url} className="h-[85vh] w-full" />
-          </div>
+      {pdf || styled ? (
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          {pdf ? (
+            <div className="flex flex-col items-start gap-3 rounded-md border border-border bg-surface p-6">
+              <a href={pdf.url} download>
+                <Button type="button">
+                  <Download className="size-4" aria-hidden /> Download Resume (PDF)
+                </Button>
+              </a>
+              {pdf.note ? <p className="text-small text-muted-foreground">{pdf.note}</p> : null}
+            </div>
+          ) : null}
+          {styled ? (
+            <div className="flex flex-col items-start gap-3 rounded-md border border-border bg-surface p-6">
+              <a href={styled.url} target="_blank" rel="noopener noreferrer">
+                <Button type="button" variant="secondary">
+                  <ExternalLink className="size-4" aria-hidden /> View Styled Version
+                </Button>
+              </a>
+              {styled.note ? <p className="text-small text-muted-foreground">{styled.note}</p> : null}
+            </div>
+          ) : null}
         </div>
       ) : (
         <div className="mt-8 rounded-md border border-border bg-surface p-10 text-center">
@@ -59,6 +62,12 @@ function ResumePage() {
           </a>
         </div>
       )}
+
+      {content.resume.updatedAt ? (
+        <p className="mt-6 text-small text-muted-foreground">
+          Last updated {formatDate(content.resume.updatedAt)}
+        </p>
+      ) : null}
     </Container>
   )
 }

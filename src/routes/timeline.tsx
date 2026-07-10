@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { seoHead } from '#/lib/seo/meta'
-import { timelineByYear } from '#/features/timeline/lib/build-timeline'
+import { timelineByPeriod } from '#/features/timeline/lib/build-timeline'
 import { Container } from '#/components/shared/Container'
 import { SectionHeader } from '#/components/shared/SectionHeader'
 import { Reveal } from '#/components/motion/Reveal'
@@ -28,7 +28,7 @@ const categoryStyles: Record<TimelineCategory, { label: string; dot: string }> =
 }
 
 function TimelinePage() {
-  const years = timelineByYear()
+  const periods = timelineByPeriod()
 
   return (
     <Container className="py-section-sm">
@@ -40,9 +40,9 @@ function TimelinePage() {
       />
 
       <div className="space-y-12">
-        {years.map(({ year, events }) => (
-          <section key={year}>
-            <h2 className="mb-6 font-display text-title-1 text-foreground">{year}</h2>
+        {periods.map(({ key, label, events }) => (
+          <section key={key}>
+            <h2 className="mb-6 font-display text-title-1 text-foreground">{label}</h2>
             <ol className="relative space-y-6 border-l border-border pl-8">
               {events.map((event, index) => {
                 const style = categoryStyles[event.category]

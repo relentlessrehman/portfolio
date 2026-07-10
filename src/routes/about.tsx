@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { ArrowUpRight } from 'lucide-react'
-import { content, featuredSocials } from '#/content'
+import { Check } from 'lucide-react'
+import { content } from '#/content'
 import { seoHead } from '#/lib/seo/meta'
 import { personJsonLd } from '#/lib/seo/jsonld'
 import { JsonLd } from '#/components/shared/JsonLd'
@@ -35,12 +35,26 @@ function AboutPage() {
             ))}
           </div>
 
-          <figure className="mt-10 border-l-2 border-accent pl-6">
-            <blockquote className="font-serif text-title-3 text-foreground italic">
-              “{profile.mission}”
-            </blockquote>
-            <figcaption className="mt-2 text-small text-subtle-foreground">Mission</figcaption>
-          </figure>
+          <div className="mt-10 rounded-md border border-border bg-surface p-6">
+            <h2 className="font-mono text-mono-sm tracking-widest text-subtle-foreground uppercase">
+              Mission
+            </h2>
+            <p className="mt-3 font-display text-title-3 text-foreground">{profile.mission}</p>
+          </div>
+
+          <div className="mt-10">
+            <h2 className="mb-3 font-mono text-mono-sm tracking-widest text-subtle-foreground uppercase">
+              What I believe
+            </h2>
+            <ul className="space-y-2.5">
+              {profile.values.map((value) => (
+                <li key={value} className="flex items-start gap-2.5 text-body-lg text-muted-foreground">
+                  <Check className="mt-1 size-4 shrink-0 text-accent" aria-hidden />
+                  {value}
+                </li>
+              ))}
+            </ul>
+          </div>
         </Reveal>
         <Reveal delay={0.1}>
           <div className="space-y-8">
@@ -57,52 +71,7 @@ function AboutPage() {
               </div>
             ) : null}
 
-            <FactList
-              title="Values"
-              items={profile.values}
-            />
-            <FactList
-              title="Interests"
-              items={profile.interests}
-            />
-            <div>
-              <h2 className="mb-3 font-mono text-mono-sm tracking-widest text-subtle-foreground uppercase">
-                Languages
-              </h2>
-              <ul className="space-y-1.5">
-                {profile.spokenLanguages.map((language) => (
-                  <li key={language.name} className="text-small text-muted-foreground">
-                    {language.name}
-                    {language.note ? (
-                      <span className="text-subtle-foreground"> — {language.note}</span>
-                    ) : null}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h2 className="mb-3 font-mono text-mono-sm tracking-widest text-subtle-foreground uppercase">
-                Find me
-              </h2>
-              <ul className="space-y-1.5">
-                {featuredSocials.map((link) => (
-                  <li key={link.platform}>
-                    <a
-                      href={link.url}
-                      target={link.platform === 'email' ? undefined : '_blank'}
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-0.5 text-small text-accent hover:underline"
-                    >
-                      {link.label}
-                      {link.handle ? ` (${link.handle})` : ''}
-                      {link.platform !== 'email' ? (
-                        <ArrowUpRight className="size-3.5" aria-hidden />
-                      ) : null}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <FactList title="Technologies I enjoy" items={profile.interests} />
           </div>
         </Reveal>
       </div>

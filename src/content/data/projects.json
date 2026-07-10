@@ -11,7 +11,7 @@
     "role": "Founder & Full Stack Developer",
     "teamSize": 1,
     "timeline": {
-      "start": "2026"
+      "start": "2026-04"
     },
     "publishedAt": "2026-07",
     "updatedAt": "2026-07",
@@ -90,7 +90,7 @@
     "role": "Backend Developer",
     "teamSize": 2,
     "timeline": {
-      "start": "2026-07"
+      "start": "2026-05"
     },
     "techStack": [
       "Flutter",
@@ -206,7 +206,7 @@
     "role": "Developer",
     "teamSize": 1,
     "timeline": {
-      "start": "2025"
+      "start": "2026-05"
     },
     "techStack": [
       "Python",

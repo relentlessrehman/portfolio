@@ -9,8 +9,6 @@ import { SkillIconCard } from '#/components/shared/SkillIconCard'
 import { Reveal } from '#/components/motion/Reveal'
 import type { Project } from '#/content/schemas/project'
 
-const LEAD_TECH_MAX = 6
-
 /**
  * Bento layout: the first featured project gets the large cell, the rest
  * stack beside it. Degrades gracefully to a single wide card or a plain
@@ -68,7 +66,6 @@ export function FeaturedProjects() {
 function LeadProjectCard({ project }: { project: Project }) {
   const problem = project.caseStudy?.problem?.[0]
   const approach = project.caseStudy?.implementation?.[0]
-  const overflow = project.techStack.length - LEAD_TECH_MAX
 
   return (
     <Link to="/projects/$slug" params={{ slug: project.slug }} className="group block h-full">
@@ -108,14 +105,11 @@ function LeadProjectCard({ project }: { project: Project }) {
         ) : null}
 
         <ul className="mt-5 flex flex-wrap gap-1.5" aria-label="Technologies used">
-          {project.techStack.slice(0, LEAD_TECH_MAX).map((tech) => (
+          {project.techStack.map((tech) => (
             <li key={tech}>
               <SkillIconCard name={tech} size="sm" />
             </li>
           ))}
-          {overflow > 0 ? (
-            <li className="self-center text-small text-subtle-foreground">+{overflow} more</li>
-          ) : null}
         </ul>
 
         <p className="mt-6 inline-flex items-center gap-1 text-small text-accent">
