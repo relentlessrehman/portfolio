@@ -1,20 +1,14 @@
+import { createHash, timingSafeEqual } from 'node:crypto'
 import { createServerFn } from '@tanstack/react-start'
+import { getSession, useSession } from '@tanstack/react-start/server'
 import { getAdminSupabaseClient } from './supabase'
-import { getDashboardAllowedEmail, isDashboardConfigured } from './env'
-
-/**
- * Checked before the client ever calls signInWithOtp, so Supabase's magic-link
- * email is never sent to an address that couldn't get into /dashboard anyway.
- * Without this, anyone typing random emails into the sign-in form would burn
- * through Supabase's (low) email rate limit and spam real inboxes.
- */
-export const isDashboardEmailAllowed = createServerFn({ method: 'POST' })
-  .validator((input: { email: string }) => input)
-  .handler(({ data }): boolean => {
-    const allowedEmail = getDashboardAllowedEmail()
-    if (!allowedEmail) return false
-    return data.email.trim().toLowerCase() === allowedEmail.toLowerCase()
-  })
+import {
+  getDashboardPassword,
+  getDashboardSecurityAnswer,
+  getDashboardSecurityQuestion,
+  getDashboardSessionSecret,
+  isDashboardConfigured,
+} from './env'
 
 export interface ContactMessageRow {
   id: string
@@ -34,27 +28,81 @@ export type DashboardResult =
   | { ok: true; data: DashboardData }
   | { ok: false; reason: 'not-configured' | 'unauthorized' }
 
-async function verifyAllowedUser(accessToken: string): Promise<boolean> {
-  const admin = getAdminSupabaseClient()
-  const allowedEmail = getDashboardAllowedEmail()
-  if (!admin || !allowedEmail) return false
-  const { data, error } = await admin.auth.getUser(accessToken)
-  if (error || !data.user?.email) return false
-  return data.user.email.toLowerCase() === allowedEmail.toLowerCase()
+interface DashboardSessionData {
+  authenticated?: boolean
 }
 
+function dashboardSessionConfig() {
+  return {
+    password: getDashboardSessionSecret()!,
+    name: 'dashboard',
+    maxAge: 60 * 60 * 24 * 30,
+  }
+}
+
+function hash(value: string): Buffer {
+  return createHash('sha256').update(value).digest()
+}
+
+/** Constant-time compare, hashed first so differing lengths don't leak via timing. */
+function secureEqual(candidate: string, expected: string): boolean {
+  return timingSafeEqual(hash(candidate), hash(expected))
+}
+
+function normalize(value: string): string {
+  return value.trim().toLowerCase()
+}
+
+/** Question text only — safe to send to an unauthenticated client. Answers never leave the server. */
+export const getDashboardSecurityQuestions = createServerFn({ method: 'GET' }).handler(
+  (): { question1: string; question2: string } | null => {
+    const question1 = getDashboardSecurityQuestion(1)
+    const question2 = getDashboardSecurityQuestion(2)
+    if (!question1 || !question2) return null
+    return { question1, question2 }
+  },
+)
+
+export const dashboardSignIn = createServerFn({ method: 'POST' })
+  .validator((input: { password: string; answer1: string; answer2: string }) => input)
+  .handler(async ({ data }): Promise<{ ok: boolean }> => {
+    const expectedPassword = getDashboardPassword()
+    const expectedAnswer1 = getDashboardSecurityAnswer(1)
+    const expectedAnswer2 = getDashboardSecurityAnswer(2)
+    if (
+      !expectedPassword ||
+      !expectedAnswer1 ||
+      !expectedAnswer2 ||
+      !getDashboardSessionSecret()
+    ) {
+      return { ok: false }
+    }
+
+    const passwordOk = secureEqual(data.password, expectedPassword)
+    const answer1Ok = secureEqual(normalize(data.answer1), normalize(expectedAnswer1))
+    const answer2Ok = secureEqual(normalize(data.answer2), normalize(expectedAnswer2))
+    if (!passwordOk || !answer1Ok || !answer2Ok) return { ok: false }
+
+    const session = await useSession<DashboardSessionData>(dashboardSessionConfig())
+    await session.update({ authenticated: true })
+    return { ok: true }
+  })
+
+export const dashboardSignOut = createServerFn({ method: 'POST' }).handler(async () => {
+  const session = await useSession<DashboardSessionData>(dashboardSessionConfig())
+  await session.clear()
+})
+
 /**
- * The client sends its Supabase access token; we verify it server-side
- * against the allowlisted email before ever touching the service-role
- * client. The service-role key itself never leaves the server.
+ * Reads the sealed session cookie set by dashboardSignIn — no token needs to
+ * be sent from the client, the browser just carries the cookie automatically.
  */
-export const getDashboardData = createServerFn({ method: 'POST' })
-  .validator((input: { accessToken: string }) => input)
-  .handler(async ({ data }): Promise<DashboardResult> => {
+export const getDashboardData = createServerFn({ method: 'POST' }).handler(
+  async (): Promise<DashboardResult> => {
     if (!isDashboardConfigured()) return { ok: false, reason: 'not-configured' }
 
-    const authorized = await verifyAllowedUser(data.accessToken)
-    if (!authorized) return { ok: false, reason: 'unauthorized' }
+    const session = await getSession<DashboardSessionData>(dashboardSessionConfig())
+    if (!session.data.authenticated) return { ok: false, reason: 'unauthorized' }
 
     const admin = getAdminSupabaseClient()!
     const [{ data: messages }, { data: events }] = await Promise.all([
@@ -87,4 +135,5 @@ export const getDashboardData = createServerFn({ method: 'POST' })
         totalViews: events?.length ?? 0,
       },
     }
-  })
+  },
+)

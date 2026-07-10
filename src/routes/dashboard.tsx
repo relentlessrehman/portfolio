@@ -1,10 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { useServerFn } from '@tanstack/react-start'
-import { getDashboardData, isDashboardEmailAllowed } from '#/server/dashboard'
-import { isSupabaseAuthConfigured, supabaseBrowser } from '#/features/dashboard/lib/supabase-browser'
+import {
+  dashboardSignIn,
+  dashboardSignOut,
+  getDashboardData,
+  getDashboardSecurityQuestions,
+} from '#/server/dashboard'
 import { Container } from '#/components/shared/Container'
-import { Button } from '#/components/ui/button'
+import { Button, buttonVariants } from '#/components/ui/button'
 import type { DashboardData } from '#/server/dashboard'
 import type { FormEvent } from 'react'
 
@@ -15,61 +19,61 @@ export const Route = createFileRoute('/dashboard')({
   component: DashboardPage,
 })
 
-type Phase = 'loading' | 'signed-out' | 'sent-link' | 'unauthorized' | 'ready' | 'unavailable'
+type Phase = 'loading' | 'signed-out' | 'unauthorized' | 'ready' | 'unavailable'
 
 function DashboardPage() {
-  const [phase, setPhase] = useState<Phase>(isSupabaseAuthConfigured ? 'loading' : 'unavailable')
-  const [email, setEmail] = useState('')
+  const [phase, setPhase] = useState<Phase>('loading')
+  const [password, setPassword] = useState('')
+  const [answer1, setAnswer1] = useState('')
+  const [answer2, setAnswer2] = useState('')
+  const [questions, setQuestions] = useState<{ question1: string; question2: string } | null>(
+    null,
+  )
   const [data, setData] = useState<DashboardData | null>(null)
   const fetchData = useServerFn(getDashboardData)
-  const checkEmailAllowed = useServerFn(isDashboardEmailAllowed)
+  const fetchQuestions = useServerFn(getDashboardSecurityQuestions)
+  const signIn = useServerFn(dashboardSignIn)
+  const signOut = useServerFn(dashboardSignOut)
 
   useEffect(() => {
-    if (!supabaseBrowser) return
-
-    async function loadDashboard(accessToken: string) {
-      const result = await fetchData({ data: { accessToken } })
+    fetchData().then((result) => {
       if (result.ok) {
         setData(result.data)
         setPhase('ready')
       } else if (result.reason === 'unauthorized') {
-        setPhase('unauthorized')
+        setPhase('signed-out')
       } else {
         setPhase('unavailable')
       }
-    }
-
-    supabaseBrowser.auth.getSession().then(({ data: { session } }) => {
-      if (session) void loadDashboard(session.access_token)
-      else setPhase('signed-out')
     })
+  }, [fetchData])
 
-    const { data: subscription } = supabaseBrowser.auth.onAuthStateChange((_event, session) => {
-      if (session) void loadDashboard(session.access_token)
-      else setPhase('signed-out')
-    })
-
-    return () => subscription.subscription.unsubscribe()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  useEffect(() => {
+    if (phase !== 'signed-out' && phase !== 'unauthorized') return
+    fetchQuestions().then(setQuestions)
+  }, [phase, fetchQuestions])
 
   async function handleSignIn(event: FormEvent) {
     event.preventDefault()
-    if (!supabaseBrowser) return
-    const allowed = await checkEmailAllowed({ data: { email } })
-    if (!allowed) {
+    const result = await signIn({ data: { password, answer1, answer2 } })
+    setPassword('')
+    setAnswer1('')
+    setAnswer2('')
+    if (!result.ok) {
       setPhase('unauthorized')
       return
     }
-    await supabaseBrowser.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: window.location.href },
-    })
-    setPhase('sent-link')
+    const dashboard = await fetchData()
+    if (dashboard.ok) {
+      setData(dashboard.data)
+      setPhase('ready')
+    } else {
+      setPhase('unavailable')
+    }
   }
 
   async function handleSignOut() {
-    await supabaseBrowser?.auth.signOut()
+    await signOut()
     setData(null)
     setPhase('signed-out')
   }
@@ -78,14 +82,7 @@ function DashboardPage() {
     return (
       <Container className="py-section-sm">
         <h1 className="text-title-1 font-semibold text-foreground">Dashboard unavailable</h1>
-        <p className="mt-3 text-body text-muted-foreground">
-          This needs a configured Supabase project (URL, anon key, service-role key, and an
-          allowed email). See{' '}
-          <code className="rounded-sm bg-surface px-1.5 py-0.5 font-mono text-mono-sm">
-            docs/BACKEND.md
-          </code>
-          .
-        </p>
+        <p className="mt-3 text-body text-muted-foreground">This page isn't set up yet.</p>
       </Container>
     )
   }
@@ -98,32 +95,52 @@ function DashboardPage() {
     )
   }
 
-  if (phase === 'signed-out' || phase === 'sent-link' || phase === 'unauthorized') {
+  if (phase === 'signed-out' || phase === 'unauthorized') {
     return (
       <Container className="py-section-sm">
         <h1 className="text-title-1 font-semibold text-foreground">Dashboard sign-in</h1>
         {phase === 'unauthorized' ? (
           <p className="mt-3 text-body text-danger">
-            That account isn't allowed here. Signed in with the wrong email?
+            Wrong password or answer. All three must be correct.
           </p>
         ) : null}
-        {phase === 'sent-link' ? (
-          <p className="mt-3 max-w-md text-body text-muted-foreground">
-            Check your inbox — click the link to finish signing in.
-          </p>
-        ) : (
-          <form onSubmit={handleSignIn} className="mt-6 flex max-w-sm gap-2">
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="you@example.com"
-              className="h-11 w-full rounded-md border border-border bg-surface px-3 text-body text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-            />
-            <Button type="submit">Send link</Button>
-          </form>
-        )}
+        <form onSubmit={handleSignIn} className="mt-6 grid max-w-sm gap-4">
+          <input
+            type="password"
+            required
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="Password"
+            className="h-11 w-full rounded-md border border-border bg-surface px-3 text-body text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          />
+          {questions ? (
+            <>
+              <label className="grid gap-1.5">
+                <span className="text-small text-muted-foreground">{questions.question1}</span>
+                <input
+                  type="text"
+                  required
+                  value={answer1}
+                  onChange={(event) => setAnswer1(event.target.value)}
+                  className="h-11 w-full rounded-md border border-border bg-surface px-3 text-body text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                />
+              </label>
+              <label className="grid gap-1.5">
+                <span className="text-small text-muted-foreground">{questions.question2}</span>
+                <input
+                  type="text"
+                  required
+                  value={answer2}
+                  onChange={(event) => setAnswer2(event.target.value)}
+                  className="h-11 w-full rounded-md border border-border bg-surface px-3 text-body text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                />
+              </label>
+            </>
+          ) : null}
+          <Button type="submit" className="justify-self-start">
+            Sign in
+          </Button>
+        </form>
       </Container>
     )
   }
@@ -132,9 +149,16 @@ function DashboardPage() {
     <Container className="py-section-sm">
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-title-1 font-semibold text-foreground">Dashboard</h1>
-        <Button type="button" variant="ghost" size="sm" onClick={handleSignOut}>
-          Sign out
-        </Button>
+        <div className="flex items-center gap-2">
+          {import.meta.env.DEV ? (
+            <Link to="/studio" className={buttonVariants({ variant: 'secondary', size: 'sm' })}>
+              Open Studio
+            </Link>
+          ) : null}
+          <Button type="button" variant="ghost" size="sm" onClick={handleSignOut}>
+            Sign out
+          </Button>
+        </div>
       </div>
 
       <section className="mt-10">

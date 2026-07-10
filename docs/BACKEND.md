@@ -22,7 +22,12 @@ Copy `.env.example` to `.env` and fill in:
 VITE_SUPABASE_URL=             # Project Settings -> API -> Project URL
 VITE_SUPABASE_ANON_KEY=        # Project Settings -> API -> anon public key
 SUPABASE_SERVICE_ROLE_KEY=     # Project Settings -> API -> service_role secret (keep secret!)
-DASHBOARD_ALLOWED_EMAIL=       # your email — the only one allowed into /dashboard
+DASHBOARD_PASSWORD=            # the password you'll type into /dashboard
+DASHBOARD_SESSION_SECRET=      # random 32+ char string, e.g. `openssl rand -hex 32`
+DASHBOARD_SECURITY_QUESTION_1= # shown on the sign-in form, e.g. "What street did you grow up on?"
+DASHBOARD_SECURITY_ANSWER_1=   # matched case-insensitively
+DASHBOARD_SECURITY_QUESTION_2=
+DASHBOARD_SECURITY_ANSWER_2=
 ```
 
 Restart `npm run dev` after editing `.env`. The contact form on the home
@@ -47,14 +52,16 @@ domain, good enough for low-volume notification email. Verify your own
 domain in Resend later if you want mail to come from `you@yourdomain.com`
 (`src/server/resend.ts` — change the `from` field once you do).
 
-## 4. Set up dashboard sign-in (Supabase Auth)
+## 4. Dashboard sign-in
 
-The dashboard at `/dashboard` uses Supabase Auth's magic-link email sign-in,
-restricted to `DASHBOARD_ALLOWED_EMAIL`. No extra setup needed beyond having
-a Supabase project — magic links are enabled by default. Go to
-**Authentication → URL Configuration** in the Supabase dashboard and add
-your site's URL (e.g. `http://localhost:3000` while developing, your real
-domain once deployed) to the allowed redirect URLs.
+`/dashboard` is protected by a shared password (`DASHBOARD_PASSWORD`) plus
+two security questions (`DASHBOARD_SECURITY_QUESTION_1/2` and
+`DASHBOARD_SECURITY_ANSWER_1/2`) — all three must be correct. Checked
+server-side and backed by a sealed, httpOnly session cookie
+(`DASHBOARD_SESSION_SECRET`) — no Supabase Auth, no email involved. This
+project is single-user, so this is simpler than email sign-in and doesn't
+depend on Supabase's (rate-limited) email sending. Nothing to configure in
+the Supabase dashboard for this — it's purely the env vars above.
 
 ## What's cookie-less about the analytics
 
