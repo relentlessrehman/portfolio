@@ -90,7 +90,8 @@
     "role": "Backend Developer",
     "teamSize": 2,
     "timeline": {
-      "start": "2026-05"
+      "start": "2026-05",
+      "durationOverride": "4 days"
     },
     "techStack": [
       "Flutter",

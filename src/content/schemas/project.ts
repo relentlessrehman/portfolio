@@ -131,6 +131,8 @@ export const projectSchema = z
     timeline: z.object({
       start: dateString,
       end: dateString.optional(),
+      /** Override the computed "Development time" label, e.g. "4 days" for a hackathon */
+      durationOverride: z.string().min(1).optional(),
     }),
     /** Optional lifecycle stages — renders the project timeline section */
     stages: z.array(projectStageSchema).default([]),

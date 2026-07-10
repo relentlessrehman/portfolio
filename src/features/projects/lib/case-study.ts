@@ -92,6 +92,7 @@ function toMonths(date: string, fallbackMonth: number): number {
 
 /** Human development time, e.g. "4 mo" or "1 yr 3 mo" — ongoing counts to now */
 export function formatDuration(timeline: Project['timeline'], now = new Date()): string {
+  if (timeline.durationOverride) return timeline.durationOverride
   const start = toMonths(timeline.start, 1)
   const end = timeline.end
     ? toMonths(timeline.end, 12)
