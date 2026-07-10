@@ -2,6 +2,20 @@ import { createServerFn } from '@tanstack/react-start'
 import { getAdminSupabaseClient } from './supabase'
 import { getDashboardAllowedEmail, isDashboardConfigured } from './env'
 
+/**
+ * Checked before the client ever calls signInWithOtp, so Supabase's magic-link
+ * email is never sent to an address that couldn't get into /dashboard anyway.
+ * Without this, anyone typing random emails into the sign-in form would burn
+ * through Supabase's (low) email rate limit and spam real inboxes.
+ */
+export const isDashboardEmailAllowed = createServerFn({ method: 'POST' })
+  .validator((input: { email: string }) => input)
+  .handler(({ data }): boolean => {
+    const allowedEmail = getDashboardAllowedEmail()
+    if (!allowedEmail) return false
+    return data.email.trim().toLowerCase() === allowedEmail.toLowerCase()
+  })
+
 export interface ContactMessageRow {
   id: string
   name: string

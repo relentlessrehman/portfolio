@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { useServerFn } from '@tanstack/react-start'
-import { getDashboardData } from '#/server/dashboard'
+import { getDashboardData, isDashboardEmailAllowed } from '#/server/dashboard'
 import { isSupabaseAuthConfigured, supabaseBrowser } from '#/features/dashboard/lib/supabase-browser'
 import { Container } from '#/components/shared/Container'
 import { Button } from '#/components/ui/button'
@@ -22,6 +22,7 @@ function DashboardPage() {
   const [email, setEmail] = useState('')
   const [data, setData] = useState<DashboardData | null>(null)
   const fetchData = useServerFn(getDashboardData)
+  const checkEmailAllowed = useServerFn(isDashboardEmailAllowed)
 
   useEffect(() => {
     if (!supabaseBrowser) return
@@ -55,6 +56,11 @@ function DashboardPage() {
   async function handleSignIn(event: FormEvent) {
     event.preventDefault()
     if (!supabaseBrowser) return
+    const allowed = await checkEmailAllowed({ data: { email } })
+    if (!allowed) {
+      setPhase('unauthorized')
+      return
+    }
     await supabaseBrowser.auth.signInWithOtp({
       email,
       options: { emailRedirectTo: window.location.href },
