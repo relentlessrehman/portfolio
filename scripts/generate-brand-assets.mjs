@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 /**
- * Generates the app icons and default OG image from the design tokens in
- * src/styles.css, so they're actually on-brand instead of the scaffolder's
- * placeholder TanStack logos. Re-run after changing the accent color or
- * the profile name/role:
+ * Generates the app icons and default OG image from the v2 design system
+ * (DESIGN.md §7, §8, §10): void background, the Core as the mark, Geist type.
+ * Re-run after changing the palette or the profile name:
  *
  *   npm run brand:assets
+ *
+ * satori needs static TTF/OTF, so assets-src/fonts holds Geist instances
+ * (made with fontTools from the variable woff2 in public/fonts).
  */
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -13,47 +15,28 @@ import satori from 'satori'
 import { Resvg } from '@resvg/resvg-js'
 import profile from '../src/content/data/profile.json' with { type: 'json' }
 
-/* ── OKLCH -> sRGB hex (styles.css tokens use OKLCH; satori needs hex) ─── */
-
-function oklchToHex(l, c, h) {
-  const hRad = (h * Math.PI) / 180
-  const a = c * Math.cos(hRad)
-  const b = c * Math.sin(hRad)
-
-  const l_ = l + 0.3963377774 * a + 0.2158037573 * b
-  const m_ = l - 0.1055613458 * a - 0.0638541728 * b
-  const s_ = l - 0.0894841775 * a - 1.2914855480 * b
-
-  const l3 = l_ ** 3
-  const m3 = m_ ** 3
-  const s3 = s_ ** 3
-
-  const r = 4.0767416621 * l3 - 3.3077115913 * m3 + 0.2309699292 * s3
-  const g = -1.2684380046 * l3 + 2.6097574011 * m3 - 0.3413193965 * s3
-  const bChannel = -0.0041960863 * l3 - 0.7034186147 * m3 + 1.707614701 * s3
-
-  const toSrgb = (channel) => {
-    const clamped = Math.max(0, Math.min(1, channel))
-    const encoded = clamped <= 0.0031308 ? 12.92 * clamped : 1.055 * clamped ** (1 / 2.4) - 0.055
-    return Math.round(Math.max(0, Math.min(1, encoded)) * 255)
-  }
-
-  const toHex = (n) => n.toString(16).padStart(2, '0')
-  return `#${toHex(toSrgb(r))}${toHex(toSrgb(g))}${toHex(toSrgb(bChannel))}`
-}
-
 const COLOR = {
-  background: oklchToHex(0.16, 0.005, 80),
-  foreground: oklchToHex(0.93, 0.006, 80),
-  mutedForeground: oklchToHex(0.71, 0.012, 80),
-  accent: oklchToHex(0.8, 0.115, 80),
-  accentForeground: oklchToHex(0.18, 0.03, 80),
+  void: '#050507',
+  foreground: '#ededf2',
+  muted: '#a1a1ad',
+  subtle: '#7a7a85',
+  core: '#a5a6f6',
 }
 
-const fontData = await readFile(
-  path.resolve('node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff'),
-)
-const fonts = [{ name: 'Instrument Serif', data: fontData, weight: 400, style: 'normal' }]
+const fonts = [
+  {
+    name: 'Geist',
+    data: await readFile(path.resolve('assets-src/fonts/geist-600.ttf')),
+    weight: 600,
+    style: 'normal',
+  },
+  {
+    name: 'Geist Mono',
+    data: await readFile(path.resolve('assets-src/fonts/geist-mono-500.ttf')),
+    weight: 500,
+    style: 'normal',
+  },
+]
 
 async function renderPng(element, width, height) {
   const svg = await satori(element, { width, height, fonts })
@@ -61,14 +44,29 @@ async function renderPng(element, width, height) {
   return resvg.render().asPng()
 }
 
-const initials = profile.name
-  .split(' ')
-  .map((part) => part[0])
-  .join('')
-  .slice(0, 2)
-  .toUpperCase()
+/** The Core as a still: glass sphere, window highlight, caustic at the lower rim */
+function core(size) {
+  return {
+    type: 'div',
+    props: {
+      style: {
+        width: size,
+        height: size,
+        borderRadius: size,
+        display: 'flex',
+        backgroundImage: [
+          'radial-gradient(circle at 31% 26%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.35) 4%, rgba(255,255,255,0) 11%)',
+          'radial-gradient(circle at 62% 80%, rgba(190,192,255,0.75) 0%, rgba(150,152,255,0.25) 18%, rgba(110,111,242,0) 36%)',
+          'radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 62%, rgba(165,166,246,0.35) 69%, rgba(220,221,255,0.75) 71%, rgba(0,0,0,0) 72%)',
+          'radial-gradient(circle at 50% 75%, rgba(40,42,110,0.9) 0%, rgba(12,12,24,0.95) 70%)',
+        ].join(', '),
+        boxShadow: `0 0 ${size * 0.6}px rgba(110,111,242,0.35)`,
+      },
+    },
+  }
+}
 
-/* ── App icon: monogram on the accent color, matching the primary button ─ */
+/* ── App icon: the Core on the void ─────────────────────────────────── */
 
 function iconElement(size) {
   return {
@@ -80,21 +78,14 @@ function iconElement(size) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: COLOR.accent,
-        fontFamily: 'Instrument Serif',
+        backgroundColor: COLOR.void,
       },
-      children: {
-        type: 'span',
-        props: {
-          style: { fontSize: size * 0.46, color: COLOR.accentForeground, lineHeight: 1 },
-          children: initials,
-        },
-      },
+      children: core(size * 0.66),
     },
   }
 }
 
-/* ── Default OG image: name + role on the dark background ───────────────── */
+/* ── Default OG image: the first frame of the film ──────────────────── */
 
 function ogElement() {
   return {
@@ -106,30 +97,65 @@ function ogElement() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        padding: '0 90px',
-        backgroundColor: COLOR.background,
-        fontFamily: 'Instrument Serif',
+        padding: '0 88px',
+        backgroundColor: COLOR.void,
+        backgroundImage:
+          'radial-gradient(circle at 78% 42%, rgba(110,111,242,0.16) 0%, rgba(5,5,7,0) 45%)',
+        position: 'relative',
       },
       children: [
         {
           type: 'div',
           props: {
-            style: { fontSize: 30, color: COLOR.accent, letterSpacing: 2 },
-            children: profile.location.toUpperCase(),
+            style: {
+              position: 'absolute',
+              right: 120,
+              top: 170,
+              display: 'flex',
+            },
+            children: core(190),
           },
         },
         {
           type: 'div',
           props: {
-            style: { marginTop: 24, fontSize: 96, color: COLOR.foreground, lineHeight: 1.05 },
+            style: {
+              fontFamily: 'Geist Mono',
+              fontSize: 22,
+              color: COLOR.core,
+              letterSpacing: 1.5,
+              textTransform: 'uppercase',
+            },
+            children: `${profile.location} · Founder of Stayza`,
+          },
+        },
+        {
+          type: 'div',
+          props: {
+            style: {
+              marginTop: 26,
+              fontFamily: 'Geist',
+              fontSize: 132,
+              color: COLOR.foreground,
+              letterSpacing: -7,
+              lineHeight: 0.95,
+              maxWidth: 760,
+            },
             children: profile.name,
           },
         },
         {
           type: 'div',
           props: {
-            style: { marginTop: 20, fontSize: 34, color: COLOR.mutedForeground, maxWidth: 900 },
-            children: profile.headline,
+            style: {
+              marginTop: 30,
+              fontFamily: 'Geist Mono',
+              fontSize: 22,
+              color: COLOR.muted,
+              letterSpacing: 1.5,
+              textTransform: 'uppercase',
+            },
+            children: 'Software engineer · Product builder · Founder',
           },
         },
       ],
@@ -139,8 +165,19 @@ function ogElement() {
 
 await mkdir(path.resolve('public/og'), { recursive: true })
 
-await writeFile(path.resolve('public/icon-192.png'), await renderPng(iconElement(192), 192, 192))
-await writeFile(path.resolve('public/icon-512.png'), await renderPng(iconElement(512), 512, 512))
-await writeFile(path.resolve('public/og/default.png'), await renderPng(ogElement(), 1200, 630))
+await writeFile(
+  path.resolve('public/icon-192.png'),
+  await renderPng(iconElement(192), 192, 192),
+)
+await writeFile(
+  path.resolve('public/icon-512.png'),
+  await renderPng(iconElement(512), 512, 512),
+)
+await writeFile(
+  path.resolve('public/og/default.png'),
+  await renderPng(ogElement(), 1200, 630),
+)
 
-console.log('Generated public/icon-192.png, public/icon-512.png, public/og/default.png')
+console.log(
+  'Generated public/icon-192.png, public/icon-512.png, public/og/default.png',
+)

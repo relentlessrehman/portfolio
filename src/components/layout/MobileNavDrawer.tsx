@@ -3,11 +3,12 @@ import { Link } from '@tanstack/react-router'
 import { X } from 'lucide-react'
 import { footerGroups } from '#/config/nav'
 import { OPEN_MOBILE_NAV_EVENT } from './nav-drawer-events'
+import { MotionToggle } from './MotionToggle'
 
 /**
  * Mobile-only "more" drawer — reachable from the Navbar's menu button.
  * Lists every page (via footerGroups) so mobile users aren't limited to
- * the 5 items in BottomNav or to scrolling down to the Footer.
+ * the four top-bar links or to scrolling down to the credits.
  */
 export function MobileNavDrawer() {
   const dialogRef = useRef<HTMLDialogElement>(null)
@@ -21,7 +22,8 @@ export function MobileNavDrawer() {
       dialogRef.current?.showModal()
     }
     window.addEventListener(OPEN_MOBILE_NAV_EVENT, handleOpenEvent)
-    return () => window.removeEventListener(OPEN_MOBILE_NAV_EVENT, handleOpenEvent)
+    return () =>
+      window.removeEventListener(OPEN_MOBILE_NAV_EVENT, handleOpenEvent)
   }, [])
 
   return (
@@ -36,7 +38,9 @@ export function MobileNavDrawer() {
     >
       <div className="glass glass-strong flex h-full flex-col overflow-y-auto rounded-l-3xl border-y-0 border-r-0 p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
         <div className="flex items-center justify-between">
-          <span className="font-display text-title-3 text-foreground">Menu</span>
+          <span className="font-display text-title-3 text-foreground">
+            Menu
+          </span>
           <button
             type="button"
             onClick={close}
@@ -47,7 +51,9 @@ export function MobileNavDrawer() {
           </button>
         </div>
 
-        <nav aria-label="All pages" className="mt-6 flex-1 space-y-7">
+        <MotionToggle className="mt-4 -ml-3 text-muted-foreground" />
+
+        <nav aria-label="All pages" className="mt-4 flex-1 space-y-7">
           <div>
             <Link
               to="/"
@@ -57,8 +63,7 @@ export function MobileNavDrawer() {
               Home
             </Link>
             <Link
-              to="/"
-              hash="contact"
+              to="/contact"
               onClick={close}
               className="block rounded-lg px-2 py-2.5 text-body text-foreground hover:bg-surface"
             >

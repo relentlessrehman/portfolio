@@ -1,25 +1,28 @@
 import { Link } from '@tanstack/react-router'
 import { content, featuredSocials } from '#/content'
 import { footerGroups } from '#/config/nav'
-import { Container } from '#/components/shared/Container'
+import { MotionToggle } from './MotionToggle'
 
+/** End credits (STORYBOARD 14): every page, the people-facing links, the colophon */
 export function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="mt-section border-t border-border print:hidden">
-      <Container className="grid gap-10 py-12 md:grid-cols-[1fr_auto]">
-        <div className="max-w-sm">
-          <p className="font-display text-title-3 text-foreground">{content.profile.name}</p>
-          <p className="mt-2 text-small text-muted-foreground">{content.profile.mission}</p>
-          <ul className="mt-5 flex gap-4">
+    <footer className="credits print:hidden">
+      <div className="credits__inner">
+        <div className="credits__lead">
+          <p className="credits__name">{content.profile.name}</p>
+          <p className="nav-label text-subtle-foreground">
+            Software engineer · Product builder · Founder
+          </p>
+          <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
             {featuredSocials.map((link) => (
               <li key={link.platform}>
                 <a
                   href={link.url}
                   target={link.platform === 'email' ? undefined : '_blank'}
                   rel="noreferrer"
-                  className="text-small text-muted-foreground hover:text-foreground"
+                  className="nav-label text-muted-foreground hover:text-foreground"
                 >
                   {link.label}
                 </a>
@@ -28,11 +31,11 @@ export function Footer() {
           </ul>
         </div>
 
-        <nav aria-label="Footer" className="grid grid-cols-2 gap-10 sm:grid-cols-3 md:gap-14">
+        <nav aria-label="Footer" className="credits__nav">
           {footerGroups.map((group) =>
             group.items.length > 0 ? (
               <div key={group.title}>
-                <h2 className="mb-3 font-mono text-mono-sm tracking-widest text-subtle-foreground uppercase">
+                <h2 className="nav-label mb-4 text-subtle-foreground">
                   {group.title}
                 </h2>
                 <ul className="space-y-2.5">
@@ -60,13 +63,15 @@ export function Footer() {
             ) : null,
           )}
         </nav>
-      </Container>
+      </div>
 
-      <Container className="border-t border-border py-6">
+      <div className="credits__base">
         <p className="text-small text-subtle-foreground">
-          © {year} {content.profile.name}. {content.profile.motto}
+          © {year} {content.profile.name}. Built with TanStack Start, three.js
+          and GSAP. Set in Geist.
         </p>
-      </Container>
+        <MotionToggle className="text-subtle-foreground hover:text-foreground" />
+      </div>
     </footer>
   )
 }

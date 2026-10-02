@@ -11,49 +11,22 @@ export interface NavItem {
   href: string
 }
 
-export const primaryNav: Array<NavItem> = [
-  { label: 'Home', href: '/' },
-  { label: 'Projects', href: '/projects' },
-  { label: 'Writing', href: '/writing' },
-  { label: 'About', href: '/about' },
-]
-
-export const exploreNav: Array<NavItem> = [
-  ...when(content.skills.length > 0, { label: 'Skills', href: '/skills' }),
-  ...when(content.experience.some((entry) => entry.published), {
-    label: 'Experience',
-    href: '/experience',
-  }),
-  { label: 'Timeline', href: '/timeline' },
-  ...when(content.achievements.length > 0, { label: 'Achievements', href: '/achievements' }),
-]
-
-/**
- * Mobile bottom bar (thumb-reach navigation). Icons resolve in
- * components/layout/BottomNav.tsx.
- */
-export interface MobileNavItem extends NavItem {
-  icon: 'home' | 'projects' | 'skills' | 'user' | 'contact'
-  /** Match the route exactly for the active state (used by "/") */
-  exact?: boolean
+function when(condition: boolean, item: NavItem): Array<NavItem> {
+  return condition ? [item] : []
 }
 
-export const mobileNav: Array<MobileNavItem> = [
-  { label: 'Home', href: '/', icon: 'home', exact: true },
-  { label: 'Projects', href: '/projects', icon: 'projects' },
-  { label: 'About', href: '/about', icon: 'user' },
-  { label: 'Skills', href: '/skills', icon: 'skills' },
-  { label: 'Contact', href: '/#contact', icon: 'contact' },
+/** Top bar (DESIGN.md §10): four destinations, the rest live in the credits */
+export const primaryNav: Array<NavItem> = [
+  { label: 'Work', href: '/projects' },
+  { label: 'About', href: '/about' },
+  ...when(posts.length > 0, { label: 'Writing', href: '/writing' }),
+  { label: 'Contact', href: '/contact' },
 ]
 
 /** Footer link groups — entries appear only when their content exists */
 export interface FooterGroup {
   title: string
   items: Array<NavItem>
-}
-
-function when(condition: boolean, item: NavItem): Array<NavItem> {
-  return condition ? [item] : []
 }
 
 export const footerGroups: Array<FooterGroup> = [
@@ -86,8 +59,9 @@ export const footerGroups: Array<FooterGroup> = [
     ],
   },
   {
-    title: 'Meta',
+    title: 'More',
     items: [
+      { label: 'Contact', href: '/contact' },
       { label: 'Now', href: '/now' },
       ...when(content.uses.length > 0, { label: 'Uses', href: '/uses' }),
       ...when(content.reading.length > 0, { label: 'Reading', href: '/reading' }),

@@ -31,7 +31,7 @@ export function BackToTop() {
       onClick={scrollToTop}
       aria-label="Back to top"
       className={cn(
-        'fixed right-6 bottom-24 z-40 rounded-full p-3 shadow-lg transition-all duration-(--duration-base) md:bottom-8 print:hidden',
+        'back-to-top fixed right-6 bottom-6 z-40 rounded-full p-3 shadow-lg transition-all duration-(--duration-base) md:bottom-8 print:hidden',
         visible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-4 opacity-0',
       )}
     >
