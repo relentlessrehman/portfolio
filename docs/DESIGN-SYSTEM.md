@@ -1,5 +1,8 @@
 # Design System
 
+> **Superseded (2026-10-02)** by [`/DESIGN.md`](../DESIGN.md) and
+> [`docs/redesign/`](redesign/README.md). Kept for reference until the v2 inner pages ship.
+
 Dark-first, minimal, evidence-over-decoration. Every visual value is a token defined in
 `src/styles/app.css` via Tailwind v4 `@theme`. Components never hardcode colors, sizes,
 durations, or radii.
