@@ -18,6 +18,7 @@ function buildEntries(): Array<SitemapEntry> {
     { path: '/', lastmod: siteUpdated },
     { path: '/projects', lastmod: siteUpdated },
     { path: '/about', lastmod: siteUpdated },
+    { path: '/contact', lastmod: siteUpdated },
     { path: '/skills', lastmod: siteUpdated },
     { path: '/timeline', lastmod: siteUpdated },
     { path: '/education', lastmod: siteUpdated },

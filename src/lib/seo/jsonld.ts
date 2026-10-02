@@ -17,7 +17,14 @@ export function personJsonLd() {
     email: `mailto:${profile.email}`,
     url: seo.url,
     ...(profile.portrait ? { image: `${seo.url}${profile.portrait.src}` } : {}),
-    ...(university ? { alumniOf: { '@type': 'CollegeOrUniversity', name: university.institution } } : {}),
+    ...(university
+      ? {
+          alumniOf: {
+            '@type': 'CollegeOrUniversity',
+            name: university.institution,
+          },
+        }
+      : {}),
     sameAs: socials
       .filter((link) => link.platform !== 'email')
       .map((link) => link.url),
@@ -49,7 +56,9 @@ export function projectJsonLd(project: {
     ...(project.publishedAt ? { datePublished: project.publishedAt } : {}),
     ...(project.updatedAt ? { dateModified: project.updatedAt } : {}),
     ...(project.links.github ? { codeRepository: project.links.github } : {}),
-    ...(project.links.live ? { workExample: { '@type': 'WebSite', url: project.links.live } } : {}),
+    ...(project.links.live
+      ? { workExample: { '@type': 'WebSite', url: project.links.live } }
+      : {}),
     author: { '@type': 'Person', name: profile.name, url: seo.url },
     keywords: [
       ...(project.seo?.keywords ?? []),
@@ -82,9 +91,7 @@ export function articleJsonLd(post: {
   }
 }
 
-export function breadcrumbJsonLd(
-  items: Array<{ name: string; path: string }>,
-) {
+export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -93,6 +100,23 @@ export function breadcrumbJsonLd(
       position: index + 1,
       name: item.name,
       item: `${content.seo.url}${item.path}`,
+    })),
+  }
+}
+
+/** The film's hero projects as an ItemList on the home page (ACCESSIBILITY.md §6) */
+export function featuredWorkJsonLd() {
+  const { seo } = content
+  const heroes = content.projects.filter((project) => project.film === 'hero')
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Featured work',
+    itemListElement: heroes.map((project, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: `${seo.url}/projects/${project.slug}`,
+      name: project.name,
     })),
   }
 }

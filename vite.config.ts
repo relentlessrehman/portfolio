@@ -36,7 +36,8 @@ const config = defineConfig({
     },
     tailwindcss(),
     tanstackStart(),
-    nitro(),
+    // Pre-compressed assets (gzip + brotli) so any Node host serves them compressed
+    nitro({ compressPublicAssets: { gzip: true, brotli: true } }),
     viteReact(),
   ],
 })
