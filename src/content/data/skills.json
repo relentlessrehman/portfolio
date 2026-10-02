@@ -15,6 +15,10 @@
     { "name": "Framer Motion", "category": "frontend" },
     { "name": "Flutter", "category": "frontend" },
     { "name": "Tauri", "category": "frontend" },
+    { "name": "TanStack Start", "category": "frontend" },
+    { "name": "React Native", "category": "frontend" },
+    { "name": "Expo", "category": "frontend" },
+    { "name": "Leaflet", "category": "frontend" },
     { "name": "JavaFX", "category": "frontend" },
     { "name": "Java Swing", "category": "frontend" },
 

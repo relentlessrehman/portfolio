@@ -2,6 +2,7 @@ import {
   SiApachemaven,
   SiCplusplus,
   SiCss,
+  SiExpo,
   SiFastapi,
   SiFigma,
   SiFirebase,
@@ -12,6 +13,7 @@ import {
   SiHibernate,
   SiHtml5,
   SiJavascript,
+  SiLeaflet,
   SiMariadb,
   SiMysql,
   SiNodedotjs,
@@ -24,6 +26,7 @@ import {
   SiSqlite,
   SiSupabase,
   SiTailwindcss,
+  SiTanstack,
   SiTauri,
   SiTypescript,
   SiVercel,
@@ -53,7 +56,11 @@ import {
 import type { ComponentType, CSSProperties } from 'react'
 
 export interface TechIconEntry {
-  icon: ComponentType<{ className?: string; style?: CSSProperties; 'aria-hidden'?: boolean }>
+  icon: ComponentType<{
+    className?: string
+    style?: CSSProperties
+    'aria-hidden'?: boolean
+  }>
   /** Brand hex — omitted when the mark reads as neutral or the official
    * color is too dark to survive on this site's near-black background. */
   color?: string
@@ -83,6 +90,10 @@ const techIcons: Record<string, TechIconEntry> = {
   'Framer Motion': { icon: SiFramer, color: '#4D7CFF' },
   Flutter: { icon: SiFlutter, color: '#44D1FD' },
   Tauri: { icon: SiTauri, color: '#FFC131' },
+  'TanStack Start': { icon: SiTanstack, color: '#FF4154' },
+  'React Native': { icon: SiReact, color: '#61DAFB' },
+  Expo: { icon: SiExpo },
+  Leaflet: { icon: SiLeaflet, color: '#7EBC6F' },
   JavaFX: { icon: FaJava, color: '#4A90D9' },
   'Java Swing': { icon: FaJava, color: '#4A90D9' },
 

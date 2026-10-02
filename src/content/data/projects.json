@@ -2,19 +2,22 @@
   {
     "slug": "stayza",
     "name": "Stayza",
-    "tagline": "Student hostel discovery platform",
-    "summary": "A full stack platform that helps students discover, compare, and connect with hostels through a modern and user friendly web experience.",
+    "tagline": "Verified, commission-free student housing in Pakistan",
+    "summary": "A trusted accommodation marketplace for students: verified hostels, shared flats and private rooms with direct owner contact and zero commission. I founded it and run product, engineering, hiring and QA.",
     "status": "production",
     "featured": true,
     "featuredOrder": 1,
-    "categories": ["web-app", "startup"],
-    "role": "Founder & Full Stack Developer",
+    "categories": [
+      "web-app",
+      "startup"
+    ],
+    "role": "Founder & CEO",
     "teamSize": 1,
     "timeline": {
       "start": "2026-04"
     },
     "publishedAt": "2026-07",
-    "updatedAt": "2026-07",
+    "updatedAt": "2026-10",
     "stages": [
       {
         "stage": "idea",
@@ -43,11 +46,13 @@
       }
     ],
     "techStack": [
-      "React",
       "TypeScript",
+      "React",
+      "TanStack Start",
       "Tailwind CSS",
       "Supabase",
       "PostgreSQL",
+      "Leaflet",
       "Resend",
       "Vercel"
     ],
@@ -76,6 +81,160 @@
         "Developed the frontend with React and TypeScript, integrated Supabase for authentication and backend services, designed the PostgreSQL database, implemented role based access control, and deployed the application to production using Vercel."
       ]
     },
+    "gallery": [],
+    "film": "hero",
+    "metrics": [
+      {
+        "label": "Commits",
+        "value": "800+"
+      },
+      {
+        "label": "Verification tiers",
+        "value": "3"
+      },
+      {
+        "label": "Commission",
+        "value": "0%"
+      }
+    ]
+  },
+  {
+    "slug": "campusflow",
+    "name": "CampusFlow",
+    "tagline": "A time-aware schedule assistant for university students",
+    "summary": "An offline-first Android app that turns a static timetable into one live answer: what is happening now, and where to go next. Countdowns, room-aware transitions, schedule exceptions, LLM-assisted import and a home-screen widget. Ships as CampusFlow by Stayza.",
+    "status": "testing",
+    "featured": true,
+    "featuredOrder": 2,
+    "film": "hero",
+    "categories": [
+      "mobile-app",
+      "startup"
+    ],
+    "role": "Product & engineering",
+    "teamSize": 1,
+    "timeline": {
+      "start": "2026-09"
+    },
+    "version": "1.0.0 · Android beta",
+    "publishedAt": "2026-10",
+    "updatedAt": "2026-10",
+    "stages": [
+      {
+        "stage": "planning",
+        "date": "2026-09",
+        "note": "PRD v2.2 and TRD v1.1 written before code.",
+        "state": "completed"
+      },
+      {
+        "stage": "development",
+        "date": "2026-09",
+        "state": "completed"
+      },
+      {
+        "stage": "testing",
+        "date": "2026-09",
+        "note": "17 suites, 156 tests passing.",
+        "state": "current"
+      }
+    ],
+    "techStack": [
+      "TypeScript",
+      "React Native",
+      "Expo",
+      "SQLite",
+      "Supabase"
+    ],
+    "links": {
+      "live": "https://www.stayza.pk/campusflow"
+    },
+    "metrics": [
+      {
+        "label": "Platform",
+        "value": "Android"
+      },
+      {
+        "label": "Tests passing",
+        "value": "156"
+      },
+      {
+        "label": "Works offline",
+        "value": "Yes"
+      }
+    ],
+    "caseStudy": {
+      "overview": [
+        "CampusFlow answers one question a timetable never does: \"What am I supposed to do right now, and where do I go next?\" The core interaction is Open, Glance, Know, Go."
+      ],
+      "problem": [
+        "Timetables are static grids. A student at 10:56 AM does not need the whole week; they need the next class, the room, and how long until they should leave. Calendar apps get part of the way there but cannot represent free periods, room-to-room transitions or one-off exceptions without clutter."
+      ],
+      "implementation": [
+        "Built with Expo and React Native in TypeScript. Schedules live in local SQLite so the app works fully offline, with optional Supabase sync. A schedule engine derives NOW/NEXT states and countdowns from the clock instead of storing them, and a native Android widget shows the next class on the home screen.",
+        "Getting a timetable in is the usual churn point, so CampusFlow ships an LLM-assisted import: run the provided prompt against a photo of your timetable in any chat app and paste the JSON back."
+      ]
+    },
+    "gallery": []
+  },
+  {
+    "slug": "madad",
+    "name": "Madad",
+    "tagline": "An offline semantic search engine for course material",
+    "summary": "Point Madad at a semester of PDFs, slides, Word files and scans and it answers queries in milliseconds, entirely offline. A Python Brain ingests, embeds and classifies; a C++ Engine searches with data structures written from scratch.",
+    "status": "building",
+    "featured": true,
+    "featuredOrder": 3,
+    "film": "hero",
+    "categories": [
+      "search",
+      "systems",
+      "ai"
+    ],
+    "role": "Solo developer",
+    "teamSize": 1,
+    "timeline": {
+      "start": "2026-07"
+    },
+    "version": "2.0",
+    "publishedAt": "2026-10",
+    "updatedAt": "2026-10",
+    "techStack": [
+      "C++",
+      "Python"
+    ],
+    "metrics": [
+      {
+        "label": "Chunks indexed",
+        "value": "~39,000"
+      },
+      {
+        "label": "Courses",
+        "value": "11"
+      },
+      {
+        "label": "Engine self-checks",
+        "value": "11,221"
+      },
+      {
+        "label": "Brain tests",
+        "value": "369"
+      }
+    ],
+    "caseStudy": {
+      "overview": [
+        "Madad (مدد, \"help\") is a local-first study search engine. It is deliberately not a chatbot: the contribution is the search and retrieval system. An optional Ask Mode over a local LLM is a thin demonstration layer on top."
+      ],
+      "problem": [
+        "Students collect hundreds of course files a semester across LMS downloads, chat groups and folders. Before an exam, finding the one slide that explains a concept, or every past question on a topic, takes hours."
+      ],
+      "architecture": [
+        "Two independently testable halves joined by a frozen, versioned file contract (CRC32-checked). The Python Brain handles ingestion, parsing, OCR, chunking, TF-IDF and embeddings, topic classifiers and evaluation. It never searches.",
+        "The C++ Engine never embeds or trains. It builds every index from scratch: an FNV-1a hash table with chaining, an inverted index with BM25, KD-tree, LSH and HNSW for vectors, a trie for autocomplete, an AVL tree, a binary heap for top-K, and a concept graph with BFS, DFS and Dijkstra learning paths."
+      ],
+      "implementation": [
+        "Hybrid search fuses BM25 and semantic results. Budgets: keyword search under 50 ms and semantic under 100 ms at 10,000 chunks, autocomplete under 10 ms. Built as the joint semester project for CS250 (Data Structures) and CS272 (Artificial Intelligence)."
+      ]
+    },
     "gallery": []
   },
   {
@@ -84,9 +243,12 @@
     "tagline": "Multilingual service marketplace",
     "summary": "A multilingual marketplace that connects users with service providers, developed during the Google Antigravity National Hackathon.",
     "status": "archived",
-    "featured": true,
+    "featured": false,
     "featuredOrder": 2,
-    "categories": ["mobile-app", "marketplace"],
+    "categories": [
+      "mobile-app",
+      "marketplace"
+    ],
     "role": "Backend Developer",
     "teamSize": 2,
     "timeline": {
@@ -116,7 +278,57 @@
         "Contributed to backend development by implementing APIs, designing the database structure, developing authentication, and supporting the booking workflow as part of a collaborative team."
       ]
     },
-    "gallery": []
+    "gallery": [],
+    "film": "experiment"
+  },
+  {
+    "slug": "course-files-organizer",
+    "name": "Smart Academic File Organizer",
+    "tagline": "Watches your downloads and files every course document for you",
+    "summary": "A desktop assistant that watches the Downloads folder, extracts text from PDFs, slides, Word files, images and archives, scores each file against your enrolled courses with a six-signal confidence engine, and moves it into Semester / Course / Type folders. Every move is undoable, and every file is full-text searchable.",
+    "status": "archived",
+    "featured": false,
+    "categories": [
+      "desktop-app",
+      "automation"
+    ],
+    "role": "Solo developer",
+    "teamSize": 1,
+    "timeline": {
+      "start": "2026-06"
+    },
+    "techStack": [
+      "Python",
+      "SQLite"
+    ],
+    "features": [
+      "Automatic File Organization",
+      "Directory Management",
+      "Folder Classification",
+      "Python Automation"
+    ],
+    "links": {},
+    "caseStudy": {
+      "overview": [
+        "A lightweight Python utility that automatically organizes academic files into a structured directory hierarchy."
+      ],
+      "implementation": [
+        "Automated file discovery, folder creation, and document organization using Python to simplify academic file management."
+      ]
+    },
+    "gallery": [],
+    "film": "experiment",
+    "version": "2.0",
+    "metrics": [
+      {
+        "label": "Classifier signals",
+        "value": "6"
+      },
+      {
+        "label": "Formats read",
+        "value": "PDF, DOCX, PPTX, images, code, archives"
+      }
+    ]
   },
   {
     "slug": "crime-management-system",
@@ -125,7 +337,9 @@
     "summary": "A Java desktop application for managing crime records, user roles, and case information through a secure role based system.",
     "status": "archived",
     "featured": false,
-    "categories": ["desktop-app"],
+    "categories": [
+      "desktop-app"
+    ],
     "role": "Developer",
     "teamSize": 1,
     "timeline": {
@@ -155,6 +369,70 @@
         "Implemented authentication, role based authorization, database integration, and modules for managing crime records and reports."
       ]
     },
+    "gallery": [],
+    "film": "experiment"
+  },
+  {
+    "slug": "jarvis-os",
+    "name": "JARVIS OS",
+    "tagline": "Desktop AI assistant",
+    "summary": "A desktop AI assistant built with Python, React, and Tauri that combines voice interaction with local processing through a modular architecture.",
+    "status": "archived",
+    "featured": false,
+    "featuredOrder": 3,
+    "categories": [
+      "desktop-app",
+      "ai"
+    ],
+    "role": "Developer",
+    "teamSize": 1,
+    "timeline": {
+      "start": "2026-05"
+    },
+    "techStack": [
+      "Python",
+      "React",
+      "Tauri",
+      "SQLite"
+    ],
+    "features": [
+      "Voice Commands",
+      "Desktop Interface",
+      "Local Storage",
+      "Modular Architecture",
+      "AI Assistant"
+    ],
+    "links": {},
+    "caseStudy": {
+      "overview": [
+        "A modular desktop AI assistant combining a Python backend with a React and Tauri desktop interface."
+      ],
+      "implementation": [
+        "Developed the backend logic, integrated the desktop application with a React interface, managed local data storage, and implemented modular assistant features."
+      ]
+    },
+    "gallery": [],
+    "film": "none"
+  },
+  {
+    "slug": "snaptype",
+    "name": "SnapType",
+    "tagline": "A system-wide text expander for Windows",
+    "summary": "Type a short abbreviation anywhere on Windows and get the full phrase. Per-app rules, undo, usage stats and CSV import/export. Fully local: no cloud, no account.",
+    "status": "archived",
+    "featured": false,
+    "film": "none",
+    "categories": [
+      "desktop-app",
+      "tooling"
+    ],
+    "role": "Solo developer",
+    "timeline": {
+      "start": "2026-07"
+    },
+    "techStack": [
+      "Python"
+    ],
     "gallery": []
   },
   {
@@ -164,7 +442,9 @@
     "summary": "A Java desktop application for booking travel services with user authentication and a structured reservation system.",
     "status": "archived",
     "featured": false,
-    "categories": ["desktop-app"],
+    "categories": [
+      "desktop-app"
+    ],
     "role": "Developer",
     "teamSize": 1,
     "timeline": {
@@ -193,77 +473,7 @@
         "Developed authentication, booking management, database connectivity, and a modular desktop interface."
       ]
     },
-    "gallery": []
-  },
-  {
-    "slug": "jarvis-os",
-    "name": "JARVIS OS",
-    "tagline": "Desktop AI assistant",
-    "summary": "A desktop AI assistant built with Python, React, and Tauri that combines voice interaction with local processing through a modular architecture.",
-    "status": "archived",
-    "featured": true,
-    "featuredOrder": 3,
-    "categories": ["desktop-app", "ai"],
-    "role": "Developer",
-    "teamSize": 1,
-    "timeline": {
-      "start": "2026-05"
-    },
-    "techStack": [
-      "Python",
-      "React",
-      "Tauri",
-      "SQLite"
-    ],
-    "features": [
-      "Voice Commands",
-      "Desktop Interface",
-      "Local Storage",
-      "Modular Architecture",
-      "AI Assistant"
-    ],
-    "links": {},
-    "caseStudy": {
-      "overview": [
-        "A modular desktop AI assistant combining a Python backend with a React and Tauri desktop interface."
-      ],
-      "implementation": [
-        "Developed the backend logic, integrated the desktop application with a React interface, managed local data storage, and implemented modular assistant features."
-      ]
-    },
-    "gallery": []
-  },
-  {
-    "slug": "course-files-organizer",
-    "name": "Course Files Organizer",
-    "tagline": "Academic file organization tool",
-    "summary": "A Python automation tool that organizes academic course files into a structured folder hierarchy for easier management.",
-    "status": "archived",
-    "featured": false,
-    "categories": ["tool", "automation"],
-    "role": "Developer",
-    "teamSize": 1,
-    "timeline": {
-      "start": "2026"
-    },
-    "techStack": [
-      "Python"
-    ],
-    "features": [
-      "Automatic File Organization",
-      "Directory Management",
-      "Folder Classification",
-      "Python Automation"
-    ],
-    "links": {},
-    "caseStudy": {
-      "overview": [
-        "A lightweight Python utility that automatically organizes academic files into a structured directory hierarchy."
-      ],
-      "implementation": [
-        "Automated file discovery, folder creation, and document organization using Python to simplify academic file management."
-      ]
-    },
-    "gallery": []
+    "gallery": [],
+    "film": "none"
   }
 ]

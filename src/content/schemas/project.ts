@@ -123,6 +123,12 @@ export const projectSchema = z
     featured: z.boolean().default(false),
     /** Lower numbers appear first among featured projects */
     featuredOrder: z.number().int().optional(),
+    /**
+     * Role in the home-page film (docs/redesign/STORYBOARD.md): `hero` projects
+     * have bespoke scenes that read their copy from here; `experiment` projects
+     * fill the Experiments row automatically; `none` lives only in /projects.
+     */
+    film: z.enum(['hero', 'experiment', 'none']).default('none'),
     /** Free-form grouping, e.g. "web-app", "startup", "ai" */
     categories: z.array(z.string().min(1)).default([]),
     difficulty: projectDifficultySchema.optional(),

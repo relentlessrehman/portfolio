@@ -876,6 +876,16 @@ export function ProjectForm({
           hint="Lower appears first among featured projects"
         />
       </FieldRow>
+      <SelectField
+        label="Role in the home film"
+        value={value.film ?? 'none'}
+        onChange={(v) => onChange({ ...value, film: v as ProjectInput['film'] })}
+        options={[
+          { value: 'none', label: 'None: only in /projects' },
+          { value: 'experiment', label: 'More work row' },
+          { value: 'hero', label: 'Hero (has its own scene)' },
+        ]}
+      />
       <ParagraphsField
         label="Categories"
         value={value.categories ?? []}
