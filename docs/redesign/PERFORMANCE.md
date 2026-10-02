@@ -226,3 +226,19 @@ deferred engine no longer sit in that window. The next levers, in order:
 GPU: the droplet, halo and ripple cost ≈ 1–2 ms at 1080p on Abdul's AMD iGPU (§1.3). The
 in-page HUD (`?hud`) shows frame times, DPR and the quality rung live. Measurements on
 real phones (iPhone Safari, mid-range Android) are still to do (§7.4).
+
+### Live production (iamabdulrehman.vercel.app, 2026-10-02)
+
+Real Vercel CDN, Brotli, Lighthouse 12, two runs per preset:
+
+| | Perf | A11y | Best practices | SEO | FCP | LCP | CLS | TBT |
+|---|---|---|---|---|---|---|---|---|
+| Desktop | **98–99** | 100 | 100 | 100 | 0.6 s | 0.7 s | 0–0.003 | 0–40 ms |
+| Mobile | **88** | 100 | 100 | 100 | 2.5–2.7 s | 3.0 s | 0 | 60–160 ms |
+
+The local numbers (§8 above) were pessimistic, as expected. Mobile is 2 points under the
+≥ 90 budget and LCP is 0.5 s over 2.5 s. The levers listed above still apply, with
+`content-visibility: auto` on off-screen scenes the cheapest first try.
+
+Deploy note: Vercel blocks deploys of `@tanstack/react-start` 1.168.27 (XSS advisory).
+It was upgraded to 1.168.60. Two build-time advisories remain (remark-mdx-frontmatter → toml).
