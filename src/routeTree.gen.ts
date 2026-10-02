@@ -9,124 +9,39 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as UsesRouteImport } from './routes/uses'
-import { Route as TimelineRouteImport } from './routes/timeline'
-import { Route as SpeakingRouteImport } from './routes/speaking'
-import { Route as SkillsRouteImport } from './routes/skills'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
-import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
-import { Route as ResumeRouteImport } from './routes/resume'
-import { Route as ReadingRouteImport } from './routes/reading'
-import { Route as OpenSourceRouteImport } from './routes/open-source'
-import { Route as NowRouteImport } from './routes/now'
-import { Route as ExperienceRouteImport } from './routes/experience'
-import { Route as EducationRouteImport } from './routes/education'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as ChangelogRouteImport } from './routes/changelog'
-import { Route as CertificationsRouteImport } from './routes/certifications'
-import { Route as AchievementsRouteImport } from './routes/achievements'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as WritingIndexRouteImport } from './routes/writing/index'
-import { Route as StudioIndexRouteImport } from './routes/studio/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AchievementsRouteImport } from './routes/achievements'
+import { Route as CertificationsRouteImport } from './routes/certifications'
+import { Route as ChangelogRouteImport } from './routes/changelog'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as EducationRouteImport } from './routes/education'
+import { Route as ExperienceRouteImport } from './routes/experience'
+import { Route as NowRouteImport } from './routes/now'
+import { Route as OpenSourceRouteImport } from './routes/open-source'
+import { Route as ReadingRouteImport } from './routes/reading'
+import { Route as ResumeRouteImport } from './routes/resume'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SkillsRouteImport } from './routes/skills'
+import { Route as SpeakingRouteImport } from './routes/speaking'
+import { Route as TimelineRouteImport } from './routes/timeline'
+import { Route as UsesRouteImport } from './routes/uses'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
-import { Route as WritingSlugRouteImport } from './routes/writing/$slug'
 import { Route as ProjectsSlugRouteImport } from './routes/projects/$slug'
-import { Route as StudioWritingIndexRouteImport } from './routes/studio/writing/index'
+import { Route as StudioIndexRouteImport } from './routes/studio/index'
+import { Route as WritingIndexRouteImport } from './routes/writing/index'
+import { Route as WritingSlugRouteImport } from './routes/writing/$slug'
 import { Route as StudioCollectionIndexRouteImport } from './routes/studio/$collection/index'
-import { Route as StudioWritingSlugRouteImport } from './routes/studio/writing/$slug'
 import { Route as StudioCollectionItemIndexRouteImport } from './routes/studio/$collection/$itemIndex'
+import { Route as StudioWritingIndexRouteImport } from './routes/studio/writing/index'
+import { Route as StudioWritingSlugRouteImport } from './routes/studio/writing/$slug'
 
-const UsesRoute = UsesRouteImport.update({
-  id: '/uses',
-  path: '/uses',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TimelineRoute = TimelineRouteImport.update({
-  id: '/timeline',
-  path: '/timeline',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SpeakingRoute = SpeakingRouteImport.update({
-  id: '/speaking',
-  path: '/speaking',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SkillsRoute = SkillsRouteImport.update({
-  id: '/skills',
-  path: '/skills',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RssDotxmlRoute = RssDotxmlRouteImport.update({
-  id: '/rss.xml',
-  path: '/rss.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
-  id: '/robots.txt',
-  path: '/robots.txt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResumeRoute = ResumeRouteImport.update({
-  id: '/resume',
-  path: '/resume',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReadingRoute = ReadingRouteImport.update({
-  id: '/reading',
-  path: '/reading',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OpenSourceRoute = OpenSourceRouteImport.update({
-  id: '/open-source',
-  path: '/open-source',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NowRoute = NowRouteImport.update({
-  id: '/now',
-  path: '/now',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExperienceRoute = ExperienceRouteImport.update({
-  id: '/experience',
-  path: '/experience',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EducationRoute = EducationRouteImport.update({
-  id: '/education',
-  path: '/education',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChangelogRoute = ChangelogRouteImport.update({
-  id: '/changelog',
-  path: '/changelog',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CertificationsRoute = CertificationsRouteImport.update({
-  id: '/certifications',
-  path: '/certifications',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AchievementsRoute = AchievementsRouteImport.update({
-  id: '/achievements',
-  path: '/achievements',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -134,19 +49,94 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AchievementsRoute = AchievementsRouteImport.update({
+  id: '/achievements',
+  path: '/achievements',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WritingIndexRoute = WritingIndexRouteImport.update({
-  id: '/writing/',
-  path: '/writing/',
+const CertificationsRoute = CertificationsRouteImport.update({
+  id: '/certifications',
+  path: '/certifications',
   getParentRoute: () => rootRouteImport,
 } as any)
-const StudioIndexRoute = StudioIndexRouteImport.update({
-  id: '/studio/',
-  path: '/studio/',
+const ChangelogRoute = ChangelogRouteImport.update({
+  id: '/changelog',
+  path: '/changelog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EducationRoute = EducationRouteImport.update({
+  id: '/education',
+  path: '/education',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExperienceRoute = ExperienceRouteImport.update({
+  id: '/experience',
+  path: '/experience',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NowRoute = NowRouteImport.update({
+  id: '/now',
+  path: '/now',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpenSourceRoute = OpenSourceRouteImport.update({
+  id: '/open-source',
+  path: '/open-source',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReadingRoute = ReadingRouteImport.update({
+  id: '/reading',
+  path: '/reading',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResumeRoute = ResumeRouteImport.update({
+  id: '/resume',
+  path: '/resume',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RssDotxmlRoute = RssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsRoute = SkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SpeakingRoute = SpeakingRouteImport.update({
+  id: '/speaking',
+  path: '/speaking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TimelineRoute = TimelineRouteImport.update({
+  id: '/timeline',
+  path: '/timeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsesRoute = UsesRouteImport.update({
+  id: '/uses',
+  path: '/uses',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
@@ -154,29 +144,29 @@ const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
   path: '/projects/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WritingSlugRoute = WritingSlugRouteImport.update({
-  id: '/writing/$slug',
-  path: '/writing/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
   id: '/projects/$slug',
   path: '/projects/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const StudioWritingIndexRoute = StudioWritingIndexRouteImport.update({
-  id: '/studio/writing/',
-  path: '/studio/writing/',
+const StudioIndexRoute = StudioIndexRouteImport.update({
+  id: '/studio/',
+  path: '/studio/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WritingIndexRoute = WritingIndexRouteImport.update({
+  id: '/writing/',
+  path: '/writing/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WritingSlugRoute = WritingSlugRouteImport.update({
+  id: '/writing/$slug',
+  path: '/writing/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StudioCollectionIndexRoute = StudioCollectionIndexRouteImport.update({
   id: '/studio/$collection/',
   path: '/studio/$collection/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StudioWritingSlugRoute = StudioWritingSlugRouteImport.update({
-  id: '/studio/writing/$slug',
-  path: '/studio/writing/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StudioCollectionItemIndexRoute =
@@ -185,6 +175,16 @@ const StudioCollectionItemIndexRoute =
     path: '/studio/$collection/$itemIndex',
     getParentRoute: () => rootRouteImport,
   } as any)
+const StudioWritingIndexRoute = StudioWritingIndexRouteImport.update({
+  id: '/studio/writing/',
+  path: '/studio/writing/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudioWritingSlugRoute = StudioWritingSlugRouteImport.update({
+  id: '/studio/writing/$slug',
+  path: '/studio/writing/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -410,130 +410,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/uses': {
-      id: '/uses'
-      path: '/uses'
-      fullPath: '/uses'
-      preLoaderRoute: typeof UsesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/timeline': {
-      id: '/timeline'
-      path: '/timeline'
-      fullPath: '/timeline'
-      preLoaderRoute: typeof TimelineRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/speaking': {
-      id: '/speaking'
-      path: '/speaking'
-      fullPath: '/speaking'
-      preLoaderRoute: typeof SpeakingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/skills': {
-      id: '/skills'
-      path: '/skills'
-      fullPath: '/skills'
-      preLoaderRoute: typeof SkillsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/rss.xml': {
-      id: '/rss.xml'
-      path: '/rss.xml'
-      fullPath: '/rss.xml'
-      preLoaderRoute: typeof RssDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/robots.txt': {
-      id: '/robots.txt'
-      path: '/robots.txt'
-      fullPath: '/robots.txt'
-      preLoaderRoute: typeof RobotsDottxtRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resume': {
-      id: '/resume'
-      path: '/resume'
-      fullPath: '/resume'
-      preLoaderRoute: typeof ResumeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reading': {
-      id: '/reading'
-      path: '/reading'
-      fullPath: '/reading'
-      preLoaderRoute: typeof ReadingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/open-source': {
-      id: '/open-source'
-      path: '/open-source'
-      fullPath: '/open-source'
-      preLoaderRoute: typeof OpenSourceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/now': {
-      id: '/now'
-      path: '/now'
-      fullPath: '/now'
-      preLoaderRoute: typeof NowRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/experience': {
-      id: '/experience'
-      path: '/experience'
-      fullPath: '/experience'
-      preLoaderRoute: typeof ExperienceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/education': {
-      id: '/education'
-      path: '/education'
-      fullPath: '/education'
-      preLoaderRoute: typeof EducationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/changelog': {
-      id: '/changelog'
-      path: '/changelog'
-      fullPath: '/changelog'
-      preLoaderRoute: typeof ChangelogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/certifications': {
-      id: '/certifications'
-      path: '/certifications'
-      fullPath: '/certifications'
-      preLoaderRoute: typeof CertificationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/achievements': {
-      id: '/achievements'
-      path: '/achievements'
-      fullPath: '/achievements'
-      preLoaderRoute: typeof AchievementsRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -543,25 +424,130 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/achievements': {
+      id: '/achievements'
+      path: '/achievements'
+      fullPath: '/achievements'
+      preLoaderRoute: typeof AchievementsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/writing/': {
-      id: '/writing/'
-      path: '/writing'
-      fullPath: '/writing/'
-      preLoaderRoute: typeof WritingIndexRouteImport
+    '/certifications': {
+      id: '/certifications'
+      path: '/certifications'
+      fullPath: '/certifications'
+      preLoaderRoute: typeof CertificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/studio/': {
-      id: '/studio/'
-      path: '/studio'
-      fullPath: '/studio/'
-      preLoaderRoute: typeof StudioIndexRouteImport
+    '/changelog': {
+      id: '/changelog'
+      path: '/changelog'
+      fullPath: '/changelog'
+      preLoaderRoute: typeof ChangelogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/education': {
+      id: '/education'
+      path: '/education'
+      fullPath: '/education'
+      preLoaderRoute: typeof EducationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/experience': {
+      id: '/experience'
+      path: '/experience'
+      fullPath: '/experience'
+      preLoaderRoute: typeof ExperienceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/now': {
+      id: '/now'
+      path: '/now'
+      fullPath: '/now'
+      preLoaderRoute: typeof NowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/open-source': {
+      id: '/open-source'
+      path: '/open-source'
+      fullPath: '/open-source'
+      preLoaderRoute: typeof OpenSourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reading': {
+      id: '/reading'
+      path: '/reading'
+      fullPath: '/reading'
+      preLoaderRoute: typeof ReadingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resume': {
+      id: '/resume'
+      path: '/resume'
+      fullPath: '/resume'
+      preLoaderRoute: typeof ResumeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rss.xml': {
+      id: '/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/rss.xml'
+      preLoaderRoute: typeof RssDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills': {
+      id: '/skills'
+      path: '/skills'
+      fullPath: '/skills'
+      preLoaderRoute: typeof SkillsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/speaking': {
+      id: '/speaking'
+      path: '/speaking'
+      fullPath: '/speaking'
+      preLoaderRoute: typeof SpeakingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/timeline': {
+      id: '/timeline'
+      path: '/timeline'
+      fullPath: '/timeline'
+      preLoaderRoute: typeof TimelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/uses': {
+      id: '/uses'
+      path: '/uses'
+      fullPath: '/uses'
+      preLoaderRoute: typeof UsesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects/': {
@@ -571,13 +557,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/writing/$slug': {
-      id: '/writing/$slug'
-      path: '/writing/$slug'
-      fullPath: '/writing/$slug'
-      preLoaderRoute: typeof WritingSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/projects/$slug': {
       id: '/projects/$slug'
       path: '/projects/$slug'
@@ -585,11 +564,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/studio/writing/': {
-      id: '/studio/writing/'
-      path: '/studio/writing'
-      fullPath: '/studio/writing/'
-      preLoaderRoute: typeof StudioWritingIndexRouteImport
+    '/studio/': {
+      id: '/studio/'
+      path: '/studio'
+      fullPath: '/studio/'
+      preLoaderRoute: typeof StudioIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/writing/': {
+      id: '/writing/'
+      path: '/writing'
+      fullPath: '/writing/'
+      preLoaderRoute: typeof WritingIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/writing/$slug': {
+      id: '/writing/$slug'
+      path: '/writing/$slug'
+      fullPath: '/writing/$slug'
+      preLoaderRoute: typeof WritingSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/studio/$collection/': {
@@ -599,18 +592,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudioCollectionIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/studio/writing/$slug': {
-      id: '/studio/writing/$slug'
-      path: '/studio/writing/$slug'
-      fullPath: '/studio/writing/$slug'
-      preLoaderRoute: typeof StudioWritingSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/studio/$collection/$itemIndex': {
       id: '/studio/$collection/$itemIndex'
       path: '/studio/$collection/$itemIndex'
       fullPath: '/studio/$collection/$itemIndex'
       preLoaderRoute: typeof StudioCollectionItemIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio/writing/': {
+      id: '/studio/writing/'
+      path: '/studio/writing'
+      fullPath: '/studio/writing/'
+      preLoaderRoute: typeof StudioWritingIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio/writing/$slug': {
+      id: '/studio/writing/$slug'
+      path: '/studio/writing/$slug'
+      fullPath: '/studio/writing/$slug'
+      preLoaderRoute: typeof StudioWritingSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
