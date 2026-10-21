@@ -5,6 +5,7 @@ import {
   Scripts,
   ScrollRestoration,
   createRootRoute,
+  useMatches,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
@@ -71,6 +72,19 @@ function RootLayout() {
   useEffect(() => {
     printConsoleGreeting()
   }, [])
+
+  const bare = useMatches({
+    select: (matches) => matches.some((match) => match.staticData.bare),
+  })
+
+  if (bare) {
+    return (
+      <>
+        <Outlet />
+        <PageViewTracker />
+      </>
+    )
+  }
 
   return (
     <div className="flex min-h-dvh flex-col">

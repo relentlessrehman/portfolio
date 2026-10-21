@@ -11,7 +11,11 @@ export const projectStatusSchema = z.enum([
   'archived',
 ])
 
-export const projectDifficultySchema = z.enum(['beginner', 'intermediate', 'advanced'])
+export const projectDifficultySchema = z.enum([
+  'beginner',
+  'intermediate',
+  'advanced',
+])
 
 /** "YYYY", "YYYY-MM", or "YYYY-MM-DD" */
 const dateString = z.string().regex(/^\d{4}(-\d{2})?(-\d{2})?$/)
@@ -24,7 +28,14 @@ const galleryImageSchema = imageSchema.extend({
 /* ── Project lifecycle stages (optional per-project timeline) ───────── */
 
 export const projectStageSchema = z.object({
-  stage: z.enum(['idea', 'planning', 'development', 'testing', 'deployment', 'maintenance']),
+  stage: z.enum([
+    'idea',
+    'planning',
+    'development',
+    'testing',
+    'deployment',
+    'maintenance',
+  ]),
   date: dateString.optional(),
   note: z.string().optional(),
   state: z.enum(['completed', 'current', 'upcoming']).default('completed'),
@@ -54,7 +65,12 @@ export const tradeoffSchema = z.object({
   reason: z.string().optional(),
 })
 
-export const roadmapStatusSchema = z.enum(['planned', 'in-progress', 'future', 'completed'])
+export const roadmapStatusSchema = z.enum([
+  'planned',
+  'in-progress',
+  'future',
+  'completed',
+])
 
 export const roadmapItemSchema = z.object({
   title: z.string().min(1),
@@ -156,6 +172,8 @@ export const projectSchema = z
       .object({
         live: z.string().url().optional(),
         github: z.string().url().optional(),
+        /** A presentation on this site, as a path (e.g. a class proposal deck) */
+        presentation: z.string().startsWith('/').optional(),
       })
       .default({}),
     /** Free-form metrics beyond the structured engineering ones */
@@ -179,8 +197,12 @@ export const projectSchema = z
         architecture: paragraphs.optional(),
         database: paragraphs.optional(),
         implementation: paragraphs.optional(),
-        challenges: z.array(z.union([z.string().min(1), challengeSchema])).optional(),
-        tradeoffs: z.array(z.union([z.string().min(1), tradeoffSchema])).optional(),
+        challenges: z
+          .array(z.union([z.string().min(1), challengeSchema]))
+          .optional(),
+        tradeoffs: z
+          .array(z.union([z.string().min(1), tradeoffSchema]))
+          .optional(),
         lessons: paragraphs.optional(),
         futureImprovements: z
           .array(z.union([z.string().min(1), roadmapItemSchema]))

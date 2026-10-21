@@ -42,6 +42,7 @@
 @plugin '@tailwindcss/typography';
 @import 'tw-animate-css';
 @import './features/film/film.css';
+@import './features/deck/deck.css';
 
 @custom-variant dark (&:is(.dark *));
 

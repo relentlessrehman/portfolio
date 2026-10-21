@@ -34,6 +34,7 @@ import { Route as ProjectsSlugRouteImport } from './routes/projects/$slug'
 import { Route as StudioIndexRouteImport } from './routes/studio/index'
 import { Route as WritingIndexRouteImport } from './routes/writing/index'
 import { Route as WritingSlugRouteImport } from './routes/writing/$slug'
+import { Route as ProjectsMadadPresentationRouteImport } from './routes/projects/madad.presentation'
 import { Route as StudioCollectionIndexRouteImport } from './routes/studio/$collection/index'
 import { Route as StudioCollectionItemIndexRouteImport } from './routes/studio/$collection/$itemIndex'
 import { Route as StudioWritingIndexRouteImport } from './routes/studio/writing/index'
@@ -164,6 +165,12 @@ const WritingSlugRoute = WritingSlugRouteImport.update({
   path: '/writing/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsMadadPresentationRoute =
+  ProjectsMadadPresentationRouteImport.update({
+    id: '/projects/madad/presentation',
+    path: '/projects/madad/presentation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const StudioCollectionIndexRoute = StudioCollectionIndexRouteImport.update({
   id: '/studio/$collection/',
   path: '/studio/$collection/',
@@ -212,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/projects/': typeof ProjectsIndexRoute
   '/studio/': typeof StudioIndexRoute
   '/writing/': typeof WritingIndexRoute
+  '/projects/madad/presentation': typeof ProjectsMadadPresentationRoute
   '/studio/$collection/$itemIndex': typeof StudioCollectionItemIndexRoute
   '/studio/writing/$slug': typeof StudioWritingSlugRoute
   '/studio/$collection/': typeof StudioCollectionIndexRoute
@@ -243,6 +251,7 @@ export interface FileRoutesByTo {
   '/projects': typeof ProjectsIndexRoute
   '/studio': typeof StudioIndexRoute
   '/writing': typeof WritingIndexRoute
+  '/projects/madad/presentation': typeof ProjectsMadadPresentationRoute
   '/studio/$collection/$itemIndex': typeof StudioCollectionItemIndexRoute
   '/studio/writing/$slug': typeof StudioWritingSlugRoute
   '/studio/$collection': typeof StudioCollectionIndexRoute
@@ -275,6 +284,7 @@ export interface FileRoutesById {
   '/projects/': typeof ProjectsIndexRoute
   '/studio/': typeof StudioIndexRoute
   '/writing/': typeof WritingIndexRoute
+  '/projects/madad/presentation': typeof ProjectsMadadPresentationRoute
   '/studio/$collection/$itemIndex': typeof StudioCollectionItemIndexRoute
   '/studio/writing/$slug': typeof StudioWritingSlugRoute
   '/studio/$collection/': typeof StudioCollectionIndexRoute
@@ -308,6 +318,7 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/studio/'
     | '/writing/'
+    | '/projects/madad/presentation'
     | '/studio/$collection/$itemIndex'
     | '/studio/writing/$slug'
     | '/studio/$collection/'
@@ -339,6 +350,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/studio'
     | '/writing'
+    | '/projects/madad/presentation'
     | '/studio/$collection/$itemIndex'
     | '/studio/writing/$slug'
     | '/studio/$collection'
@@ -370,6 +382,7 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/studio/'
     | '/writing/'
+    | '/projects/madad/presentation'
     | '/studio/$collection/$itemIndex'
     | '/studio/writing/$slug'
     | '/studio/$collection/'
@@ -402,6 +415,7 @@ export interface RootRouteChildren {
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   StudioIndexRoute: typeof StudioIndexRoute
   WritingIndexRoute: typeof WritingIndexRoute
+  ProjectsMadadPresentationRoute: typeof ProjectsMadadPresentationRoute
   StudioCollectionItemIndexRoute: typeof StudioCollectionItemIndexRoute
   StudioWritingSlugRoute: typeof StudioWritingSlugRoute
   StudioCollectionIndexRoute: typeof StudioCollectionIndexRoute
@@ -585,6 +599,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WritingSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects/madad/presentation': {
+      id: '/projects/madad/presentation'
+      path: '/projects/madad/presentation'
+      fullPath: '/projects/madad/presentation'
+      preLoaderRoute: typeof ProjectsMadadPresentationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/studio/$collection/': {
       id: '/studio/$collection/'
       path: '/studio/$collection'
@@ -642,6 +663,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsIndexRoute: ProjectsIndexRoute,
   StudioIndexRoute: StudioIndexRoute,
   WritingIndexRoute: WritingIndexRoute,
+  ProjectsMadadPresentationRoute: ProjectsMadadPresentationRoute,
   StudioCollectionItemIndexRoute: StudioCollectionItemIndexRoute,
   StudioWritingSlugRoute: StudioWritingSlugRoute,
   StudioCollectionIndexRoute: StudioCollectionIndexRoute,

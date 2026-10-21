@@ -235,6 +235,9 @@
         "Hybrid search fuses BM25 and semantic results. Budgets: keyword search under 50 ms and semantic under 100 ms at 10,000 chunks, autocomplete under 10 ms. Built as the joint semester project for CS250 (Data Structures) and CS272 (Artificial Intelligence)."
       ]
     },
+    "links": {
+      "presentation": "/projects/madad/presentation"
+    },
     "gallery": []
   },
   {

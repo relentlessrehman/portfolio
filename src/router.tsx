@@ -16,4 +16,8 @@ declare module '@tanstack/react-router' {
   interface Register {
     router: ReturnType<typeof getRouter>
   }
+  interface StaticDataRouteOption {
+    /** Full-screen route (e.g. a slide deck): render without site chrome */
+    bare?: boolean
+  }
 }

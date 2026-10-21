@@ -1,4 +1,4 @@
-import { ArrowUpRight, Github } from 'lucide-react'
+import { ArrowUpRight, Github, Presentation } from 'lucide-react'
 import { StatusBadge } from '#/components/shared/StatusBadge'
 import { buttonVariants } from '#/components/ui/button'
 import { formatDuration, formatTimeline } from '../lib/case-study'
@@ -19,7 +19,10 @@ const engineeringLabels: Record<keyof EngineeringMetrics, string> = {
 export function ProjectMeta({ project }: { project: Project }) {
   const facts: Array<{ label: string; value: string }> = [
     { label: 'Role', value: project.role },
-    { label: 'Team', value: project.teamSize === 1 ? 'Solo' : `${project.teamSize} people` },
+    {
+      label: 'Team',
+      value: project.teamSize === 1 ? 'Solo' : `${project.teamSize} people`,
+    },
     { label: 'Timeline', value: formatTimeline(project.timeline) },
     { label: 'Development time', value: formatDuration(project.timeline) },
     ...(project.version ? [{ label: 'Version', value: project.version }] : []),
@@ -40,14 +43,21 @@ export function ProjectMeta({ project }: { project: Project }) {
       <StatusBadge status={project.status} />
       <dl className="mt-5 space-y-4">
         {facts.map((fact) => (
-          <div key={fact.label} className="flex items-baseline justify-between gap-4">
+          <div
+            key={fact.label}
+            className="flex items-baseline justify-between gap-4"
+          >
             <dt className="text-small text-subtle-foreground">{fact.label}</dt>
-            <dd className="text-right text-small text-foreground">{fact.value}</dd>
+            <dd className="text-right text-small text-foreground">
+              {fact.value}
+            </dd>
           </div>
         ))}
       </dl>
 
-      {project.links.live || project.links.github ? (
+      {project.links.live ||
+      project.links.github ||
+      project.links.presentation ? (
         <div className="mt-6 flex flex-col gap-2 border-t border-border pt-6 print:hidden">
           {project.links.live ? (
             <a
@@ -58,6 +68,18 @@ export function ProjectMeta({ project }: { project: Project }) {
             >
               Live demo
               <ArrowUpRight aria-hidden />
+            </a>
+          ) : null}
+          {project.links.presentation ? (
+            <a
+              href={project.links.presentation}
+              className={buttonVariants({
+                variant: project.links.live ? 'secondary' : 'primary',
+                size: 'sm',
+              })}
+            >
+              <Presentation aria-hidden />
+              View the presentation
             </a>
           ) : null}
           {project.links.github ? (

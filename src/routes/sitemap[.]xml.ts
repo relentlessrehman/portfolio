@@ -24,23 +24,38 @@ function buildEntries(): Array<SitemapEntry> {
     { path: '/education', lastmod: siteUpdated },
     { path: '/now', lastmod: content.now.updatedAt },
     { path: '/uses' },
-    ...(posts.length > 0 ? [{ path: '/writing', lastmod: posts[0].publishedAt }] : []),
-    ...(content.experience.some((entry) => entry.published) ? [{ path: '/experience' }] : []),
+    ...(posts.length > 0
+      ? [{ path: '/writing', lastmod: posts[0].publishedAt }]
+      : []),
+    ...(content.experience.some((entry) => entry.published)
+      ? [{ path: '/experience' }]
+      : []),
     ...(content.achievements.length > 0 ? [{ path: '/achievements' }] : []),
     ...(content.certifications.length > 0 ? [{ path: '/certifications' }] : []),
-    ...(content.changelog.length > 0 ? [{ path: '/changelog', lastmod: siteUpdated }] : []),
+    ...(content.changelog.length > 0
+      ? [{ path: '/changelog', lastmod: siteUpdated }]
+      : []),
     ...(content.openSource.length > 0 ? [{ path: '/open-source' }] : []),
     ...(content.reading.length > 0 ? [{ path: '/reading' }] : []),
-    ...(content.speaking.length > 0 ? [{ path: '/speaking', lastmod: content.speaking[0]?.date }] : []),
+    ...(content.speaking.length > 0
+      ? [{ path: '/speaking', lastmod: content.speaking[0]?.date }]
+      : []),
     ...(content.resume.versions.length > 0
       ? [{ path: '/resume', lastmod: content.resume.updatedAt }]
       : []),
   ]
 
-  const projectPages: Array<SitemapEntry> = content.projects.map((project) => ({
-    path: `/projects/${project.slug}`,
-    lastmod: project.updatedAt ?? project.publishedAt,
-  }))
+  const projectPages: Array<SitemapEntry> = content.projects.flatMap(
+    (project) => {
+      const lastmod = project.updatedAt ?? project.publishedAt
+      return [
+        { path: `/projects/${project.slug}`, lastmod },
+        ...(project.links.presentation
+          ? [{ path: project.links.presentation, lastmod }]
+          : []),
+      ]
+    },
+  )
 
   const postPages: Array<SitemapEntry> = posts.map((post) => ({
     path: `/writing/${post.slug}`,
