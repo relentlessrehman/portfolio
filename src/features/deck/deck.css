@@ -52,17 +52,17 @@
     radial-gradient(
       38% 34% at 72% 38%,
       rgb(165 166 246 / 0.28),
-      transparent 70%
+      rgb(165 166 246 / 0) 70%
     ),
     radial-gradient(
       30% 30% at 22% 78%,
       rgb(110 111 242 / 0.14),
-      transparent 70%
+      rgb(110 111 242 / 0) 70%
     ),
     radial-gradient(
       26% 24% at 30% 18%,
       rgb(200 201 252 / 0.22),
-      transparent 70%
+      rgb(200 201 252 / 0) 70%
     );
   filter: blur(20px);
   animation: deck-aura 28s ease-in-out infinite alternate;
@@ -398,9 +398,9 @@
     radial-gradient(
       60% 40% at var(--gx) var(--gy),
       rgb(255 255 255 / 0.55),
-      transparent 70%
+      rgb(255 255 255 / 0) 70%
     ),
-    linear-gradient(180deg, rgb(255 255 255 / 0.5), transparent 32%);
+    linear-gradient(180deg, rgb(255 255 255 / 0.5), rgb(255 255 255 / 0) 32%);
   opacity: 0.85;
   pointer-events: none;
   z-index: 0;
@@ -794,9 +794,8 @@
 .stack__scene {
   position: absolute;
   inset: 0;
-  transform-style: preserve-3d;
-  transform: rotateX(58deg) rotateZ(-38deg);
-  transform-origin: 50% 55%;
+  /* each slab carries its own full 3D transform, so no browser has to
+     preserve a 3D context through the animated wrapper (Safari flattens it) */
 }
 .slab {
   position: absolute;
@@ -845,7 +844,7 @@
   content: '';
   width: 4cqw;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgb(91 92 230 / 0.5));
+  background: linear-gradient(90deg, rgb(91 92 230 / 0), rgb(91 92 230 / 0.5));
 }
 .stack__label .mono {
   color: var(--subtle);

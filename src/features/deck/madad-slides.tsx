@@ -460,7 +460,9 @@ function Scratch() {
             <div
               key={i}
               className={i === 3 ? 'slab slab--accent' : 'slab'}
-              style={{ transform: `translateZ(${(i - 2) * 12}cqh)` }}
+              style={{
+                transform: `perspective(160cqw) rotateX(58deg) rotateZ(-38deg) translateZ(${(i - 2) * 12}cqh)`,
+              }}
             />
           ))}
         </div>
