@@ -510,9 +510,6 @@ function Fit() {
                 }
                 strength={30}
               >
-                <span className="pipe__tag">
-                  {node.isNew ? 'New' : 'Today'}
-                </span>
                 <h3 className="t-3">{node.title}</h3>
                 <p className="body">{node.body}</p>
               </Glass>
