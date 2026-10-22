@@ -24,6 +24,18 @@ export interface SlideDef {
 
 const EASE_OUT = [0.22, 1, 0.36, 1] as const
 
+/** Older Safari (before 16.4) only ships the webkit-prefixed fullscreen API */
+type WebkitDocument = Document & {
+  webkitFullscreenElement?: Element | null
+  webkitExitFullscreen?: () => void
+}
+type WebkitElement = HTMLElement & { webkitRequestFullscreen?: () => void }
+
+function fullscreenElement() {
+  const doc = document as WebkitDocument
+  return doc.fullscreenElement ?? doc.webkitFullscreenElement ?? null
+}
+
 /** +1 going forward, -1 going back: reveals move with the direction of travel */
 const DirContext = createContext(1)
 
@@ -261,7 +273,10 @@ export function Deck({ slides }: { slides: ReadonlyArray<SlideDef> }) {
     function onWheel(event: WheelEvent) {
       event.preventDefault()
       const now = performance.now()
-      if (now < lockRef.current) return
+      if (now < lockRef.current) {
+        lockRef.current = Math.max(lockRef.current, now + 220)
+        return
+      }
       acc +=
         Math.abs(event.deltaY) > Math.abs(event.deltaX)
           ? event.deltaY
@@ -269,7 +284,7 @@ export function Deck({ slides }: { slides: ReadonlyArray<SlideDef> }) {
       if (Math.abs(acc) > 50) {
         go(indexRef.current + (acc > 0 ? 1 : -1))
         acc = 0
-        lockRef.current = now + 900
+        lockRef.current = now + 700
       }
     }
     root.addEventListener('wheel', onWheel, { passive: false })
@@ -333,14 +348,28 @@ export function Deck({ slides }: { slides: ReadonlyArray<SlideDef> }) {
   }, [])
 
   useEffect(() => {
-    const onChange = () => setFullscreen(!!document.fullscreenElement)
+    const onChange = () => setFullscreen(!!fullscreenElement())
     document.addEventListener('fullscreenchange', onChange)
-    return () => document.removeEventListener('fullscreenchange', onChange)
+    document.addEventListener('webkitfullscreenchange', onChange)
+    return () => {
+      document.removeEventListener('fullscreenchange', onChange)
+      document.removeEventListener('webkitfullscreenchange', onChange)
+    }
   }, [])
 
   function toggleFullscreen() {
-    if (document.fullscreenElement) void document.exitFullscreen()
-    else void rootRef.current?.requestFullscreen().catch(() => {})
+    const doc = document as WebkitDocument
+    if (fullscreenElement()) {
+      const exit = doc.exitFullscreen as (() => Promise<void>) | undefined
+      if (exit) void exit.call(doc).catch(() => {})
+      else doc.webkitExitFullscreen?.()
+      return
+    }
+    const el = rootRef.current as WebkitElement | null
+    if (!el) return
+    const request = el.requestFullscreen as (() => Promise<void>) | undefined
+    if (request) void request.call(el).catch(() => {})
+    else el.webkitRequestFullscreen?.()
   }
 
   const slide = slides[index]

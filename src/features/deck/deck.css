@@ -249,7 +249,6 @@
 }
 .rise-word {
   display: inline-block;
-  will-change: transform;
 }
 
 .eyebrow {
@@ -1428,5 +1427,18 @@
   .deck__dots,
   .deck__sep {
     display: none;
+  }
+}
+
+/* ── Safari ─────────────────────────────────────────────────────────────
+   Safari can drop text painted with background-clip: text while it is being
+   transformed, so headlines use solid ink there. (hanging-punctuation is
+   supported only by Safari, which makes it a reliable feature test.) */
+@supports (hanging-punctuation: first) {
+  .metal,
+  .metal .rise-word {
+    background: none;
+    color: var(--ink);
+    -webkit-text-fill-color: currentColor;
   }
 }
