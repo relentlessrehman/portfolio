@@ -1,6 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { seoHead } from '#/lib/seo/meta'
-import { featuredWorkJsonLd, personJsonLd } from '#/lib/seo/jsonld'
+import {
+  featuredWorkJsonLd,
+  personJsonLd,
+  websiteJsonLd,
+} from '#/lib/seo/jsonld'
 import { JsonLd } from '#/components/shared/JsonLd'
 import { FilmPage } from '#/features/film/components/FilmPage'
 
@@ -13,6 +17,7 @@ function Home() {
   return (
     <>
       <JsonLd data={personJsonLd()} />
+      <JsonLd data={websiteJsonLd()} />
       <JsonLd data={featuredWorkJsonLd()} />
       <FilmPage />
     </>

@@ -36,7 +36,8 @@ export const writeCollection = createServerFn({ method: 'POST' })
   .validator((input: { key: string; value: unknown }) => input)
   .handler(async ({ data }) => {
     assertDev()
-    if (!isCollectionKey(data.key)) throw new Error(`Unknown collection: ${data.key}`)
+    if (!isCollectionKey(data.key))
+      throw new Error(`Unknown collection: ${data.key}`)
     const entry = collectionRegistry[data.key]
     const result = entry.schema.safeParse(data.value)
     if (!result.success) {
@@ -76,6 +77,7 @@ function serializeFrontmatter(data: PostFrontmatter): string {
     `publishedAt: '${data.publishedAt}'`,
     ...(data.updatedAt ? [`updatedAt: '${data.updatedAt}'`] : []),
     `tags: [${data.tags.map((tag) => `'${escape(tag)}'`).join(', ')}]`,
+    `relatedProjects: [${data.relatedProjects.map((slug) => `'${escape(slug)}'`).join(', ')}]`,
     `draft: ${data.draft}`,
   ]
   return `---\n${lines.join('\n')}\n---\n`
@@ -91,7 +93,9 @@ function slugify(title: string): string {
 export const listPosts = createServerFn({ method: 'GET' }).handler(async () => {
   assertDev()
   await mkdir(writingDir, { recursive: true })
-  const files = (await readdir(writingDir)).filter((file) => file.endsWith('.mdx'))
+  const files = (await readdir(writingDir)).filter((file) =>
+    file.endsWith('.mdx'),
+  )
   const posts: Array<PostSummary> = []
   for (const file of files) {
     const raw = await readFile(path.join(writingDir, file), 'utf-8')
@@ -113,7 +117,9 @@ export const readPost = createServerFn({ method: 'GET' })
     if (!parsed.success) {
       throw new Error(
         `Invalid frontmatter in ${slug}.mdx:\n${parsed.error.issues
-          .map((issue) => `${issue.path.join('.') || '(root)'}: ${issue.message}`)
+          .map(
+            (issue) => `${issue.path.join('.') || '(root)'}: ${issue.message}`,
+          )
           .join('\n')}`,
       )
     }
@@ -125,7 +131,8 @@ export const createPost = createServerFn({ method: 'POST' })
   .handler(async ({ data: title }) => {
     assertDev()
     const slug = slugify(title)
-    if (!slug) throw new Error('Title must contain at least one letter or number.')
+    if (!slug)
+      throw new Error('Title must contain at least one letter or number.')
     await mkdir(writingDir, { recursive: true })
     const file = path.join(writingDir, `${slug}.mdx`)
     try {
@@ -136,18 +143,24 @@ export const createPost = createServerFn({ method: 'POST' })
     }
     const frontmatter: PostFrontmatter = {
       title,
-      description: 'TODO — one or two sentences, shows in cards, meta tags, and RSS.',
+      description:
+        'TODO — one or two sentences, shows in cards, meta tags, and RSS.',
       publishedAt: new Date().toISOString().slice(0, 10),
       tags: [],
+      relatedProjects: [],
       draft: true,
     }
-    const body = '\nWrite here. Markdown, GFM tables, and fenced code blocks all work.\n'
+    const body =
+      '\nWrite here. Markdown, GFM tables, and fenced code blocks all work.\n'
     await writeFile(file, serializeFrontmatter(frontmatter) + body, 'utf-8')
     return { slug }
   })
 
 export const savePost = createServerFn({ method: 'POST' })
-  .validator((input: { slug: string; frontmatter: PostFrontmatter; body: string }) => input)
+  .validator(
+    (input: { slug: string; frontmatter: PostFrontmatter; body: string }) =>
+      input,
+  )
   .handler(async ({ data }) => {
     assertDev()
     const result = postFrontmatterSchema.safeParse(data.frontmatter)

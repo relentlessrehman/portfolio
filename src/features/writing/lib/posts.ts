@@ -39,29 +39,34 @@ function slugOf(path: string): string {
   return (file ?? path).replace(/\.mdx$/, '')
 }
 
-const allPosts: Array<Post> = Object.entries(frontmatterModules).map(([path, raw]) => {
-  const parsed = postFrontmatterSchema.safeParse(raw)
-  if (!parsed.success) {
-    const issues = parsed.error.issues
-      .map((issue) => `  • ${issue.path.join('.') || '(root)'}: ${issue.message}`)
-      .join('\n')
-    throw new Error(`Invalid frontmatter in ${path}:\n${issues}`)
-  }
-  return {
-    slug: slugOf(path),
-    ...parsed.data,
-    readingStats: statsModules[path] as ReadingStats,
-  }
-})
+const allPosts: Array<Post> = Object.entries(frontmatterModules).map(
+  ([path, raw]) => {
+    const parsed = postFrontmatterSchema.safeParse(raw)
+    if (!parsed.success) {
+      const issues = parsed.error.issues
+        .map(
+          (issue) =>
+            `  • ${issue.path.join('.') || '(root)'}: ${issue.message}`,
+        )
+        .join('\n')
+      throw new Error(`Invalid frontmatter in ${path}:\n${issues}`)
+    }
+    return {
+      slug: slugOf(path),
+      ...parsed.data,
+      readingStats: statsModules[path] as ReadingStats,
+    }
+  },
+)
 
 /** Published posts, newest first */
 export const posts: Array<Post> = allPosts
   .filter((post) => !post.draft)
   .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
 
-export const allTags: Array<string> = [...new Set(posts.flatMap((post) => post.tags))].sort(
-  (a, b) => a.localeCompare(b),
-)
+export const allTags: Array<string> = [
+  ...new Set(posts.flatMap((post) => post.tags)),
+].sort((a, b) => a.localeCompare(b))
 
 export function postBySlug(slug: string): Post | undefined {
   return posts.find((post) => post.slug === slug)
@@ -69,8 +74,18 @@ export function postBySlug(slug: string): Post | undefined {
 
 // Stable lazy-component cache so React doesn't remount on re-render
 const lazyComponents = new Map<string, LazyExoticComponent<ComponentType>>()
+const loadedComponents = new Map<string, ComponentType>()
 
-export function postComponent(slug: string): LazyExoticComponent<ComponentType> | undefined {
+/** Resolve the body before server rendering so a cold request contains the article. */
+export async function preloadPost(slug: string): Promise<void> {
+  if (loadedComponents.has(slug)) return
+  const path = Object.keys(componentLoaders).find((key) => slugOf(key) === slug)
+  if (path) loadedComponents.set(slug, await componentLoaders[path]())
+}
+
+export function postComponent(slug: string): ComponentType | undefined {
+  const loaded = loadedComponents.get(slug)
+  if (loaded) return loaded
   const path = Object.keys(componentLoaders).find((key) => slugOf(key) === slug)
   if (!path) return undefined
   let component = lazyComponents.get(slug)

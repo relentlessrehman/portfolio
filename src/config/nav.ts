@@ -33,10 +33,16 @@ export const footerGroups: Array<FooterGroup> = [
   {
     title: 'Work',
     items: [
-      ...when(content.projects.length > 0, { label: 'Projects', href: '/projects' }),
+      ...when(content.projects.length > 0, {
+        label: 'Projects',
+        href: '/projects',
+      }),
       ...when(posts.length > 0, { label: 'Writing', href: '/writing' }),
       ...when(content.skills.length > 0, { label: 'Skills', href: '/skills' }),
-      ...when(content.openSource.length > 0, { label: 'Open Source', href: '/open-source' }),
+      ...when(content.openSource.length > 0, {
+        label: 'Open Source',
+        href: '/open-source',
+      }),
       { label: 'Timeline', href: '/timeline' },
     ],
   },
@@ -44,18 +50,33 @@ export const footerGroups: Array<FooterGroup> = [
     title: 'Background',
     items: [
       { label: 'About', href: '/about' },
-      ...when(content.experience.some((entry) => entry.published), {
-        label: 'Experience',
-        href: '/experience',
+      ...when(
+        content.experience.some((entry) => entry.published),
+        {
+          label: 'Experience',
+          href: '/experience',
+        },
+      ),
+      ...when(content.education.length > 0, {
+        label: 'Education',
+        href: '/education',
       }),
-      ...when(content.education.length > 0, { label: 'Education', href: '/education' }),
-      ...when(content.achievements.length > 0, { label: 'Achievements', href: '/achievements' }),
+      ...when(content.achievements.length > 0, {
+        label: 'Achievements',
+        href: '/achievements',
+      }),
       ...when(content.certifications.length > 0, {
         label: 'Certifications',
         href: '/certifications',
       }),
-      ...when(content.speaking.length > 0, { label: 'Speaking', href: '/speaking' }),
-      ...when(content.resume.versions.length > 0, { label: 'Resume', href: '/resume' }),
+      ...when(content.speaking.length > 0, {
+        label: 'Speaking',
+        href: '/speaking',
+      }),
+      ...when(content.resume.versions.length > 0, {
+        label: 'Resume',
+        href: '/resume',
+      }),
     ],
   },
   {
@@ -64,9 +85,16 @@ export const footerGroups: Array<FooterGroup> = [
       { label: 'Contact', href: '/contact' },
       { label: 'Now', href: '/now' },
       ...when(content.uses.length > 0, { label: 'Uses', href: '/uses' }),
-      ...when(content.reading.length > 0, { label: 'Reading', href: '/reading' }),
-      ...when(content.changelog.length > 0, { label: 'Changelog', href: '/changelog' }),
+      ...when(content.reading.length > 0, {
+        label: 'Reading',
+        href: '/reading',
+      }),
+      ...when(content.changelog.length > 0, {
+        label: 'Changelog',
+        href: '/changelog',
+      }),
       { label: 'RSS', href: '/rss.xml' },
+      { label: 'Site index for AI tools', href: '/llms.txt' },
     ],
   },
 ]

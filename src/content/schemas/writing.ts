@@ -10,6 +10,8 @@ export const postFrontmatterSchema = z.object({
     .regex(/^\d{4}-\d{2}-\d{2}$/)
     .optional(),
   tags: z.array(z.string().min(1)).default([]),
+  /** Connect articles to the project case studies they discuss. */
+  relatedProjects: z.array(z.string().min(1)).default([]),
   /** Drafts are excluded from lists, feeds, and search */
   draft: z.boolean().default(false),
 })

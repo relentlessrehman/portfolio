@@ -1,0 +1,122 @@
+---
+title: 'SEO for a TanStack Start Portfolio: HTML, Metadata, and Useful Content'
+description: 'How this React portfolio handles canonical URLs, article metadata, structured data, RSS, and AI discoverability without depending on SEO gimmicks.'
+publishedAt: '2026-10-27'
+tags:
+  - architecture
+  - web
+  - seo
+  - typescript
+---
+
+A React portfolio needs useful content in its rendered HTML, a clear canonical URL
+for each page, and crawlable links between its projects and articles. In this
+TanStack Start portfolio, shared metadata builders and an MDX post registry keep
+those details consistent as content is added.
+
+The practical goal is simple: someone searching for Abdul Rehman, a project, or a
+specific engineering problem should land on a page that explains the work clearly.
+Search metadata helps describe that page. It cannot substitute for the explanation.
+
+## Start by checking what the server returns
+
+An animated interface can be readable to a person and still make discovery harder
+if its important text exists only after client-side interaction. This site's
+homepage renders its text in reading order on the server; the film engine enhances
+that markup afterwards. Article bodies use MDX, and the article route resolves the
+body module before server rendering so the first request contains the text. Their
+final server responses still deserve an explicit check.
+
+A useful inspection starts with an HTTP request to a real page. Look for the
+heading, article paragraphs, internal links, and metadata in the returned response.
+Then inspect the browser experience separately. These checks answer different
+questions: whether content is delivered and whether it is pleasant to use.
+
+Google's [JavaScript SEO guide](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics)
+explains crawling, rendering, and indexing. Server rendering makes content available
+earlier in that process, but does not guarantee indexing or a particular ranking.
+
+## Give each page one canonical identity
+
+The shared `seoHead` helper builds titles, descriptions, canonical links, Open Graph
+metadata, and social cards from one declaration. A project route supplies its
+project path; an article route supplies its article path.
+
+Root layouts require care. If the root contributes a homepage canonical and a child
+also contributes a project canonical, the document can contain conflicting signals.
+The root here leaves canonical links to individual pages. The writing tag filter
+uses the main writing index as its canonical destination, avoiding a separate
+canonical identity for every filtered view.
+
+A title should tell a reader what they will find. A description should summarize
+the actual page. Repeating a list of loosely related technologies across every
+page makes both less useful.
+
+## Structured data should match visible facts
+
+This site uses `Person` data for the author, `WebSite` data for the portfolio,
+`SoftwareSourceCode` for project case studies, and `BlogPosting` for articles.
+Stable identifiers connect the author and site across those records.
+
+Article data includes a headline, description, publication and modification dates,
+author profile link, image, language, and computed reading statistics. The visible
+page also names the author and shows its dates. Those details should agree.
+
+Google's [article structured-data documentation](https://developers.google.com/search/docs/appearance/structured-data/article)
+describes supported article properties. Markup helps explain a page; it should
+never claim an award, qualification, review, or result that the content cannot support.
+
+## Derive discovery files from the content registry
+
+The MDX registry validates frontmatter, excludes drafts, and provides published posts
+to the writing index, site search, RSS, and sitemap. Adding an article therefore
+updates these surfaces together.
+
+Modification dates deserve particular care. An article update should use the date
+of a substantive change. Replacing every sitemap date with today's date creates a
+freshness claim the page may not support. Google's
+[sitemap guidance](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
+asks for accurate modification information.
+
+RSS gives readers a direct subscription option, while ordinary internal links give
+people and crawlers routes through the content. Neither depends on someone finding
+the homepage first.
+
+## Connect articles to evidence
+
+A technical article is more useful when it links to a project that demonstrates the
+idea. This portfolio supports related project slugs in article frontmatter, then
+renders matching case-study links below the post. Related articles are ranked using
+shared tags and project references.
+
+This keeps navigation tied to subject matter. A reader learning about offline
+retrieval can inspect [Madad](/projects/madad); someone exploring product development
+can read [the Stayza story](/writing/building-stayza). The author bio and contact link
+also make it clear who wrote the page and how to discuss the work.
+
+## What does AI discoverability actually require?
+
+Clear answers, descriptive headings, factual project details, source links, and
+accessible HTML help readers and retrieval tools understand a page. Useful
+definitions and explicit limitations make passages easier to interpret outside
+the surrounding article.
+
+This site also exposes an optional [llms.txt index](/llms.txt) containing links and
+summaries drawn from the same public content. It is a convenience for tools that
+choose to read it. Google's [AI search guidance](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)
+states that Google Search does not use these special AI text files. There is no
+reason to treat one as a guarantee of citations or rankings.
+
+## A release checklist that produces evidence
+
+1. Confirm published articles appear in the writing index, RSS, and sitemap.
+2. Inspect a server response for the article body, a single canonical, and JSON-LD.
+3. Check that metadata and structured dates match visible content.
+4. Follow project, author, and related-reading links.
+5. Confirm private utility pages remain excluded from indexing.
+6. After deployment, submit the sitemap in Search Console and review indexing reports.
+
+The architecture behind this workflow is covered in
+[how this portfolio is engineered](/writing/how-this-portfolio-is-engineered).
+The work continues after publishing: search visibility needs observation over time,
+and articles need updates when the projects they describe change.

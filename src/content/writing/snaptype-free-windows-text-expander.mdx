@@ -1,0 +1,113 @@
+---
+title: 'SnapType: Building a Free Windows Text Expander in Python'
+description: 'A practical look at SnapType: local snippets, word-boundary expansion, per-app rules, instant undo, and the tradeoffs of system-wide typing tools.'
+publishedAt: '2026-10-27'
+tags:
+  - python
+  - product
+  - desktop
+relatedProjects:
+  - snaptype
+---
+
+[SnapType](/projects/snaptype) is a free, open-source Windows text expander built
+with Python. Type an abbreviation such as `omw` and finish it with a space, Enter,
+or punctuation; SnapType replaces it with `on my way`. Snippets and settings stay
+on the device, and the app does not require an account or subscription.
+
+I built it around a small frustration: the same phrases need to be typed in chat,
+email, documents, and browser forms. A template inside one app helps only while
+you are using that app. A desktop text expander makes those phrases reusable
+across applications.
+
+## What a text expander should do well
+
+The visible feature is replacement, but the interaction has several requirements.
+A shortcut needs a clear boundary so it does not expand in the middle of an
+unrelated word. The user needs control over the apps where replacement happens.
+And an accidental expansion needs a quick way back.
+
+SnapType includes 20 categorized shortcuts as a starting point and an editor for
+custom abbreviation-to-phrase pairs. The dashboard provides a place to test an
+expansion before relying on it elsewhere. Date, time, day, and clipboard variables
+allow snippets to contain more than fixed text.
+
+Start with phrases you repeat frequently and can recognize immediately. Email
+sign-offs and routine replies are good candidates. Keep abbreviations distinctive:
+a shortcut that also appears in normal prose will create unnecessary corrections.
+
+## Keeping the engine independent of the interface
+
+SnapType separates `snapcore`, the expansion engine, from `snapui`, the Tk desktop
+interface. Core modules handle snippets, settings, storage, hotkeys, and statistics.
+The interface exposes the dashboard, editor, application rules, and settings.
+
+That separation matters because typing behavior should be testable without opening
+the entire desktop interface. Storage behavior also has different failure cases
+from a dialog: an interrupted write and a misplaced button are different problems.
+
+The app uses the Python `keyboard` library for global key hooks, `pystray` for the
+system tray, and Pillow for image assets. Microsoft's
+[Windows hooks overview](https://learn.microsoft.com/en-us/windows/win32/winmsg/about-hooks)
+describes the underlying event mechanism and why hook processing should stay small.
+For a typing tool, unnecessary work on each event can affect the interaction itself.
+
+## Undo is a core feature
+
+An abbreviation can be valid while the expansion is wrong for the current sentence.
+SnapType supports immediate Backspace undo after an expansion and a configurable
+undo hotkey. Restoring the abbreviation keeps a correction close to the action that
+caused it.
+
+This is a useful product design rule beyond text expansion: when software makes a
+fast automated change, give the user a fast recovery path. Recovery matters even
+when the automation usually behaves correctly.
+
+## Application rules and sensitive contexts
+
+SnapType supports expansion across all apps, an allowlist, or an exclusion list.
+Its app matching uses case-insensitive window-title checks on the device. Built-in
+exclusions skip recognized password, sign-in, verification-code, and password-manager
+windows.
+
+Window-title matching has limits. It does not guarantee recognition of every
+sensitive input field, and a generic browser title may reveal little about the
+focused form. An allowlist is useful when you want to keep expansion within a few
+known applications. Snooze and configurable hotkeys provide additional control.
+
+Avoid putting passwords or other secrets into ordinary snippets or exported CSV
+files. Local storage removes a cloud dependency, but it still needs thoughtful use
+on a shared or compromised computer.
+
+## Local data needs reliable writes
+
+The application stores snippets and settings in the user's local application-data
+folder. Atomic saves and a backup of the last valid file help protect against
+interrupted writes. CSV import and export make lists portable between installations.
+
+Export is also a reminder that portability and privacy meet at the file boundary.
+Before sharing a snippet list, inspect the phrases it contains. A reusable reply
+can include a personal email address or other details that should not become public.
+
+## Statistics should be interpreted honestly
+
+The dashboard shows frequently used shortcuts, a 14-day activity chart, and an
+estimate of typing time saved. The last figure is an estimate, not a measured
+increase in productivity. Its value is helping users identify repeated phrases
+and decide which shortcuts are worth keeping.
+
+Counting expansions is straightforward. Claiming that every saved keystroke turns
+into useful work is much harder. Keeping that distinction clear makes a small
+product more trustworthy.
+
+## Try SnapType or inspect the code
+
+The [SnapType repository](https://github.com/rehmanoncloud9/snaptype) contains setup
+instructions, release links, and the MIT-licensed source. The project includes
+core tests and UI smoke checks; Windows packaging uses PyInstaller, with an
+Inno Setup script for installer builds. Follow the repository for current release
+details rather than relying on an old download link copied into an article.
+
+The [case study](/projects/snaptype) documents the architecture and implementation.
+For another Python project with a different boundary, read about
+[Madad's offline search engine](/writing/offline-hybrid-search-python-cpp).

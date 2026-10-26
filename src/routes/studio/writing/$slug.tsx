@@ -9,13 +9,22 @@ import {
   TextAreaField,
   TextField,
 } from '#/features/studio/components/fields'
-import { BackLink, SaveBar, StudioGate, StudioHeader } from '#/features/studio/components/StudioChrome'
+import {
+  BackLink,
+  SaveBar,
+  StudioGate,
+  StudioHeader,
+} from '#/features/studio/components/StudioChrome'
 
 export const Route = createFileRoute('/studio/writing/$slug')({
   loader: ({ params }) => readPost({ data: params.slug }),
   head: ({ loaderData }) => ({
     meta: [
-      { title: loaderData ? `Edit “${loaderData.frontmatter.title}” — Studio` : 'Studio' },
+      {
+        title: loaderData
+          ? `Edit “${loaderData.frontmatter.title}” — Studio`
+          : 'Studio',
+      },
       { name: 'robots', content: 'noindex' },
     ],
   }),
@@ -71,14 +80,18 @@ function PostEditor() {
             <TextField
               label="Published at"
               value={frontmatter.publishedAt}
-              onChange={(v) => setFrontmatter({ ...frontmatter, publishedAt: v })}
+              onChange={(v) =>
+                setFrontmatter({ ...frontmatter, publishedAt: v })
+              }
               hint="YYYY-MM-DD"
               required
             />
             <TextField
               label="Updated at (optional)"
               value={frontmatter.updatedAt ?? ''}
-              onChange={(v) => setFrontmatter({ ...frontmatter, updatedAt: v || undefined })}
+              onChange={(v) =>
+                setFrontmatter({ ...frontmatter, updatedAt: v || undefined })
+              }
               hint="YYYY-MM-DD"
             />
           </div>
@@ -87,10 +100,20 @@ function PostEditor() {
             value={frontmatter.tags}
             onChange={(v) => setFrontmatter({ ...frontmatter, tags: v })}
           />
+          <ParagraphsField
+            label="Related project slugs"
+            value={frontmatter.relatedProjects}
+            onChange={(value) =>
+              setFrontmatter({ ...frontmatter, relatedProjects: value })
+            }
+            hint="One per line, for example madad or stayza"
+          />
           <CheckboxField
             label="Draft"
             checked={frontmatter.draft}
-            onChange={(checked) => setFrontmatter({ ...frontmatter, draft: checked })}
+            onChange={(checked) =>
+              setFrontmatter({ ...frontmatter, draft: checked })
+            }
             hint="Drafts are excluded from lists, feeds, and search"
           />
           <TextAreaField
@@ -101,7 +124,12 @@ function PostEditor() {
             rows={20}
           />
         </div>
-        <SaveBar onSave={handleSave} saving={saving} status={status} errors={errors} />
+        <SaveBar
+          onSave={handleSave}
+          saving={saving}
+          status={status}
+          errors={errors}
+        />
       </Section>
     </StudioGate>
   )

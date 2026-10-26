@@ -17,9 +17,9 @@ export const Route = createFileRoute('/writing/')({
   validateSearch: searchSchema,
   head: () =>
     seoHead({
-      title: 'Writing',
+      title: 'Software Engineering Blog',
       description:
-        'Notes on software engineering — architecture decisions, lessons from building products, and things worth writing down.',
+        'Software engineering articles by Abdul Rehman, NUST student and Stayza founder: React, TypeScript, offline search, and building practical products.',
       path: '/writing',
     }),
   component: WritingIndex,
@@ -32,6 +32,7 @@ function WritingIndex() {
   return (
     <Container className="py-section-sm">
       <SectionHeader
+        as="h1"
         eyebrow="Writing"
         title="Notes & articles"
         description="Things I've learned building software, written down so I actually retain them."
@@ -82,7 +83,9 @@ function WritingIndex() {
                     {post.description}
                   </p>
                   <p className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-small text-subtle-foreground">
-                    <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+                    <time dateTime={post.publishedAt}>
+                      {formatDate(post.publishedAt)}
+                    </time>
                     <span className="inline-flex items-center gap-1.5">
                       <Clock className="size-3.5" aria-hidden />
                       {post.readingStats.minutes} min read
@@ -98,8 +101,13 @@ function WritingIndex() {
         </ol>
       ) : (
         <div className="rounded-md border border-border bg-surface p-10 text-center">
-          <p className="text-body-lg text-muted-foreground">No posts with this tag yet.</p>
-          <Link to="/writing" className="mt-3 inline-block text-body text-accent hover:underline">
+          <p className="text-body-lg text-muted-foreground">
+            No posts with this tag yet.
+          </p>
+          <Link
+            to="/writing"
+            className="mt-3 inline-block text-body text-accent hover:underline"
+          >
             All posts
           </Link>
         </div>

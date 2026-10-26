@@ -1,0 +1,123 @@
+---
+title: 'Offline Hybrid Search with Python and C++: Inside Madad'
+description: 'How Madad separates document ingestion from retrieval, combines keyword and semantic search, and keeps course-material search local.'
+publishedAt: '2026-10-27'
+tags:
+  - search
+  - architecture
+  - python
+  - cpp
+relatedProjects:
+  - madad
+---
+
+An offline hybrid search engine combines keyword matching and semantic retrieval
+over files stored on your device. In [Madad](/projects/madad), Python prepares the
+documents and C++ searches the resulting indexes. A versioned file contract connects
+the two halves, so a search does not need to call a hosted embedding service.
+
+Madad is my ongoing semester project for Data Structures and Artificial Intelligence
+at NUST. The useful question behind it is ordinary: when a course has a semester of
+slides, PDFs, Word documents, and scans, how do you find the explanation you remember
+without opening every file?
+
+## Why combine keyword and semantic search?
+
+Keyword search works well when you know the term. A query such as `third normal form`
+should find passages containing those words, especially in database course notes.
+An inverted index makes that lookup practical: it maps terms to the document chunks
+where they appear. BM25 ranks lexical matches using signals such as term frequency
+and document length.
+
+Semantic search addresses a different failure case. You may remember the meaning of
+an explanation without remembering its wording. Embeddings represent chunks and
+queries as vectors, allowing retrieval to find material with related meaning.
+However, similarity alone can miss an exact identifier or a technical phrase.
+
+Hybrid retrieval keeps both signals. Madad fuses BM25 results with semantic results.
+The objective is to make an exact course term and a paraphrased concept both useful
+starting points. Fusion still needs evaluation: combining two rankings does not
+automatically make every query better.
+
+## A Python Brain and a C++ Engine
+
+The architecture divides work by responsibility:
+
+| Component     | Owns                                                               | Does not own                           |
+| ------------- | ------------------------------------------------------------------ | -------------------------------------- |
+| Python Brain  | Parsing, OCR, chunking, embeddings, classification, evaluation     | Query-time search                      |
+| C++ Engine    | Keyword and vector indexes, ranking, autocomplete, graph traversal | Embedding generation or model training |
+| File contract | Versioned exchange files and integrity checks                      | User interface or retrieval policy     |
+
+This boundary lets document preparation evolve without coupling it to the search
+implementation. A parser can improve while the engine continues to consume the
+same format. A ranking experiment can change without reopening OCR or model code.
+
+It also gives failures a location. If extracted text is wrong, inspect ingestion.
+If the right chunk exists but ranks poorly, inspect retrieval. If the engine cannot
+read an export, inspect the contract before tuning the model.
+
+## Why the exchange format matters
+
+Separating languages creates an interface that deserves the same care as an API.
+Madad uses a frozen, versioned file contract with CRC32 integrity checks.
+Versioning makes incompatible formats distinguishable; checksums help detect
+accidental corruption. A checksum is not proof that a file came from a trusted
+source, so integrity checking should not be confused with authentication.
+
+For a similar design, document identifiers, vector dimensions, encoding, and chunk
+boundaries need explicit definitions. A vector is only useful when the engine can
+reliably connect it back to the correct passage and source file.
+
+## Data structures are part of the project
+
+Madad's engine implements its indexes from scratch as part of the coursework. The
+documented structures include a chained hash table, an inverted index, a trie for
+autocomplete, a binary heap for top results, and vector-search structures including
+KD-tree, LSH, and HNSW. A concept graph supports traversal and learning paths.
+
+For production work, implementing every structure yourself needs a strong reason.
+Here the educational objective is that reason: building the structures makes their
+memory, update, and retrieval tradeoffs visible.
+
+HNSW is an approximate nearest-neighbor approach built around a hierarchy of proximity
+graphs. Approximate retrieval trades exhaustive search for a more selective search
+through the index. The [original HNSW paper](https://arxiv.org/abs/1603.09320)
+explains the algorithm; Madad's project page describes how it fits into this engine.
+
+## Performance targets need context
+
+The project defines budgets of under 50 ms for keyword search and under 100 ms for
+semantic search at 10,000 chunks, with autocomplete under 10 ms. These are engineering
+targets, not a promise that every machine or dataset achieves them. The portfolio
+also describes a larger indexed corpus; those counts should not be treated as a
+benchmark under identical conditions.
+
+A useful evaluation records corpus size, hardware, query set, index settings,
+latency distribution, and relevance judgments. A fast response is not enough if
+the relevant slide never appears. Conversely, a ranking improvement may be too
+expensive if it makes every keystroke in autocomplete feel delayed.
+
+## Why search comes before an answer generator
+
+Madad's core contribution is retrieval. An optional local-LLM Ask Mode is a
+demonstration layer over that system. Keeping these responsibilities distinct
+makes the evidence inspectable: a student can open the source passage and decide
+whether it answers the question.
+
+For course material, finding the actual slide can be more useful than receiving a
+fluent paragraph. Retrieval quality remains important even when generation is added
+later, because the answer can only use the evidence the search system finds.
+
+## Questions worth asking before building something similar
+
+- Can users search without a network connection after the index is prepared?
+- Does each result lead back to a specific file and passage?
+- Can keyword and semantic retrieval be evaluated separately?
+- What happens when an exchange file is corrupt or uses an unsupported version?
+- Are reported timings targets, measured results, or estimates?
+
+The [Madad case study](/projects/madad) and its
+[architecture presentation](/projects/madad/presentation) contain the project-specific
+details. For another example of choosing explicit boundaries, see
+[how this portfolio is engineered](/writing/how-this-portfolio-is-engineered).

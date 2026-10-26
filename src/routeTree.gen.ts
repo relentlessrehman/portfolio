@@ -18,6 +18,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as EducationRouteImport } from './routes/education'
 import { Route as ExperienceRouteImport } from './routes/experience'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as NowRouteImport } from './routes/now'
 import { Route as OpenSourceRouteImport } from './routes/open-source'
 import { Route as ReadingRouteImport } from './routes/reading'
@@ -83,6 +84,11 @@ const EducationRoute = EducationRouteImport.update({
 const ExperienceRoute = ExperienceRouteImport.update({
   id: '/experience',
   path: '/experience',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NowRoute = NowRouteImport.update({
@@ -203,6 +209,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/education': typeof EducationRoute
   '/experience': typeof ExperienceRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/now': typeof NowRoute
   '/open-source': typeof OpenSourceRoute
   '/reading': typeof ReadingRoute
@@ -235,6 +242,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/education': typeof EducationRoute
   '/experience': typeof ExperienceRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/now': typeof NowRoute
   '/open-source': typeof OpenSourceRoute
   '/reading': typeof ReadingRoute
@@ -268,6 +276,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/education': typeof EducationRoute
   '/experience': typeof ExperienceRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/now': typeof NowRoute
   '/open-source': typeof OpenSourceRoute
   '/reading': typeof ReadingRoute
@@ -302,6 +311,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/education'
     | '/experience'
+    | '/llms.txt'
     | '/now'
     | '/open-source'
     | '/reading'
@@ -334,6 +344,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/education'
     | '/experience'
+    | '/llms.txt'
     | '/now'
     | '/open-source'
     | '/reading'
@@ -366,6 +377,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/education'
     | '/experience'
+    | '/llms.txt'
     | '/now'
     | '/open-source'
     | '/reading'
@@ -399,6 +411,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   EducationRoute: typeof EducationRoute
   ExperienceRoute: typeof ExperienceRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
   NowRoute: typeof NowRoute
   OpenSourceRoute: typeof OpenSourceRoute
   ReadingRoute: typeof ReadingRoute
@@ -485,6 +498,13 @@ declare module '@tanstack/react-router' {
       path: '/experience'
       fullPath: '/experience'
       preLoaderRoute: typeof ExperienceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/now': {
@@ -647,6 +667,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   EducationRoute: EducationRoute,
   ExperienceRoute: ExperienceRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
   NowRoute: NowRoute,
   OpenSourceRoute: OpenSourceRoute,
   ReadingRoute: ReadingRoute,

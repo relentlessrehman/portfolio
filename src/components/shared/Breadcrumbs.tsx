@@ -13,16 +13,14 @@ export interface Crumb {
 export function Breadcrumbs({ items }: { items: Array<Crumb> }) {
   return (
     <>
-      <JsonLd
-        data={breadcrumbJsonLd(
-          items.map((item) => ({ name: item.name, path: item.path ?? '' })),
-        )}
-      />
+      <JsonLd data={breadcrumbJsonLd(items)} />
       <nav aria-label="Breadcrumb">
         <ol className="flex flex-wrap items-center gap-1.5 text-small text-subtle-foreground">
           {items.map((item, index) => (
             <Fragment key={item.name}>
-              {index > 0 ? <ChevronRight className="size-3.5" aria-hidden /> : null}
+              {index > 0 ? (
+                <ChevronRight className="size-3.5" aria-hidden />
+              ) : null}
               <li>
                 {item.path ? (
                   <Link to={item.path} className="hover:text-foreground">

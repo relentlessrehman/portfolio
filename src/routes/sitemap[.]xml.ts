@@ -25,7 +25,15 @@ function buildEntries(): Array<SitemapEntry> {
     { path: '/now', lastmod: content.now.updatedAt },
     { path: '/uses' },
     ...(posts.length > 0
-      ? [{ path: '/writing', lastmod: posts[0].publishedAt }]
+      ? [
+          {
+            path: '/writing',
+            lastmod: posts
+              .map((post) => post.updatedAt ?? post.publishedAt)
+              .sort()
+              .at(-1),
+          },
+        ]
       : []),
     ...(content.experience.some((entry) => entry.published)
       ? [{ path: '/experience' }]
@@ -71,8 +79,12 @@ function buildSitemap(): string {
     .map((entry) =>
       [
         '  <url>',
-        `    <loc>${url}${entry.path}</loc>`,
-        ...(entry.lastmod ? [`    <lastmod>${entry.lastmod}</lastmod>`] : []),
+        `    <loc>${new URL(entry.path, url).href.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')}</loc>`,
+        // Project dates can be month-only. Omit imprecise dates rather than
+        // inventing a day or emitting an invalid sitemap date.
+        ...(entry.lastmod && /^\d{4}-\d{2}-\d{2}$/.test(entry.lastmod)
+          ? [`    <lastmod>${entry.lastmod}</lastmod>`]
+          : []),
         '  </url>',
       ].join('\n'),
     )

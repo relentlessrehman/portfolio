@@ -11,11 +11,15 @@ export function personJsonLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': `${seo.url}/#person`,
     name: profile.name,
     jobTitle: profile.role,
     description: profile.shortBio,
     email: `mailto:${profile.email}`,
     url: seo.url,
+    mainEntityOfPage: `${seo.url}/about`,
+    homeLocation: { '@type': 'Place', name: profile.location },
+    knowsAbout: profile.interests,
     ...(profile.portrait ? { image: `${seo.url}${profile.portrait.src}` } : {}),
     ...(university
       ? {
@@ -80,22 +84,56 @@ export function articleJsonLd(post: {
   publishedAt: string
   updatedAt?: string
   tags: Array<string>
+  readingStats?: { words: number; minutes: number }
 }) {
   const { profile, seo } = content
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
+    '@id': `${seo.url}/writing/${post.slug}#article`,
     headline: post.title,
     description: post.description,
     url: `${seo.url}/writing/${post.slug}`,
     datePublished: post.publishedAt,
     dateModified: post.updatedAt ?? post.publishedAt,
     keywords: post.tags.join(', '),
-    author: { '@type': 'Person', name: profile.name, url: seo.url },
+    inLanguage: 'en',
+    image: new URL(seo.defaultOgImage, seo.url).href,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${seo.url}/writing/${post.slug}`,
+    },
+    isPartOf: { '@id': `${seo.url}/#website` },
+    ...(post.readingStats
+      ? {
+          wordCount: post.readingStats.words,
+          timeRequired: `PT${post.readingStats.minutes}M`,
+        }
+      : {}),
+    author: {
+      '@type': 'Person',
+      '@id': `${seo.url}/#person`,
+      name: profile.name,
+      url: `${seo.url}/about`,
+    },
   }
 }
 
-export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
+export function websiteJsonLd() {
+  const { seo } = content
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${seo.url}/#website`,
+    url: seo.url,
+    name: seo.siteName,
+    description: seo.defaultDescription,
+    inLanguage: 'en',
+    author: { '@id': `${seo.url}/#person` },
+  }
+}
+
+export function breadcrumbJsonLd(items: Array<{ name: string; path?: string }>) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -103,7 +141,7 @@ export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
       '@type': 'ListItem',
       position: index + 1,
       name: item.name,
-      item: `${content.seo.url}${item.path}`,
+      ...(item.path !== undefined ? { item: `${content.seo.url}${item.path}` } : {}),
     })),
   }
 }
