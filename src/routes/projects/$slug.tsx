@@ -46,6 +46,7 @@ export const Route = createFileRoute('/projects/$slug')({
             `${loaderData.project.name} — ${loaderData.project.tagline}`,
           description: loaderData.project.seo?.description ?? loaderData.project.summary,
           path: `/projects/${loaderData.project.slug}`,
+          image: loaderData.project.cover?.src,
           type: 'article',
         })
       : {},

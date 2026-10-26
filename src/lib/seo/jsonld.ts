@@ -43,6 +43,7 @@ export function projectJsonLd(project: {
   updatedAt?: string
   techStack: Array<string>
   categories: Array<string>
+  cover?: { src: string }
   links: { live?: string; github?: string }
   seo?: { keywords?: Array<string> }
 }) {
@@ -53,6 +54,9 @@ export function projectJsonLd(project: {
     name: project.name,
     description: project.summary,
     url: `${seo.url}/projects/${project.slug}`,
+    ...(project.cover
+      ? { image: new URL(project.cover.src, seo.url).href }
+      : {}),
     ...(project.publishedAt ? { datePublished: project.publishedAt } : {}),
     ...(project.updatedAt ? { dateModified: project.updatedAt } : {}),
     ...(project.links.github ? { codeRepository: project.links.github } : {}),

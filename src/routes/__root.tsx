@@ -59,7 +59,8 @@ export const Route = createRootRoute({
         { rel: 'icon', type: 'image/png', href: '/icon-192.png' },
         { rel: 'apple-touch-icon', href: '/icon-512.png' },
         { rel: 'manifest', href: '/manifest.json' },
-        ...seo.links,
+        // Each page supplies its own canonical; inheriting the home canonical
+        // would give project pages two conflicting canonical URLs.
       ],
     }
   },

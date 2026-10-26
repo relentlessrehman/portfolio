@@ -420,11 +420,11 @@
   {
     "slug": "snaptype",
     "name": "SnapType",
-    "tagline": "A system-wide text expander for Windows",
-    "summary": "Type a short abbreviation anywhere on Windows and get the full phrase. Per-app rules, undo, usage stats and CSV import/export. Fully local: no cloud, no account.",
-    "status": "archived",
+    "tagline": "A free, open-source text expander for Windows",
+    "summary": "A local Windows productivity app that expands abbreviations into full phrases across your apps. Built with Python, with custom snippets, per-app rules, instant undo and typing statistics. No account or subscription required.",
+    "status": "maintained",
     "featured": false,
-    "film": "none",
+    "film": "experiment",
     "categories": [
       "desktop-app",
       "tooling"
@@ -433,9 +433,58 @@
     "timeline": {
       "start": "2026-07"
     },
+    "publishedAt": "2026-10-27",
+    "updatedAt": "2026-10-27",
     "techStack": [
       "Python"
     ],
+    "links": {
+      "github": "https://github.com/rehmanoncloud9/snaptype"
+    },
+    "metrics": [
+      { "label": "Platform", "value": "Windows" },
+      { "label": "Built-in shortcuts", "value": "20" },
+      { "label": "License", "value": "MIT" }
+    ],
+    "seo": {
+      "title": "SnapType — Free Windows Text Expander",
+      "description": "SnapType is a free, open-source Windows text expander built by Abdul Rehman. Expand shortcuts across apps with local snippets, per-app rules and instant undo.",
+      "keywords": [
+        "SnapType",
+        "Windows text expander",
+        "free text expander",
+        "open-source text expander",
+        "offline text expansion",
+        "Python desktop app",
+        "Abdul Rehman"
+      ]
+    },
+    "cover": {
+      "src": "/og/snaptype.png",
+      "alt": "SnapType: free Windows text expander by Abdul Rehman. Type omw to expand it to on my way.",
+      "width": 1200,
+      "height": 630
+    },
+    "caseStudy": {
+      "overview": [
+        "SnapType is a free, open-source text expander for Windows. Type a shortcut such as omw followed by a space, Enter or punctuation, and it becomes on my way. It works across desktop apps, including browsers, chat apps and text editors, so reusable phrases are available wherever you type.",
+        "I built SnapType to reduce repetitive typing without a subscription or a cloud account. It includes 20 categorized shortcuts to get started, an editor for custom snippets, a dashboard for testing expansions and a system tray menu for quick access. The source is available on GitHub under the MIT license."
+      ],
+      "problem": [
+        "Typing the same replies, email addresses and everyday phrases interrupts work across multiple applications. App-specific templates only solve part of the problem: the same shortcut should be available in a message, a document or a browser form.",
+        "A system-wide tool also needs clear boundaries. Users need to decide where expansion is active, reverse an unwanted replacement immediately and understand how the app uses the focused window."
+      ],
+      "architecture": [
+        "The Python application separates snapcore, the interface-independent expansion engine, from snapui, the Tk desktop interface. Core modules handle snippets, hotkeys, settings, storage and statistics; the interface provides the dashboard, snippet editor, app rules and settings.",
+        "The keyboard library provides global key hooks, pystray provides the system tray integration and Pillow supports image assets. Snippets and settings stay in the user's local application-data folder. Atomic saves and a backup of the last valid file help protect local data."
+      ],
+      "implementation": [
+        "Custom abbreviation-to-phrase pairs expand when a word boundary is typed. Snippets can include date, time, day and clipboard variables. Backspace immediately after an expansion restores the abbreviation, and a configurable hotkey provides another undo action.",
+        "App rules support all applications, an allowlist or an exclusion list, using case-insensitive window-title matching on the device. Built-in exclusions skip recognized password, sign-in and verification-code windows and password managers; these are window-based checks rather than a guarantee of detecting every sensitive field.",
+        "The dashboard shows frequently used shortcuts, a 14-day activity chart and an estimate of typing time saved. CSV import and export make snippet lists portable. Snooze, configurable hotkeys and launch-on-startup settings let users control when the tool runs.",
+        "The repository includes a pytest suite for core logic and UI smoke checks. PyInstaller packages the application as a standalone Windows executable with a SHA-256 checksum, and an Inno Setup script supports installer builds. Installation instructions and release links are available in the GitHub README."
+      ]
+    },
     "gallery": []
   },
   {
